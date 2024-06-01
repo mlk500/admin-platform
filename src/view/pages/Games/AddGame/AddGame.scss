@@ -1,0 +1,122 @@
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.main-container-add-game {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3vw;
+  gap: 2vw;
+  height: 50vw;
+
+  .add-game-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .sector-name {
+      @include font_style;
+      font-size: 2.5vw;
+      font-weight: 450;
+      width: 60%;
+      color: $secondary-white-color;
+    }
+  }
+
+  .add-game-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    gap: 1vw;
+    padding: 2vw;
+    background-color: rgba($secondary-white-color, 0.8);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
+
+    .add-game-title {
+        @include font_style;
+        font-size: x-large;
+        display: flex;
+        font-weight: 450;
+        align-self: center;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 2vw;
+        width: 100%;
+        flex-direction: column;
+
+        .input-label {
+          @include font_style;
+        }
+
+        .game-input,
+        .game-textarea {
+          background-color: $secondary-white-color;
+          border: none;
+          padding: 1vw;
+          width: calc(100% - 18vw);
+          margin-bottom: 1vw;
+          transition: box-shadow 0.3s ease;
+  
+          &:focus {
+            outline: none;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+          }
+  
+          &::placeholder {
+            color: #999;
+          }
+        }
+  
+        .game-input {
+          height: 2.5vw;
+        }
+  
+        .game-textarea {
+          height: 4vw;
+        }
+
+        .add-buttons {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            background-color: $secondary-white-color;
+            border-color: $secondary-darkgreen-color;
+            @include font_style;
+            color: $secondary-darkgreen-color;
+            font-size: 1vw;
+            width: 10vw;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+  
+            &:hover {
+              color: white;
+              background-color: $primary-green-logo-color;
+              border-color: $primary-pink-logo-color;
+            }
+        }
+    }
+  }
+  .save-button {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    background-color: $primary-pink-logo-color;
+    border-color: transparent;
+    @include font_style;
+    color: $secondary-white-color;
+    font-size: 1vw;
+    height: 2.5vw;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      color: white;
+      background-color: darken($primary-green-logo-color, 10%); /* Example hover effect */
+    }
+  }
+}

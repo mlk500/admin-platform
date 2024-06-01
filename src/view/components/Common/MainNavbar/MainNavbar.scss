@@ -1,0 +1,36 @@
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.main-navbar {
+  display: flex;
+  width: 100%;
+  height: 7vw;
+  padding: 1vw;
+  //   gap: 50vw;
+  justify-content: end;
+  .title {
+    @include font_style;
+    font-size: 3vw;
+    text-align: right;
+    font-weight: 600;
+  }
+  .statics-button {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+    padding: 1vw;
+
+    background-color: transparent;
+    border-color: transparent;
+    margin-top: -0.5vw;
+    .statics-img {
+      width: 3vw;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+}
