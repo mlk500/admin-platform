@@ -1,11 +1,23 @@
 export interface Task {
   taskID: number;
   name: string;
-  description: string;
+  description?: string;
   taskFreeTexts?: string[];
   questionTask?: QuestionTask; 
   mediaList?: MediaTask[];
+  adminIDAPI: number;
+  withMsg: boolean;
 }
+
+export interface TaskTBC {
+  name: string;
+  description?: string;
+  taskFreeTexts?: string[];
+  questionTask?: QuestionTask; 
+  mediaList?: MediaTask[];
+  withMsg: boolean;
+}
+
 export interface QuestionTask {
   questionTaskID: number;
   question: string;
@@ -63,9 +75,16 @@ export interface Game {
   adminID: number;
   gameName: string;
   description: string;
-  QRCodePath: string;
-  gameImage: GameImage;
-  units: Unit[];
+  qrcodePath: string;
+  gameImage?: GameImage;
+  units?: Unit[];
+}
+
+export interface GameTBC {
+  gameName: string;
+  description: string;
+  gameImage?: GameImage;
+  units?: Unit[];
 }
 
 export interface GameImage {
@@ -87,14 +106,20 @@ export interface Unit {
 }
 
 export interface Admin {
+  color: string;
   adminID: number;
   username: string;
-  password: string;
-  color: string;
   sector: string;
   role: UserRole;
   gamesList: Game[];
   tasksList: Task[];
+}
+
+export interface AdminTBC {
+  username: string;
+  password: string;
+  // color: string;
+  sector: string;
 }
 
 export enum UserRole {

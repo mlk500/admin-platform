@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { ObjectLocation } from '../../../../redux/models/Interfaces';
 import { EditIcon, DeleteIcon } from '../../../photos';
+import './ObjectsCard.scss';
 
 interface ObjectCardProps {
     object?: ObjectLocation;
@@ -16,7 +17,7 @@ const ObjectsCard: FC<ObjectCardProps> = ({ object }) => {
         <div>
             {
                 object && (
-                    <div className='object-card'>
+                    <div className='object-card' style={{ background: "#264653" }}>
                         <div className='card-header'>
                             <div className='buttons'>
                                 <button className="edit-button">

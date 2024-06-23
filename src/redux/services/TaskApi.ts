@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import {Task } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
@@ -14,11 +15,11 @@ class TaskAPI {
     return response.data;
   }
 
-  async deleteTask(taskID: number): Promise<void> {
+  async deleteTask(taskID: number): Promise<AxiosResponse> {
     console.log("delete sent  "+ taskID)
     const response = await genericAPI.delete<void>(`${TaskAPI.endpoint}/delete/${taskID}`);
     console.log("delete response ", response.status);
-    return response.data;  
+    return response;  
   }
 
   //  ---------------------------------- test the apis ----------------------------------------------------- 

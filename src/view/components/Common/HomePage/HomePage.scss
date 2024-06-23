@@ -3,17 +3,23 @@
 .home-page {
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
+  justify-content: space-between;
+
+  // height: 100%;
 .link {
   text-decoration: none;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 .content {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .homePage-grid {
@@ -30,37 +36,45 @@
   flex: 0 0 calc(33.33% - 1vw);
   margin-bottom: 2vw;
 }
-
-.add {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25vw;
-  .link {
-    text-decoration: none;
+.add-new{
+  // margin-top: 10vw;
+  // height: 12.5vw;
+  // background-color: transparent;
+  .add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25vw;
+    .link {
+      text-decoration: none;
+    }
   }
+  
+  .add-button {
+
+    display: flex;
+    background-color: $secondary-white-color;
+    @include font_style;
+    color: $secondary-darkgreen-color;
+    font-size: 1.5vw;
+    width: 22vw;
+    height: 5vw;
+    margin-top: 5vw;
+    margin-bottom: 10vw;
+    text-align: right;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      color: white;
+      background-color: $primary-green-logo-color;
+      border-color: $primary-pink-logo-color;
+    }
+  
 }
 
-.add-button {
-  display: flex;
-  background-color: $secondary-white-color;
-  @include font_style;
-  color: $secondary-darkgreen-color;
-  font-size: 1.5vw;
-  width: 22vw;
-  height: 5vw;
-  margin-top: 5vw;
-  margin-bottom: 10vw;
-  text-align: right;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    color: white;
-    background-color: $primary-green-logo-color;
-    border-color: $primary-pink-logo-color;
-  }
+}
 }
 
 

@@ -1,32 +1,41 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import GameCard from "./GameCard/GameCard";
 import "./GamesPage.scss";
 import HomePage from "../../components/Common/HomePage/HomePage";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
-import { Game } from "../../../redux/models/Interfaces";
+import { setGames } from "../../../redux/slices/saveAllData";
 import { gameAPI } from "../../../redux/services/GameApi";
+import { setPage } from "../../../redux/slices/GlobalStates";
+import { buttonsName } from "../../../redux/models/Types";
 
 const GamesPage: FC = () => {
+    const dispatch = useDispatch();
+    const games = useSelector((state: RootState) => state.AllData.Games);
     const page = useSelector((state: RootState) => state.globalStates.page);
 
-    const [games, setGames] = useState<Game[]>([]);
-
     useEffect(() => {
-        const fetchTasks = async () => {
-            const fetchedTasks = await gameAPI.getAllGames();
-            setGames(fetchedTasks);
-        };
-        fetchTasks()
+        const fetchGames = async () => {
+            dispatch(setGames(await gameAPI.getAllGames()))
+            dispatch(setPage(buttonsName.Games))
+            console.log("page in gms " + page)
 
-    }, []);
+        };
+        fetchGames()
+
+    }, [dispatch]);
+
+    // useEffect(() => {
+    //     console.log("Updated page in games: " + page);
+    //     dispatch(setPage(buttonsName.Games))
+    //     console.log("Updated page in games: after  " + page)
+    // }, [page]);
+
 
     return (
-        <>
-            {console.log("page :", page)}
-            {page == "Games" && <HomePage objects={games} page="Game" Component={GameCard}
-                addButton="הוספת משחק חדש" addButtonPath="AddGame" />}
-        </>
+        <HomePage objects={games} page="Game" Component={GameCard}
+            addButton="הוספת משחק חדש" addButtonPath="AddGame" />
     );
 };
 

@@ -1,4 +1,7 @@
-.sector-card {
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.object-card {
     display: flex;
     width: 22vw;
     height: 15vw;
@@ -41,7 +44,7 @@
           }
         }
       }
-      .sector-card-content {
+      .object-card-content {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;

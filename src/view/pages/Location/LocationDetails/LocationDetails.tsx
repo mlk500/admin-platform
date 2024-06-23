@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 import { DownloadIcon, LeftArrowIcon } from '../../../photos';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setObjects } from '../../../../redux/slices/saveAllData';
 
 const LocationDetails: React.FC = () => {
     const location = useSelector((state: RootState) => state.globalStates.selectedCard);
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     return (
         <div className='location-container' dir='rtl' style={{ background: "#E9C46A" }}>
             <div className='add-location-header'>
@@ -54,7 +56,7 @@ const LocationDetails: React.FC = () => {
                     {location.objectsList.length == 0 ? (
                         <div> {"No Objects for this location .."}</div>
                     ) : (
-                        <button className='view-objects' onClick={() => { navigate(`/ObjectsPage/${location.locationID}`); }}>
+                        <button className='view-objects' onClick={() => { navigate(`/ObjectsPage/${location.locationID}`), dispatch(setObjects(location.objectsList)) }}>
                             הצג אובייקטים של החדר
                         </button>
                     )}

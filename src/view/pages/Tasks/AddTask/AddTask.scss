@@ -1,9 +1,6 @@
 @import "../../../themes/mixins";
 @import "../../../themes/variables";
 
-@import "../../../themes/mixins";
-@import "../../../themes/variables";
-
 .main-container-add-task {
   display: flex;
   align-items: center;
@@ -12,6 +9,7 @@
   padding: 3vw;
   gap: 2vw;
   height: 50vw;
+
   .add-task-header {
     display: flex;
     justify-content: space-between;
@@ -51,6 +49,7 @@
     background-color: rgba($secondary-white-color, 0.8);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     overflow: scroll;
+
     .add-task-title {
       @include font_style;
       font-size: x-large;
@@ -58,11 +57,13 @@
       font-weight: 450;
       align-self: center;
     }
+
     .input-group {
       display: flex;
       gap: 2vw;
       width: 100%;
       flex-direction: column;
+
       .input-label {
         @include font_style;
       }
@@ -87,13 +88,14 @@
       }
 
       .task-input {
-        height: 2.5vw;
+        height: 3vw;
       }
 
       .task-textarea {
         height: 4vw;
       }
     }
+
     .options-container {
       .add-buttons {
         display: flex;
@@ -101,6 +103,7 @@
         width: 100%;
         justify-content: center;
       }
+
       .option-section {
         display: flex;
         flex-direction: column;
@@ -125,11 +128,13 @@
             border-color: $primary-pink-logo-color;
           }
         }
+
         .file-upload-icon {
           width: 3.3vw;
           height: 4vw;
           cursor: pointer;
         }
+
         .delete-option-button {
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           padding: 0.5rem 1rem;
@@ -173,6 +178,7 @@
             }
           }
         }
+
         .delete-image-btn {
           margin-top: 10px;
           padding: 0.5rem 1rem;
@@ -180,20 +186,20 @@
           border-color: transparent;
           @include font_style;
           color: $secondary-white-color;
-          border: none; 
+          border: none;
           cursor: pointer;
           text-align: center;
           transition: background-color 0.3s ease;
-        
-    
+
           &:hover {
             color: white;
-            background-color: darken($primary-pink-logo-color, 10%); 
+            background-color: darken($primary-pink-logo-color, 10%);
           }
         }
       }
     }
   }
+
   .add-answer-button {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 1rem;
@@ -213,6 +219,7 @@
       background-color: darken($primary-green-logo-color, 10%); /* Example hover effect */
     }
   }
+
   .save-task-button {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     padding: 0.5rem 1rem;

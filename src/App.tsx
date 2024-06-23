@@ -1,11 +1,16 @@
 
 import { RouterProvider } from "react-router-dom";
 import router from "./view/router/Route";
-// import "./App.scss"; // Import the app.scss file
+import "./App.css";
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { genericAPI } from "./redux/services/GenericAPI";
 function App() {
 
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    (genericAPI as any).authToken = token;
+  }
 
   return (
     <div className="app-body">

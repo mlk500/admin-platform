@@ -13,7 +13,7 @@ const LocationSectionTitles = {
 };
 
 const LocationCard: FC<LocationCardProps> = ({ object }) => {
-    // { console.log("LocationCard: ", object.name); }
+    { console.log("LocationCard - objects ", object.objectsList); }
     return (
         <div className='Location-card' dir="rtl" style={{ backgroundColor: 'white' }}>
             <div className='card-header'>

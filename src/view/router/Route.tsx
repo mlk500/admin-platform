@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { LoginPage, NewSectorPage, Base, SectorDetails, SectorsPage, LocationPage, TasksPage } from '../pages';
+import { LoginPage, NewSectorPage, Base, SectorDetails, SectorsPage, LocationPage, TasksPage, GamesPage } from '../pages';
 import { Outlet } from "react-router-dom";
-import GamesPage from '../pages/Games/GamesPage';
 import AddTask from '../pages/Tasks/AddTask/AddTask';
 import TaskDetails from '../pages/Tasks/TaskDetails/TaskDetails';
 import AddLocation from '../pages/Location/AddLocation/AddLocation';
@@ -17,6 +16,9 @@ import UnitsPage from '../pages/Games/UnitPage/UnitsPage';
 import ChoosableLocationPage from '../pages/Games/AddUnit/ChoosableObject/ChooseLocationPage';
 import ChoosableObjectsPage from '../pages/Games/AddUnit/ChoosableObject/ChooseObjectsPage';
 import EditUnit from '../pages/Games/EditUnit/EditUnit';
+import GameDetails from '../pages/Games/GameDetails/GameDetails';
+import UnitsPageView from '../pages/Games/UnitsPage-View/UnitsPageView';
+import UnitDetailsView from '../pages/Games/UnitDetailsView/UnitDetailsView';
 
 function Layout() {
   return (
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <LoginPage />
   }, {
-    path: '/newSector',
+    path: '/AddSector',
     element: <NewSectorPage />
   },
   {
@@ -128,7 +130,19 @@ const router = createBrowserRouter([
       {
         path: '/ObjectsPage/:locationID',
         element: <ObjectsPage />
-      }
+      },
+      {
+        path: '/GameDetails/:game',
+        element: <GameDetails />
+      },
+      {
+        path: '/UnitsPageView',
+        element: <UnitsPageView />
+      },
+      {
+        path: '/UnitDetailsView',
+        element: <UnitDetailsView />
+      },
 
     ]
 

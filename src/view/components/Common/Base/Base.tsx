@@ -1,17 +1,38 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { setPage } from "../../../../redux/slices/GlobalStates";
 import { MainNavbar, AdminMenu } from "../..";
 import './Base.scss';
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
+import { buttonsName } from "../../../../redux/models/Types";
 
 interface BaseProps {
     children: ReactNode;
 }
 
 function Base({ children }: BaseProps) {
-    const [menuActiveButton, setMenuActiveButton] = useState("סקטורים");
     const object = useSelector((state: RootState) => state.globalStates.selectedCard);
-    // { console.log(object.color) }
+    const page = useSelector((state: RootState) => state.globalStates.page);
+    const [menuActiveButton, setMenuActiveButton] = useState(page);
+    const dispatch = useDispatch();
+
+    // Initialize page from localStorage on mount
+    useEffect(() => {
+        const savedPage = localStorage.getItem('page');
+        if (savedPage) {
+            dispatch(setPage(savedPage));
+        } else {
+            dispatch(setPage(buttonsName.Games));  // Set default page if nothing in localStorage
+        }
+    }, [dispatch]);
+
+    // Update localStorage when page changes
+    useEffect(() => {
+        if (page) {
+            localStorage.setItem('page', page);
+            setMenuActiveButton(page);  // Update navbar state
+        }
+    }, [page]);
 
     return (
         <div className="home-page">
@@ -20,17 +41,15 @@ function Base({ children }: BaseProps) {
                     <div className="main-navbar">
                         <MainNavbar activeButton={menuActiveButton} />
                     </div>
-                    <div className="content" style={{ backgroundColor: object != undefined ? object.color : "#D9D9D9" }}>
+                    <div className="content" style={{ backgroundColor: object?.color ?? "#D9D9D9" }}>
                         {children}
                     </div>
                 </div>
                 <div className="menu">
-                    <AdminMenu
-                        setActiveButton={setMenuActiveButton}
-                        activeButton={menuActiveButton} />
+                    <AdminMenu setActiveButton={setMenuActiveButton} activeButton={menuActiveButton} />
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

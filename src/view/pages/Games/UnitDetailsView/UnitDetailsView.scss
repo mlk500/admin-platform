@@ -1,0 +1,81 @@
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.main-container-unit-details {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3vw;
+    gap: 2vw;
+    height: 50vw;
+
+    .unit-details-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        gap: 1vw;
+        padding: 2vw;
+        background-color: rgba($secondary-white-color, 0.8);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: scroll;
+
+        .unit-details-title {
+            @include font_style;
+            font-size: x-large;
+            display: flex;
+            font-weight: 450;
+            align-self: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 2vw;
+            width: 100%;
+            flex-direction: column;
+
+            .input-label {
+                @include font_style;
+            }
+
+            .unit-value {
+                background-color: $secondary-white-color;
+                border: none;
+                padding: 1vw;
+                width: calc(100% - 18vw);
+                margin-bottom: 1vw;
+                transition: box-shadow 0.3s ease;
+                cursor: default;
+
+                &:focus {
+                    outline: none;
+                    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                &::placeholder {
+                    color: #999;
+                }
+            }
+        }
+
+        .back-button {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            background-color: $primary-pink-logo_color;
+            border-color: transparent;
+            @include font_style;
+            color: $secondary-white_color;
+            font-size: 1vw;
+            height: 2.5vw;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                color: white;
+                background-color: darken($primary-green-logo_color, 10%);
+            }
+        }
+    }
+}

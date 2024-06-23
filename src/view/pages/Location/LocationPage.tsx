@@ -10,7 +10,7 @@ import { setLocations } from "../../../redux/slices/saveAllData";
 // import { Locations } from "../../../data/Locations";
 
 const LocationsPage: FC = () => {
-    const page = useSelector((state: RootState) => state.globalStates.page);
+    // const page = useSelector((state: RootState) => state.globalStates.page);
     const dispatch = useDispatch();
     const locations = useSelector((state: RootState) => state.AllData.locations);
 
@@ -24,7 +24,7 @@ const LocationsPage: FC = () => {
 
     return (
         <>
-            {page == "Locations" && <HomePage objects={locations} page="Location" Component={LocationCard} addButton="הוספת חדר חדש" addButtonPath="AddLocation" />}
+            {<HomePage objects={locations} page="Location" Component={LocationCard} addButton="הוספת חדר חדש" addButtonPath="AddLocation" />}
         </>
     );
 };

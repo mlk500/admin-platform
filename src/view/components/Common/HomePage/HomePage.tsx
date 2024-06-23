@@ -2,8 +2,7 @@ import React, { FC } from "react";
 import { Fade } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setCard, setPage } from "../../../../redux/slices/GlobalStates";
-// import { Sector } from "../../../../redux/models/Interfaces";
+import { setCard, setSector } from "../../../../redux/slices/GlobalStates";
 import "./HomePage.scss";
 
 interface HomePageProps {
@@ -17,43 +16,47 @@ interface HomePageProps {
 
 const HomePage: FC<HomePageProps> = ({ objects, page, Component, addButton, addButtonPath, setCardOnClick = true }) => {
     const dispatch = useDispatch();
-    // { console.log("objects: ") }
-    // { console.log("objects: ", objects) }
+    console.log("home page obj " + objects)
     return (
         <div className="home-page" style={{ background: "#D9D9D9" }}>
             <div className="content">
                 <div className="homePage-grid">
-                    {objects.map((ob: any, index: number) => (
+                    {objects.map((ob, index) => {
+                        const name = page === "Game" ? ob.gameName : (page === "Sector" ? ob.username : ob.name);
+                        console.log("ob name  is " + (ob));
 
-                        <Fade key={index}>
-                            {setCardOnClick ? (
-                                <Link
-                                    to={`/${page}Details/${encodeURIComponent(ob.name)}`}
+                        return (
 
-                                    // to={`/TaskDetails/${encodeURIComponent(ob.name)}`}
-                                    className="link"
-                                    onClick={() => {
-                                        dispatch(setCard(ob));
-                                        dispatch(setPage(page));
-                                        // if(card typeof sector ) dispatch(setSectorColor(ob.color))
-                                    }}
-                                >
-                                    {/* {console.log("objects ", Component)}; */}
-                                    <Component object={ob} />
-                                </Link>) : (<div>
-                                    <Component object={ob} />
-                                </div>)
-                            }
-
-                        </Fade>
-                    ))}
+                            <Fade key={index}>
+                                {setCardOnClick ? (
+                                    <Link
+                                        to={`/${page}Details/${encodeURIComponent(name)}`}
+                                        className="link"
+                                        onClick={() => {
+                                            dispatch(setCard(ob));
+                                            { page == "Sector" && dispatch(setSector(ob)) }
+                                            // dispatch(setPage(page));
+                                        }}
+                                    >
+                                        <Component object={ob} />
+                                    </Link>
+                                ) : (
+                                    <div>
+                                        <Component object={ob} />
+                                    </div>
+                                )}
+                            </Fade>
+                        );
+                    })}
                 </div>
             </div>
-            {(addButton !== undefined) && (<div className="add-new">
-                <Link to={`/${addButtonPath}`} className="link">
-                    <button className="add-button">{addButton}</button>
-                </Link>
-            </div>)}
+            {addButton && (
+                <div className="add-new">
+                    <Link to={`/${addButtonPath}`} className="link">
+                        <button className="add-button">{addButton}</button>
+                    </Link>
+                </div>
+            )}
         </div>
     );
 };

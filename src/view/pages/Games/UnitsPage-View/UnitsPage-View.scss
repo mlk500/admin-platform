@@ -1,0 +1,57 @@
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.main-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3vw;
+    gap: 2vw;
+    height: 50vw;
+
+    .units-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        gap: 1vw;
+        padding: 2vw;
+        background-color: rgba($secondary-white-color, 0.8);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: scroll;
+
+        .units-title {
+            @include font_style;
+            font-size: x-large;
+            display: flex;
+            font-weight: 450;
+            align-self: center;
+        }
+        .units-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            .unit-card {
+                padding: 1rem;
+                background-color: rgba($secondary-white-color, 0.8);
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: lighten($secondary-white-color, 5%);
+                }
+
+                .unit-name {
+                    font-weight: bold;
+                }
+
+                .unit-description {
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+    }
+}

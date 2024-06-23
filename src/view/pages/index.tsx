@@ -5,7 +5,8 @@ import SectorDetails from './Sectors/SectorDetails/SectorDetails';
 import SectorsPage from './Sectors/SectorsPage';
 import LocationPage from './Location/LocationPage';
 import TasksPage from './Tasks/TasksPage';
+import GamesPage from './Games/GamesPage';
 
 export {
-    LoginPage, NewSectorPage, Base, SectorDetails, SectorsPage, LocationPage, TasksPage
+    LoginPage, NewSectorPage, Base, SectorDetails, SectorsPage, LocationPage, TasksPage, GamesPage
 };

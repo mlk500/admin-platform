@@ -1,0 +1,155 @@
+@import "../../../themes/mixins";
+@import "../../../themes/variables";
+
+.game-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3vw;
+    gap: 2vw;
+    height: 50vw;
+
+    .add-task-header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .sector-name {
+            @include font_style;
+            font-size: xx-large;
+            font-weight: 450;
+            width: 60%;
+            align-items: flex-end;
+            justify-self: flex-end;
+            color: $secondary-white-color;
+        }
+    }
+
+    .game-details {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        gap: 1vw;
+        padding: 2vw;
+        background-color: rgba($secondary-white-color, 0.8);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: scroll;
+
+        .game-title {
+            @include font-style;
+            font-size: 2vw;
+            margin-bottom: 1vw;
+            font-weight: 450;
+            text-align: center;
+            color: $primary-blue-logo-color;
+        }
+
+        .section-title {
+            @include font-style;
+            font-size: 1.7vw;
+            font-weight: 450;
+            color: $primary-blue-logo-color;
+        }
+
+        .game-desc {
+            margin-bottom: 1vw;
+            padding: 1vw;
+            border-radius: 0.5vw;
+        }
+
+        .view-units {
+            @include icon-style;
+            background-color: $primary-green-logo-color;
+            color: $secondary-white-color;
+            font-size: 1.2vw;
+            padding: 1vh 2vw;
+            margin-top: 2vh;
+            transition: background-color 0.3s, transform 0.3s;
+            @include font-style;
+            color: $secondary-white-color;
+            font-size: 1.5vw;
+            gap: 1vw;
+            align-items: center;
+            &:hover {
+                background-color: darken($primary-green-logo-color, 10%);
+                transform: scale(1.05);
+            }
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2vh;
+
+            .qr-code-image {
+                width: 100px;
+                height: auto;
+                border-radius: 5px;
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                transition: box-shadow 0.3s ease;
+
+                &:hover {
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                }
+            }
+
+            .game-qr {
+                .qr-code-image {
+                  width: 100px;
+                  height: auto;
+                  border-radius: 5px;
+                  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                  transition: box-shadow 0.3s ease;
+            
+                  &:hover {
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+                  }
+                }
+              }
+
+            .download-qr-btn {
+                @include icon-style;
+                background-color: $primary-green-logo-color;
+                color: $secondary-white-color;
+                font-size: 1vw;
+                padding: 0.5vh 1vw;
+                margin-top: 1vh;
+                transition: background-color 0.3s, transform 0.3s;
+
+                &:hover {
+                    background-color: darken($primary-green-logo-color, 10%);
+                    transform: scale(1.05);
+                }
+
+                .download-icon {
+                    width: 1.5vw;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
