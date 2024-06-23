@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-const URL = "http://localhost:8080";
-// const URL = "https://platform-server-usf1.onrender.com"
+// const URL = "http://localhost:8080";
+const URL = "https://platform-server-usf1.onrender.com"
 
 const axiosInstance = axios.create({
   baseURL: URL,
