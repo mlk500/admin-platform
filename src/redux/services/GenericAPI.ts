@@ -5,18 +5,30 @@ const URL = "https://platform-server-usf1.onrender.com"
 
 const axiosInstance = axios.create({
   baseURL: URL,
+  withCredentials: true,
 });
 
-let authToken: string | null = null;
+// let authToken: string | null = null;
 
-axiosInstance.interceptors.request.use(config => {
-  if (authToken) {
-    config.headers.Authorization = `Bearer ${authToken}`;
-  }
-  return config;
-});
+// axiosInstance.interceptors.request.use(config => {
+//   if (authToken) {
+//     config.headers.Authorization = `Bearer ${authToken}`;
+//   }
+//   return config;
+// });
+
+
 
 class GenericAPI {
+
+
+  setAuthToken(token: string | null) {
+  if (token) {
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers.common['Authorization'];
+  }
+}
   get = async <T>(
     url: string,
     params?: AxiosRequestConfig['params'],

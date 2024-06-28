@@ -3,6 +3,7 @@ import { genericAPI } from "./GenericAPI";
 
 class AdminApi {
     async getAllAdmins(): Promise<Admin[]> {
+      console.log("in api ")
       const response = await genericAPI.get<Admin[]>("/admin/getAll");
       return response.data;
     }

@@ -16,7 +16,6 @@ const SectorsPage: FC = () => {
   // const [showConfirm, setShowConfirm] = useState(false);
   // const [taskToDelete, setAdminToDelete] = useState<Admin | null>(null);
 
-
   useEffect(() => {
     const fetchSectors = async () => {
       dispatch(setSectors(await adminAPI.getAllAdmins()));

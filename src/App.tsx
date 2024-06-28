@@ -9,7 +9,7 @@ function App() {
 
   const token = localStorage.getItem('authToken');
   if (token) {
-    (genericAPI as any).authToken = token;
+    genericAPI.setAuthToken(token);
   }
 
   return (

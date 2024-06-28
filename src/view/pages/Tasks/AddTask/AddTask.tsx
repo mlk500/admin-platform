@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './AddTask.scss';
-import { LeftArrowIcon, UploadFileIcon } from '../../../photos';
+import { LeftArrowIcon, UploadFileIcon, InfoIcon } from '../../../photos';
 import { Admin, QuestionTask, TaskTBC, UserRole } from '../../../../redux/models/Interfaces';
 import { taskAPI } from '../../../../redux/services/TaskApi';
 import { useNavigate } from 'react-router-dom';
@@ -52,14 +52,15 @@ function AddTask() {
     const adminStr = localStorage.getItem('admin');
     const admin: Admin = adminStr ? { ...JSON.parse(adminStr), role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole] } : null;
     const [selectedSector, setSelectedSector] = useState<number | null>(admin.role === UserRole.SectorAdmin ? admin.adminID : null);
+    const [visibleInfo, setVisibleInfo] = useState<string | null>(null);
 
-    useEffect(() => {
-        console.log("admin role is ", UserRole.SectorAdmin, "       qwde  ", admin.role);
-        if (admin.role === UserRole.SectorAdmin) {
-            setSelectedSector(admin.adminID);
-            console.log("selected sector is ", selectedSector);
+    const handleInfoClick = (info: string) => {
+        if (visibleInfo === info) {
+            setVisibleInfo(null);
+        } else {
+            setVisibleInfo(info);
         }
-    }, [admin]);
+    };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = event.target.files;
@@ -155,11 +156,19 @@ function AddTask() {
                 <div className='add-task-title'>{AddNewTaskHebrew.CreateNewTask}</div>
                 <div className='input-group'>
                     <label className='input-label'>{AddNewTaskHebrew.Name}</label>
-                    <input type='text' className='task-input' value={name} onChange={e => setName(e.target.value)} />
+                    <div className='info-icon-container'>
+                        <input type='text' className='task-input' value={name} onChange={e => setName(e.target.value)} />
+                        <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('name')} />
+                        {visibleInfo === 'name' && <div className='info-box'>some dumb text here</div>}
+                    </div>
                 </div>
                 <div className='input-group'>
                     <label className='input-label'>{AddNewTaskHebrew.Description}</label>
-                    <textarea className='task-textarea' value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                    <div className='info-icon-container'>
+                        <textarea className='task-textarea' value={description} onChange={e => setDescription(e.target.value)}></textarea>
+                        <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('description')} />
+                        {visibleInfo === 'description' && <div className='info-box'>some dumb text here</div>}
+                    </div>
                 </div>
 
                 <div className='options-container'>
@@ -167,18 +176,22 @@ function AddTask() {
                         {showMedia && (
                             <div className='input-group'>
                                 <label className='input-label'>{AddNewTaskHebrew.AddMedia}</label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    accept="image/*, video/*, application/pdf, audio/*"
-                                    id="file-upload"
-                                    className="file-input"
-                                    onChange={handleFileChange}
-                                    style={{ display: 'none' }}
-                                />
-                                <label htmlFor="file-upload" className="file-upload-label">
-                                    <img src={UploadFileIcon} alt="Upload File" className="file-upload-icon" />
-                                </label>
+                                <div className='info-icon-container'>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        accept="image/*, video/*, application/pdf, audio/*"
+                                        id="file-upload"
+                                        className="file-input"
+                                        onChange={handleFileChange}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <label htmlFor="file-upload" className="file-upload-label">
+                                        <img src={UploadFileIcon} alt="Upload File" className="file-upload-icon" />
+                                    </label>
+                                    <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('media')} />
+                                    {visibleInfo === 'media' && <div className='info-box'>some dumb text here</div>}
+                                </div>
                                 <MediaViewer mediaList={mediaFiles.map(file => ({
                                     mediaTaskID: Math.random(),
                                     fileName: file.file.name,
@@ -198,7 +211,11 @@ function AddTask() {
                         {showQuestion && (
                             <div className='input-group'>
                                 <label className='input-label'>{AddNewTaskHebrew.Q}</label>
-                                <input type='text' className='task-input' placeholder='הוספת שאלה' onChange={(e) => setQuestion(e.target.value)} />
+                                <div className='info-icon-container'>
+                                    <input type='text' className='task-input' placeholder='הוספת שאלה' onChange={(e) => setQuestion(e.target.value)} />
+                                    <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('question')} />
+                                    {visibleInfo === 'question' && <div className='info-box'>some dumb text here</div>}
+                                </div>
                                 {answers.map((answer, index) => (
                                     <div key={index} className="answer-container">
                                         <input type="text" className='task-input' value={answer} onChange={(e) => {
@@ -228,7 +245,11 @@ function AddTask() {
                         {showNotes && (
                             <div className='input-group'>
                                 <label className='input-label'>{AddNewTaskHebrew.AdditionalNotes}</label>
-                                <textarea className='task-textarea' value={additionalNotes} onChange={(e) => setAdditionalNotes(e.target.value)}></textarea>
+                                <div className='info-icon-container'>
+                                    <textarea className='task-textarea' value={additionalNotes} onChange={(e) => setAdditionalNotes(e.target.value)}></textarea>
+                                    <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('notes')} />
+                                    {visibleInfo === 'notes' && <div className='info-box'>some dumb text here</div>}
+                                </div>
                                 <button type="button" className='delete-option-button' onClick={() => setShowNotes(false)}>{AddNewTaskHebrew.HideNotes}</button>
                             </div>
                         )}
@@ -246,17 +267,21 @@ function AddTask() {
 
                         <div className='input-group'>
                             <label className='input-label'>{AddNewTaskHebrew.Sectors}</label>
-                            <select
-                                value={selectedSector ?? ''}
-                                onChange={(e) => setSelectedSector(Number(e.target.value))}
-                                className='task-input'
-                                disabled={admin.role === UserRole.SectorAdmin}
-                            >
-                                <option value='' disabled hidden>{AddNewTaskHebrew.Sectors}</option>
-                                {sectors.map((sector, index) => (
-                                    <option key={index} value={sector.adminID}>{sector.sector}</option>
-                                ))}
-                            </select>
+                            <div className='info-icon-container'>
+                                <select
+                                    value={selectedSector ?? ''}
+                                    onChange={(e) => setSelectedSector(Number(e.target.value))}
+                                    className='task-input'
+                                    disabled={admin.role === UserRole.SectorAdmin}
+                                >
+                                    <option value='' disabled hidden>{AddNewTaskHebrew.Sectors}</option>
+                                    {sectors.map((sector, index) => (
+                                        <option key={index} value={sector.adminID}>{sector.sector}</option>
+                                    ))}
+                                </select>
+                                <img src={InfoIcon} alt="info" className='info-icon' onClick={() => handleInfoClick('sectors')} />
+                                {visibleInfo === 'sectors' && <div className='info-box'>some dumb text here</div>}
+                            </div>
                         </div>
                         <div className='input-group'>
                             <label className='input-label'>
@@ -274,3 +299,4 @@ function AddTask() {
 }
 
 export default AddTask;
+
