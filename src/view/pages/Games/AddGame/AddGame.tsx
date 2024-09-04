@@ -24,7 +24,7 @@ function AddGame() {
     localStorage.getItem("gameDesc") || ""
   );
   const [gameUnits, setGameUnits] = useState<Unit[]>([]);
-  const [gameImage, setGameImage] = useState<File | null>(null);
+  const [gameImage,] = useState<File | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(false);

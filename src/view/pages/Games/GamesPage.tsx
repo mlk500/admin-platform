@@ -29,9 +29,9 @@ const GamesPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
@@ -62,7 +62,7 @@ const GamesPage: FC = () => {
   };
 
   const handleDeleteConfirm = async () => {
-    if (gameToDelete) {
+    if (gameToDelete && gameToDelete.gameID) {
       setShowConfirm(false);
       setIsLoading(true);
       setLoadingMessage("מוחק משחק ...");
@@ -93,6 +93,9 @@ const GamesPage: FC = () => {
           setLoadingMessage("");
         }, 2000);
       }
+    }
+    else {
+      alert("שגיאה במחיקת המשחק");
     }
   };
   const handleEdit = (game: Game) => {

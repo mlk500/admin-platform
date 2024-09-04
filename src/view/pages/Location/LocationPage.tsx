@@ -14,7 +14,7 @@ import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { useNavigate } from "react-router-dom";
 
 const LocationsPage: FC = () => {
-  const page = useSelector((state: RootState) => state.globalStates.page);
+  // const page = useSelector((state: RootState) => state.globalStates.page);
   const dispatch = useDispatch();
   const locations = useSelector((state: RootState) => state.AllData.locations);
   const [showConfirm, setShowConfirm] = useState(false);

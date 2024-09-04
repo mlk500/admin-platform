@@ -25,6 +25,7 @@ const TaskDetails: React.FC = () => {
   const sectorName = sectors.find(
     (sector) => sector.adminID === task.adminIDAPI
   )?.sector;
+  console.log("sector name", sectorName);
 
   return (
     <div className="task-container" dir="rtl">
