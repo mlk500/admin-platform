@@ -5,6 +5,8 @@ import './ObjectsCard.scss';
 
 interface ObjectCardProps {
     object?: ObjectLocation;
+    onShowConfirm: (objectLocation: ObjectLocation) => void;
+    onEditTask: (objectLocation: ObjectLocation) => void;
 }
 
 const objectTitles = {
@@ -12,7 +14,7 @@ const objectTitles = {
     // gamesNumber: "מספר המשחקים : ",
 };
 
-const ObjectsCard: FC<ObjectCardProps> = ({ object }) => {
+const ObjectsCard: FC<ObjectCardProps> = ({ object, onShowConfirm }) => {
     return (
         <div>
             {
@@ -23,7 +25,11 @@ const ObjectsCard: FC<ObjectCardProps> = ({ object }) => {
                                 <button className="edit-button">
                                     <img className='edit-icon' src={EditIcon} alt="edit icon" />
                                 </button>
-                                <button className="delete-button">
+                                <button className="delete-button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        onShowConfirm(object);
+                                    }}>
                                     <img className='delete-icon' src={DeleteIcon} alt="delete icon" />
                                 </button>
                             </div>

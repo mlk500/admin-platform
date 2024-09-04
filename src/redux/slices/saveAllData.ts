@@ -28,11 +28,11 @@ const saveAllData = createSlice({
       state.Tasks = action.payload;
     },
     setGames(state, action: PayloadAction<Game[]>) {
-      console.log("games in save data " + JSON.stringify(state.Games))
+      // console.log("games in save data " + JSON.stringify(state.Games))
       state.Games = action.payload;
     },
     setSectors(state, action: PayloadAction<Admin[]>){
-      console.log("sectors in save data " + JSON.stringify(state.Sectors))
+      // console.log("sectors in save data " + JSON.stringify(state.Sectors))
       state.Sectors = action.payload;
     },
     setObjects(state, action: PayloadAction<ObjectLocation[]>){

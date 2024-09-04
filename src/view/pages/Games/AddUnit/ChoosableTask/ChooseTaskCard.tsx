@@ -1,36 +1,40 @@
-import { FC } from 'react';
-import { Task } from '../../../../../redux/models/Interfaces';
-import { useNavigate } from 'react-router-dom';
-import './ChooseTaskCard.scss';
+import { FC } from "react";
+import { Task } from "../../../../../redux/models/Interfaces";
+import { useNavigate } from "react-router-dom";
+import "./ChooseTaskCard.scss";
 
 interface ChoosableTaskCardProps {
-    object: Task;
-    navigationPath: string;
+  object: Task;
+  navigationPath: string;
+  onShowConfirm: (task: Task) => void;
+  onEditTask: (task: Task) => void;
 }
 
-const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({ object, navigationPath }) => {
-    const navigate = useNavigate();
+const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
+  object,
+  navigationPath,
+}) => {
+  const navigate = useNavigate();
 
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation();
-        console.log("Navigating to" + navigationPath + "with state:", object);
-        navigate(navigationPath, { state: { selectedTask: object } });
-    };
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    navigate(navigationPath, { state: { selectedTask: object } });
+  };
 
-
-    return (
-        <div className='task-card' onClick={handleClick}>
-            <div className='card-header'>
-                <div className='title'>{object.name}</div>
-            </div>
-            <div className='task-card-content'>
-                <div className='sections'>
-                    <div className='section-title'>{object.description}</div>
-                </div>
-            </div>
+  return (
+    <div className="task-card-file" onClick={handleClick}>
+      <div className="card-header-file">
+        <div className="title-file">{object.name}</div>
+      </div>
+      <div className="task-card-content-file">
+        <div className="sections-file">
+          {object.description && (
+            <div className="section-title-file">{object.description}</div>
+          )}
         </div>
-    );
-}
-
+      </div>
+    </div>
+  );
+};
 
 export default ChoosableTaskCard;

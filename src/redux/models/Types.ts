@@ -9,6 +9,7 @@ export const buttonsName = {
   Games: "משחקים",
   Locations: "חדרים",
   Tasks: "משימות",
+  TrainModel: "אימון מודל",
   Logout: "יציאה",
 };
 

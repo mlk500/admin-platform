@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { Admin, AdminTBC } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
@@ -18,8 +19,26 @@ class AdminApi {
       return response.data;
     }
   
-    async deleteAdmin(adminID: number): Promise<void> {
-      await genericAPI.delete<void>(`/admin/delete/${adminID}`);
+    async deleteAdmin(adminID: number): Promise<AxiosResponse> {
+      try{
+        const response = await genericAPI.delete<void>(`/admin/delete/${adminID}`);
+        return response
+      } catch (error : any) {
+        throw new Error(error.response.data.message || 'Error deleting admin');
+      }
+     
+    }
+
+    async updateSectorAdmin(adminID: number, admin: Admin, newPassword?: string): Promise<Admin> {
+      const formData = new FormData();
+      formData.append('admin', new Blob([JSON.stringify(admin)], { type: 'application/json' }));
+      if (newPassword) {
+        formData.append('newPassword', newPassword);
+      }
+      console.log("form is ", formData)
+      console.log("admin id " + adminID)
+      const response = await genericAPI.putFormData<Admin>(`/admin/update/${adminID}`, formData);
+      return response.data;
     }
   }
   

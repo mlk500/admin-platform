@@ -1,36 +1,114 @@
-import { FC } from 'react';
-import { useSelector } from "react-redux";
+import { FC, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import HomePage from "../../components/Common/HomePage/HomePage";
-import ObjectsCard from './ObjectsCard/ObjectsCard';
+import ObjectCard from '../ObjectLocation/ObjectCard/ObjectCard';
 import './ObjectsPage.scss';
+import { setObjects } from '../../../redux/slices/saveAllData';
+import { objectAPI } from '../../../redux/services/ObjectLocationApi';
+import { ObjectLocation } from '../../../redux/models/Interfaces';
+import { useNavigate, useParams } from 'react-router-dom';
+import ConfirmationDialog from '../../components/Common/ConfirmationDialog/ConfirmationDialog';
+import { buttonsName } from '../../../redux/models/Types';
+import { setCard, setPage } from '../../../redux/slices/GlobalStates';
+import Loader from '../../components/Common/LoadingSpinner/Loader';
+
 
 
 const ObjectsPage: FC = () => {
     // const location = useSelector((state: RootState) => state.globalStates.selectedCard);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const { locationID } = useParams<{ locationID: string }>();
     const objects = useSelector((state: RootState) => state.AllData.Objects);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [objectToDelete, setObjectToDelete] = useState<ObjectLocation | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [loadingMessage, setLoadingMessage] = useState<string>('');
+    const [refetchTrigger, setRefetchTrigger] = useState(0);
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        const fetchObjects = async () => {
+            if (locationID) {
+                const objectsData = await objectAPI.getAllObjetsOfLocation(Number(locationID));
+                dispatch(setObjects(objectsData));
+                dispatch(setPage(buttonsName.Locations))
 
-    // useEffect(() => {
-    //     const getObjects = async () => {
-    //         dispatch(setObjects(location.objectsList));
-    //         console.log("objects in obj " + objects)
-    //         console.log("loc in obj " + location)
-    //     };
-    //     getObjects()
+            }
+        };
+        fetchObjects();
+    }, [locationID, dispatch, refetchTrigger]);
 
-    // }, [dispatch]);
+    const handleDelete = (object: ObjectLocation) => {
+        setObjectToDelete(object);
+        setShowConfirm(true);
+    }
+
+    const handleDeleteConfirm = async () => {
+        if (objectToDelete) {
+            setShowConfirm(false);
+            setIsLoading(true);
+            setLoadingMessage('מוחק אובייקט ...');
+            try {
+                const response = await objectAPI.deleteObject(objectToDelete.objectID);
+                console.log("response object ", response.data);
+                console.log("sttus is " + response.status);
+                if (response.status === 200) {
+                    const message = objectToDelete.name + " אובייקט נמחק בהצלחה ";
+                    alert(message);
+                    dispatch(setObjects(objects.filter(obj => obj.objectID !== objectToDelete.objectID)));
+                    setLoadingMessage(message);
+                    setTimeout(() => {
+                        setRefetchTrigger(prev => prev + 1);
+                        setIsLoading(false);
+                        setLoadingMessage('');
+                    }, 500);
+                }
+            } catch (error) {
+                dispatch(setObjects(objects));
+                alert("שגיאה במחיקת האובייקט:\n" + error);
+                console.log(error);
+                setLoadingMessage('שגיאה במחיקת האובייקט');
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setLoadingMessage('');
+                }, 2000);
+            }
+        }
+    }
+
+    const handleEdit = (object: ObjectLocation) => {
+        console.log("handleEdit called in ObjectsPage", object);
+        dispatch(setCard(object));
+        if (locationID) {
+            console.log("Navigating to:", `/EditObject/${locationID}`);
+            navigate(`/EditObject/${locationID}`);
+        } else {
+            console.error("LocationID is undefined");
+        }
+    }
 
     return (
-        <div>
+        <div dir="rtl">
+            <Loader isLoading={isLoading} message={loadingMessage} />
             {<HomePage objects={objects}
-                // {...location.objectsList.map((obj: ObjectLocation) => (
-                //     <ObjectCard key={obj.objectID} object={obj} />
-                // ))}
-                page="Object" Component={ObjectsCard} addButton="הוספת אובייקט חדש" addButtonPath="AddObjectLocation" />}
+                page="Object" Component={(props) => (
+                    <ObjectCard {...props}
+                        onShowConfirm={handleDelete}
+                        onEditObject={handleEdit}
+                    />
+                )}
+                addButton="הוספת אובייקט חדש" addButtonPath="AddObjectLocation" />}
+            {showConfirm && (
+                <ConfirmationDialog
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => setShowConfirm(false)}
+                    message={`את/ה בטוח/ה שאת/ה רוצה למחוק את האובייקט "${objectToDelete?.name}"?`}
+                />
+            )}
         </div>
     );
 };
 
 export default ObjectsPage;
+

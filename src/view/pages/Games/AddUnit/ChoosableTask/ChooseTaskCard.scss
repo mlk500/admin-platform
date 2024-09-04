@@ -1,60 +1,98 @@
-// @import "../../../../../themes/mixins";
-// @import "../../../../../themes/variables";
 @import "../../../../themes/mixins";
 @import "../../../../themes/variables";
 
-.task-card {
+.task-card-file {
+  position: relative;
   display: flex;
-  width: 22vw;
-  height: 15vw;
-  padding: 2vw;
   flex-direction: column;
-  align-items: end;
-  gap: 1vw;
+  height: 12vw;
+  width: 20vw;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  background-image: url("../../../../photos/CardBG.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
-  cursor: pointer;
-  .card-header {
-    display: flex;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    justify-content: end;
-    .title {
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-header-file {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    padding: 1vw;
+    justify-content: space-between;
+    border-radius: 12px;
+
+    .title-file {
       @include font-style;
       font-weight: 600;
-      font-size: 2vw;
-      width: 100%;
+      font-size: 1.5vw;
       color: $secondary-white-color;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex: 1;
+      margin-right: 1vw;
     }
-    .buttons {
+
+    .buttons-file {
       display: flex;
-      width: 100%;
-      .edit-button,
-      .delete-button {
+
+      .edit-button-file,
+      .delete-button-file {
         background: transparent;
-        border: transparent;
+        border: none;
         cursor: pointer;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: scale(1.1);
+        }
       }
-      .edit-icon,
-      .delete-icon {
+
+      .delete-icon-file {
+        width: 2.8vw;
+        height: 2.5vw;
+      }
+
+      .edit-icon-file {
+        margin-left: -1vw;
         width: 2vw;
-        height: 2vw;
-        margin-left: -0.5vw;
+        height: 2.3vw;
       }
     }
   }
-  .task-card-content {
+
+  .task-card-content-file {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    .sections {
+
+    .sections-file {
       display: flex;
       flex-direction: column;
       gap: 1vw;
-      .section-title {
+
+      .section-title-file {
         @include font-style;
         font-size: 1.5vw;
         color: $secondary-white-color;

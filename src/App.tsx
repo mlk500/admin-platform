@@ -5,6 +5,7 @@ import "./App.css";
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { genericAPI } from "./redux/services/GenericAPI";
+
 function App() {
 
   const token = localStorage.getItem('authToken');

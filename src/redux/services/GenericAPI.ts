@@ -1,38 +1,59 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import router from "../../view/router/Route";
 
 // const URL = "http://localhost:8080";
-const URL = "https://platform-server-usf1.onrender.com"
+const URL = "https://sheba-service-gcp-tm3zus3bzq-uc.a.run.app";
 
-const axiosInstance = axios.create({
-  baseURL: URL,
-  withCredentials: true,
-});
+const createAxiosInstance = (): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: URL,
+    withCredentials: true,
+  });
 
-// let authToken: string | null = null;
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response && error.response.status === 401) {
+        if (
+          error.response.data &&
+          error.response.data.error === "Token has expired"
+        ) {
+          alert("Token has expired. Redirecting to login...");
+          localStorage.clear();
+          router.navigate("/");
+          console.log("Token has expired. Redirecting to login...");
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 
-// axiosInstance.interceptors.request.use(config => {
-//   if (authToken) {
-//     config.headers.Authorization = `Bearer ${authToken}`;
-//   }
-//   return config;
+  return instance;
+};
+
+const axiosInstance = createAxiosInstance();
+const loginInstance = createAxiosInstance();
+
+// const loginInstance = axios.create({
+//   baseURL: URL,
+//   withCredentials: true,
 // });
 
-
-
 class GenericAPI {
-
-
   setAuthToken(token: string | null) {
-  if (token) {
-    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  } else {
-    delete axiosInstance.defaults.headers.common['Authorization'];
+    if (token) {
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+    } else {
+      delete axiosInstance.defaults.headers.common["Authorization"];
+    }
   }
-}
+
   get = async <T>(
     url: string,
-    params?: AxiosRequestConfig['params'],
-    headers?: AxiosRequestConfig['headers'],
+    params?: AxiosRequestConfig["params"],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     return axiosInstance.get<T>(url, { ...options, headers, params });
@@ -41,7 +62,7 @@ class GenericAPI {
   post = async <T>(
     url: string,
     data: unknown,
-    headers?: AxiosRequestConfig['headers'],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     return axiosInstance.post<T>(url, data, { ...options, headers });
@@ -50,14 +71,14 @@ class GenericAPI {
   postFormData = async <T>(
     url: string,
     formData: FormData,
-    headers?: AxiosRequestConfig['headers'],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     const config = {
       ...options,
       headers: {
         ...headers,
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     };
     return axiosInstance.post<T>(url, formData, config);
@@ -66,7 +87,7 @@ class GenericAPI {
   put = async <T>(
     url: string,
     data: unknown,
-    headers?: AxiosRequestConfig['headers'],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     return axiosInstance.put<T>(url, data, { ...options, headers });
@@ -75,7 +96,7 @@ class GenericAPI {
   putFormData = async <T>(
     url: string,
     formData: FormData,
-    headers?: AxiosRequestConfig['headers'],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     return axiosInstance.put<T>(url, formData, { ...options, headers });
@@ -83,7 +104,7 @@ class GenericAPI {
 
   delete = async <T>(
     url: string,
-    headers?: AxiosRequestConfig['headers'],
+    headers?: AxiosRequestConfig["headers"],
     options: AxiosRequestConfig = {}
   ): Promise<AxiosResponse<T>> => {
     return axiosInstance.delete<T>(url, { ...options, headers });
@@ -93,9 +114,8 @@ class GenericAPI {
     username: string,
     password: string
   ): Promise<AxiosResponse<T>> => {
-    return axiosInstance.post<T>("/login", { username, password });
+    return loginInstance.post<T>("/login", { username, password });
   };
-
 }
 
 export const genericAPI = new GenericAPI();

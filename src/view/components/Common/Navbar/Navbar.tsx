@@ -56,10 +56,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className="navbar-right">
         <div className="navbar-links">
-          <div
-            className="navbar-link">             התחבר
-
-          </div>
+          <div className="navbar-link"> צור קשר</div>
           <div className="navbar-link">עלינו</div>
         </div>
       </div>

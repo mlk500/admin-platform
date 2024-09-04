@@ -102,7 +102,6 @@
     }
   }
 
-  // Add animations for the Hero component
   @keyframes slideIn {
     from {
       opacity: 0;
@@ -116,7 +115,7 @@
   }
 
   .hero-container {
-    animation: slideIn 0.5s forwards; // Apply the animation to the hero-container
+    animation: slideIn 0.5s forwards;
   }
 
   .hero-container-part-two {

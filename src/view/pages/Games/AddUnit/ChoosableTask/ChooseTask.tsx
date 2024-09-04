@@ -12,6 +12,7 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
     console.log("parent is " + fromParent);
 
+
     useEffect(() => {
         const fetchTasks = async () => {
             const fetchedTasks = await taskAPI.getAllTasks();

@@ -1,0 +1,70 @@
+@import "../../../../themes/mixins";
+@import "../../../../themes/variables";
+
+.Location-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
+  height: auto;
+  padding: 1vw;
+  cursor: pointer;
+  border-radius: 12px;
+  background-image: url("../../../../photos/CardBG.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0.2vw 0.4vw rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-0.5vw);
+    box-shadow: 0 0.4vw 0.8vw rgba(0, 0, 0, 0.2);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .card-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1vw;
+    position: relative;
+    z-index: 2; // Ensure the content is above the overlay
+
+    .title {
+      @include font_style;
+      font-weight: bold;
+      font-size: 1.6vw;
+      color: $secondary-white-color;
+    }
+  }
+
+  .Location-card-content {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+
+    .sections {
+      display: flex;
+      flex-direction: column;
+
+      .section-title {
+        @include font_style;
+        font-size: 1.4vw;
+        color: $secondary-white-color;
+        text-align: center;
+        padding: 0.5vw 0;
+      }
+    }
+  }
+}

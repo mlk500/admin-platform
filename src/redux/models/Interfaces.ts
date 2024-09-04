@@ -30,13 +30,18 @@ export interface MediaTask {
   fileName: string;
   mediaPath: string;
   mediaType: string;
-  // fileSize?: number; 
-  // uploadedDate?: Date; 
-  taskID: number; 
+  mediaUrl: string;
+}
+
+export interface MediaTaskTBC {
+  fileName: string;
+  mediaPath: string;
+  mediaType: string;
+  file: File;
 }
 
 
-export interface Location {
+export interface LocationTBC {
   locationID: number;
   name: string;
   description?: string;
@@ -46,11 +51,24 @@ export interface Location {
   objectsList?: ObjectLocation[];
 }
 
+export interface Location {
+  locationID: number;
+  name: string;
+  description?: string;
+  floor: number;
+  QRCode: string;
+  qrcodePublicUrl: string;
+  locationImagePublicUrl: string;
+  locationImage?: LocationImage; 
+  objectsList?: ObjectLocation[];
+}
+
 export interface LocationImage {
   locationImgID: number;
   name: string;
   type: string;
-  imagePath: string;
+  gcsObjectName: string;
+  publicUrl: string;
 }
 
 
@@ -67,32 +85,33 @@ export interface ObjectImage {
   name: string;
   imagePath: string;
   object: ObjectLocation;
+  imageUrl: string;
 }
 
 
 export interface Game {
-  gameID: number;
-  adminID: number;
-  gameName: string;
-  description: string;
-  qrcodePath: string;
-  gameImage?: GameImage;
+  gameID?: number;
+  adminID?: number;
+  gameName?: string;
+  description?: string;
+  qrcodeURL?: string;
+  // gameImage?: GameImage;
   units?: Unit[];
 }
 
 export interface GameTBC {
   gameName: string;
   description: string;
-  gameImage?: GameImage;
+  // gameImage?: GameImage;
   units?: Unit[];
 }
 
-export interface GameImage {
-  gameImgID: number;
-  name: string;
-  type: string;
-  imagePath: string;
-}
+// export interface GameImage {
+//   gameImgID: number;
+//   name: string;
+//   type: string;
+//   imagePath: string;
+// }
 
 export interface Unit {
   unitID: number;
@@ -103,22 +122,23 @@ export interface Unit {
   objectID: number;
   taskID: number;
   locationID: number;
+  locationDTO?: Location;
+  objectDTO?: ObjectLocation;
+  taskDTO?: Task;
 }
 
 export interface Admin {
-  color: string;
   adminID: number;
   username: string;
   sector: string;
   role: UserRole;
-  gamesList: Game[];
-  tasksList: Task[];
+  gamesList?: Game[];
+  tasksList?: Task[];
 }
 
 export interface AdminTBC {
   username: string;
   password: string;
-  // color: string;
   sector: string;
 }
 

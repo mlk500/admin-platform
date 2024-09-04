@@ -6,31 +6,33 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 3vw;
+  padding: 4vw;
   gap: 2vw;
-  height: 50vw;
-
-  .add-task-header {
-    display: flex;
-    justify-content: space-between;
+  height: 100vh; /* Full viewport height */
+  background-image: url("../../../photos/ContenBG.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+  }
+  .back-link {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    z-index: 3;
+    text-decoration: none;
 
-    .sector-name {
-      @include font_style;
-      font-size: 2.5vw;
-      font-weight: 450;
-      width: 60%;
-      color: $secondary-white-color;
-    }
-
-    .arrow-icon {
-      display: flex;
-      height: 5vw;
-      width: 50%;
-      align-self: flex-start;
-      margin-top: -0.7vw;
-      cursor: pointer;
+    .back-arrow-icon {
       width: 5vw;
+      height: 5vw;
       transition: transform 0.3s ease;
 
       &:hover {
@@ -40,97 +42,134 @@
   }
 
   .add-task-container {
+    width: 40vw;
+    height: 100%; /* Full height of the parent container */
+    max-height: 100%; /* Ensure it doesn't exceed parent height */
+    overflow: hidden; /* Hide overflow directly on the container */
+    background-image: url("../../../photos/CardBG.jpg");
+    background-size: cover;
+    border-radius: 15px;
+    padding-right: 2vw;
+    padding-left: 1vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    text-align: right;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 80%;
-    height: 100%;
-    gap: 1vw;
-    padding: 2vw;
-    background-color: rgba($secondary-white-color, 0.8);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: scroll;
+    align-items: center;
+    justify-content: flex-start; /* Align items to top */
+    animation: fadeInUp 0.6s ease-out;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+      pointer-events: none; /* Ensure it's non-interactive */
+    }
+
+    .scrollable-content {
+      width: 100%;
+      height: 100%; /* Takes full height of the container */
+      overflow-y: auto; /* Enables vertical scrolling */
+      box-sizing: border-box; /* Ensures padding doesn't add to total width */
+      padding-left: 2vw;
+      align-items: center;
+      justify-content: center;
+    }
 
     .add-task-title {
-      @include font_style;
-      font-size: x-large;
-      display: flex;
-      font-weight: 450;
-      align-self: center;
+      @include font-style;
+      font-weight: 600;
+      font-size: 2.5vw;
+      color: $secondary-white-color;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 2vw;
     }
 
     .input-group {
-      display: flex;
-      gap: 2vw;
+      margin-bottom: 2vw;
       width: 100%;
-      flex-direction: column;
 
       .input-label {
-        @include font_style;
+        @include font-style;
+        font-weight: 400;
+        font-size: 1.8vw;
+        color: $secondary-white-color;
+        margin-bottom: 0.5vw;
+        display: block;
       }
+      .info-icon-container {
+        position: relative;
 
+        .info-icon {
+          font-size: 1.7vw;
+          color: $secondary-white-color;
+          cursor: pointer;
+          transform: translateY(40%);
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $primary-green-logo-color;
+          }
+        }
+
+        .info-box {
+          position: absolute;
+          top: 75%;
+          left: 0;
+          right: 2vw;
+          width: 20vw;
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 1vw;
+          border-radius: 5px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          font-size: 1.2vw;
+          color: $secondary-darkgreen-color;
+          z-index: 5;
+          animation: fadeInUp 0.3s ease-out;
+        }
+      }
       .task-input,
       .task-textarea {
-        background-color: $secondary-white-color;
-        border: none;
+        width: 100%;
         padding: 1vw;
-        width: calc(100% - 18vw);
-        margin-bottom: 1vw;
-        transition: box-shadow 0.3s ease;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1.2vw;
+        background: #f5f5f5;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        margin-top: 1vw;
 
         &:focus {
-          outline: none;
-          box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+          border-color: $primary-pink-logo-color;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-
-      .task-input {
-        height: 3vw;
       }
 
       .task-textarea {
         height: 4vw;
       }
-
-      .info-icon-container {
-        display: flex;
-        align-items: center;
-        position: relative;
-
-        .info-icon {
-          margin-left: 0.5vw;
-          cursor: pointer;
-          width: 1.5vw;
-          height: 1.5vw;
-        }
-
-        .info-box {
-          display: none; /* Hide info box by default */
-          position: absolute;
-          left: 1.5vw; /* Adjusted to make it closer to the icon */
-          top: 0; /* Aligned with the icon vertically */
-          background-color: $secondary-white-color;
-          border: 1px solid $secondary-darkgreen-color;
-          padding: 1vw;
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          z-index: 10;
-          width: max-content;
-        }
-
-        &:hover .info-box {
-          display: block; /* Show info box on hover */
-        }
-      }
     }
 
     .options-container {
+      width: 100%;
+      margin-top: 2vw;
+
       .add-buttons {
         display: flex;
         gap: 2vw;
-        width: 100%;
         justify-content: center;
       }
 
@@ -139,133 +178,92 @@
         flex-direction: column;
         gap: 1vw;
 
-        .option-button {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        .option-button,
+        .delete-option-button {
           padding: 0.5rem 1rem;
           background-color: $secondary-white-color;
-          border-color: $secondary-darkgreen-color;
-          @include font_style;
+          border: 1px solid $secondary-darkgreen-color;
+          @include font-style;
           color: $secondary-darkgreen-color;
-          font-size: 1vw;
-          width: 10vw;
-          text-align: center;
+          font-size: 1.2vw;
           cursor: pointer;
           transition: background-color 0.3s ease;
+          border-radius: 5px;
 
           &:hover {
-            color: white;
+            color: $secondary-white-color;
             background-color: $primary-green-logo-color;
-            border-color: $primary-pink-logo-color;
           }
-        }
-
-        .file-upload-icon {
-          width: 3.3vw;
-          height: 4vw;
-          cursor: pointer;
         }
 
         .delete-option-button {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          padding: 0.5rem 1rem;
           background-color: $primary-pink-logo-color;
-          border-color: transparent;
-          @include font_style;
           color: $secondary-white-color;
-          font-size: 1vw;
-          width: 13vw;
-          height: 2.5vw;
-          text-align: center;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-
           &:hover {
-            color: white;
-            background-color: darken($primary-pink-logo-color, 10%);
-          }
-        }
-
-        .answer-container {
-          display: flex;
-          align-items: center;
-          gap: 1vw;
-
-          .delete-answer-button {
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
             background-color: $primary-green-logo-color;
-            border-color: transparent;
-            @include font_style;
-            color: $secondary-white-color;
-            font-size: 1vw;
-            height: 2.5vw;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-              background-color: darken($primary-green-logo-color, 10%);
-            }
-          }
-        }
-
-        .delete-image-btn {
-          margin-top: 10px;
-          padding: 0.5rem 1rem;
-          background-color: $primary-pink-logo-color;
-          border-color: transparent;
-          @include font_style;
-          color: $secondary-white-color;
-          border: none;
-          cursor: pointer;
-          text-align: center;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            color: white;
-            background-color: darken($primary-pink-logo-color, 10%);
           }
         }
       }
     }
-  }
 
-  .add-answer-button {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
-    background-color: $primary-green-logo-color;
-    border-color: transparent;
-    @include font_style;
-    color: $secondary-white-color;
-    font-size: 1vw;
-    height: 2.5vw;
-    width: 30%;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    .save-task-button {
+      padding: 0.5rem 5rem;
+      background-color: $secondary-white-color;
+      border: 1px solid $secondary-darkgreen-color;
+      @include font_style;
+      color: $secondary-darkgreen-color;
+      font-size: 1.5vw;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-radius: 12px;
+      // width: 10vw;
+      &:hover {
+        background-color: $primary-green-logo-color;
+        color: $secondary-white-color;
+      }
+    }
 
-    &:hover {
-      color: white;
-      background-color: darken($primary-green-logo-color, 10%);
+    .input-group-checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 1.5vw;
+
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: #f5f5f5;
+        border: 1px solid $secondary-white-color;
+        width: 1.5vw;
+        height: 1.5vw;
+        cursor: pointer;
+        margin-right: 1vw;
+
+        &:checked {
+          background-color: $primary-green-logo-color;
+          border-color: $primary-pink-logo-color;
+        }
+
+        &:hover {
+          background-color: rgba($primary-green-logo-color, 0.8);
+        }
+      }
+
+      .checkbox-label {
+        font-size: 1.2vw;
+        color: $secondary-white-color;
+      }
     }
   }
 
-  .save-task-button {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
-    background-color: $primary-pink-logo-color;
-    border-color: transparent;
-    @include font_style;
-    color: $secondary-white-color;
-    font-size: 1vw;
-    height: 2.5vw;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      color: white;
-      background-color: darken($primary-green-logo-color, 10%);
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }

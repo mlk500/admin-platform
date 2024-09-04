@@ -8,36 +8,35 @@ import { MediaTask } from '../../../../redux/models/Interfaces';
 import { SwiperConfig } from '../..';
 import PDFViewer from '../PDFViewer/PDFViewer';
 import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
+import 'react-h5-audio-player/src/styles.scss';
 import ReactPlayer from 'react-player';
+import './MediaViewer.scss'
 
 interface MediaViewerProps {
     mediaList: MediaTask[];
-    onDelete?: (index: number) => void; // Optional delete function
-    deletable?: boolean; // Optional flag to show delete button
+    onDelete?: (index: number) => void;
+    deletable?: boolean;
 }
 
 const MediaViewer: React.FC<MediaViewerProps> = ({ mediaList, onDelete, deletable = false }) => {
-    const adjustPath = (path: string) => path.replace("/Users/malakyehia/admin_system/ShibaProjectAdminFrontend", '../../..');
-
     return (
         <div className='task-media-list'>
             <Swiper {...SwiperConfig("horizontal")}>
                 {mediaList.map((media, index) => (
                     <SwiperSlide key={media.mediaTaskID} className='swiper-slide'>
                         {media.mediaType.includes('application/pdf') ? (
-                            <PDFViewer fileUrl={adjustPath(media.mediaPath)} />
+                            media.mediaUrl ? <PDFViewer fileUrl={media.mediaUrl} /> : <div>PDF URL not available</div>
                         ) : media.mediaType.includes('audio') ? (
                             <div dir='ltr'>
                                 <AudioPlayer
                                     autoPlay={false}
-                                    src={adjustPath(media.mediaPath)}
+                                    src={media.mediaUrl || ''}
                                     onPlay={e => console.log("Playing audio", e)}
                                 />
                             </div>
                         ) : media.mediaType.includes('video') ? (
                             <ReactPlayer
-                                url={adjustPath(media.mediaPath)}
+                                url={media.mediaUrl || ''}
                                 controls
                                 className="react-player"
                                 width='100%'
@@ -45,7 +44,7 @@ const MediaViewer: React.FC<MediaViewerProps> = ({ mediaList, onDelete, deletabl
                             />
                         ) : (
                             <img className='img-media'
-                                src={adjustPath(media.mediaPath)}
+                                src={media.mediaUrl || ''}
                                 alt={media.fileName}
                             />
                         )}

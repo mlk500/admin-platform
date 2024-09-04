@@ -11,8 +11,13 @@ class LoginAPI {
   async login(username: string, password: string): Promise<Admin> {
     const response = await genericAPI.login<LoginResponse>(username, password);
     const { token, admin } = response.data;
+    const adminToStore = {
+      ...admin,
+      role: admin.role
+    };
+    localStorage.setItem("admin", JSON.stringify(adminToStore));
     localStorage.setItem('authToken', token);
-    localStorage.setItem('admin', JSON.stringify(admin));
+    // localStorage.setItem('admin', JSON.stringify(admin));
     genericAPI.setAuthToken(token);
     return admin;
   }

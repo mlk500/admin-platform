@@ -1,40 +1,60 @@
-import { FC } from 'react'
-import { ObjectLocation } from '../../../../redux/models/Interfaces';
-import { EditIcon, DeleteIcon } from '../../../photos'
-    ;
+import { FC } from "react";
+import "./ObjectCard.scss";
+import { ObjectLocation } from "../../../../redux/models/Interfaces";
+import { DeleteIcon, EditIcon } from "../../../photos";
 
 interface ObjectCardProps {
     object: ObjectLocation;
+    onShowConfirm: (object: ObjectLocation) => void;
+    onEditObject: (object: ObjectLocation) => void;
 }
 
-const ObjectHeb = {
-    ObjectName: " שם אובייקט: "
+const ObjectSectionTitles = {
+    ObjectName: " שם האובייקט : ",
+    ObjectDescription: " תיאור : ",
 };
 
-const ObjectCard: FC<ObjectCardProps> = ({ object }) => {
+const ObjectsCard: FC<ObjectCardProps> = ({ object, onShowConfirm, onEditObject }) => {
     return (
-        <div className='object-card' dir='rtl'>
-            <div className='card-header'>
-                <div className='buttons'>
-                    <button className="edit-button">
-                        <img className='edit-icon' src={EditIcon} />
+        <div className="object-card">
+            <div className="card-header">
+                <div className="title">{object.name}</div>
+                <div className="buttons">
+                    <button
+                        className="edit-button"
+                        onClick={(e) => {
+                            console.log("clicked on edit button");
+                            e.preventDefault();
+                            onEditObject(object);
+                        }}
+                    >
+                        <img className="edit-icon" src={EditIcon} alt="Edit" />
                     </button>
-                    <button className="delete-button">
-                        <img className='delete-icon' src={DeleteIcon} />
+                    <button
+                        className="delete-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onShowConfirm(object);
+                        }}
+                    >
+                        <img className="delete-icon" src={DeleteIcon} alt="Delete" />
                     </button>
                 </div>
-                <div className='title'>{object.name}</div>
             </div>
-            <div className='object-card-content'>
-                <div className='sections'>
-                    <div className='section-title'>
-                        {ObjectHeb.ObjectName + object.name}
+            <div className="object-card-content">
+                <div className="sections">
+                    <div className="section-title">
+                        {ObjectSectionTitles.ObjectName + object.name}
                     </div>
-                    {/* maybe add more */}
+                    {object.description && (
+                        <div className="section-title">
+                            {ObjectSectionTitles.ObjectDescription + object.description}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ObjectCard
+export default ObjectsCard;

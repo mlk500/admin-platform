@@ -1,340 +1,233 @@
 @import "../../../themes/mixins";
 @import "../../../themes/variables";
 
-@import "../../../themes/mixins";
-@import "../../../themes/variables";
-
 .main-container-edit-task {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 3vw;
+  padding: 4vw;
   gap: 2vw;
-  height: 50vw;
-  .edit-task-header {
-    display: flex;
-    justify-content: space-between;
+  height: 100vh; /* Full viewport height */
+  background-image: url("../../../photos/ContenBG.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+  }
 
-    .sector-name {
-      @include font_style;
-      font-size: xx-large;
-      font-weight: 450;
-      width: 60%;
-      color: $secondary-white-color;
-    }
+  .back-link {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    z-index: 3;
+    text-decoration: none;
 
-    .arrow-icon {
-      display: flex;
-      height: 5vw;
-      width: 50%;
-      align-self: flex-start;
-      margin-top: -0.7vw;
-      cursor: pointer;
+    .back-arrow-icon {
       width: 5vw;
+      height: 5vw;
       transition: transform 0.3s ease;
 
       &:hover {
-        transform: scale(1.1); /* Example hover effect */
+        transform: scale(1.1);
       }
     }
   }
 
   .edit-task-container {
+    width: 40vw;
+    height: 100%; /* Full height of the parent container */
+    max-height: 100%; /* Ensure it doesn't exceed parent height */
+    overflow: hidden; /* Hide overflow directly on the container */
+    background-image: url("../../../photos/CardBG.jpg");
+    background-size: cover;
+    border-radius: 15px;
+    padding-right: 2vw;
+    padding-left: 1vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    text-align: right;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 80%;
-    height: 100%;
-    gap: 1vw;
-    padding: 2vw;
-    background-color: rgba($secondary-white-color, 0.8);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: scroll;
-    .edit-task-title {
-      @include font_style;
-      font-size: x-large;
-      display: flex;
-      font-weight: 450;
-      align-self: center;
-    }
-    .input-group {
-      display: flex;
-      gap: 2vw;
+    align-items: center;
+    justify-content: flex-start; /* Align items to top */
+    animation: fadeInUp 0.6s ease-out;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      flex-direction: column;
+      height: 100%;
+      border-radius: 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+      pointer-events: none; /* Ensure it's non-interactive */
+    }
+
+    .scrollable-content {
+      width: 100%;
+      height: 100%; /* Takes full height of the container */
+      overflow-y: auto; /* Enables vertical scrolling */
+      box-sizing: border-box; /* Ensures padding doesn't add to total width */
+      padding-left: 2vw;
+    }
+
+    .edit-task-title {
+      @include font-style;
+      font-weight: 600;
+      font-size: 2.5vw;
+      color: $secondary-white-color;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 2vw;
+    }
+
+    .input-group {
+      margin-bottom: 2vw;
+      width: 100%;
+
       .input-label {
-        @include font_style;
+        @include font-style;
+        font-weight: 400;
+        font-size: 1.8vw;
+        color: $secondary-white-color;
+        margin-bottom: 0.5vw;
+        display: block;
       }
 
       .task-input,
       .task-textarea {
-        background-color: $secondary-white-color;
-        border: none;
+        width: 100%;
         padding: 1vw;
-        width: calc(100% - 18vw);
-        margin-bottom: 1vw;
-        transition: box-shadow 0.3s ease;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1.2vw;
+        background: #f5f5f5;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        margin-top: 1vw;
 
         &:focus {
-          outline: none;
-          box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+          border-color: $primary-pink-logo-color;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-
-      .task-input {
-        height: 3vw;
       }
 
       .task-textarea {
         height: 4vw;
       }
     }
+
     .options-container {
+      width: 100%;
+      margin-top: 2vw;
+
       .edit-buttons {
         display: flex;
         gap: 2vw;
-        width: 100%;
         justify-content: center;
       }
-      .option-section {
-        display: flex;
-        flex-direction: column;
-        gap: 1vw;
 
-        .option-button {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          padding: 0.5rem 1rem;
-          background-color: $secondary-white-color;
-          border-color: $secondary-darkgreen-color;
-          @include font_style;
-          color: $secondary-darkgreen-color;
-          font-size: 1vw;
-          width: 10vw;
-          text-align: center;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            color: white;
-            background-color: $primary-green-logo-color;
-            border-color: $primary-pink-logo-color;
-          }
-        }
-        .file-upload-icon {
-          width: 3.3vw;
-          height: 4vw;
-          cursor: pointer;
-        }
-        .delete-option-button {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-          padding: 0.5rem 1rem;
-          background-color: $primary-pink-logo-color;
-          border-color: transparent;
-          @include font_style;
-          color: $secondary-white-color;
-          font-size: 1vw;
-          width: 13vw;
-          height: 2.5vw;
-          text-align: center;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            color: white;
-            background-color: darken($primary-pink-logo-color, 10%); /* Example hover effect */
-          }
-        }
-
-        .question-section {
-            display: flex;
-            flex-direction: column;
-            .q-head {
-              display: flex;
-            }
-            .q-task-text {
-              @include font-style;
-              font-size: 1.5vw;
-              font-weight: 400;
-              color: $primary-blue-logo-color;
-            }
-    
-            div {
-              margin-top: 1vw;
-    
-              .correct-answer {
-                color: $primary-green-logo-color;
-                font-weight: bold;
-              }
-            }
-            .answers {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              margin-right: 1vw;
-              font-size: 1.5vw;
-              @include font-style;
-            }
-          }
-
-        .answer-container {
-          display: flex;
-          align-items: center;
-          gap: 1vw;
-
-          .delete-answer-button {
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 1rem;
-            background-color: $primary-green-logo-color;
-            border-color: transparent;
-            @include font_style;
-            color: $secondary-white-color;
-            font-size: 1vw;
-            height: 2.5vw;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-              background-color: darken($primary-green-logo-color, 10%); /* Example hover effect */
-            }
-          }
-        }
-      }
-    }
-    .swiper-slide {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        border-radius: 0.5vw;
-
-        .img-media {
-            max-width: 100%;
-            height: 20vw; // Set the height as specified
-            transition: all 0.3s ease-in-out;
-
-            &:hover {
-                transform: scale(1.1);
-            }
-        }
-    }
-  }
-  .edit-answer-button {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
-    background-color: $primary-green-logo-color;
-    border-color: transparent;
-    @include font_style;
-    color: $secondary-white-color;
-    font-size: 1vw;
-    height: 2.5vw;
-    width: 30%;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      color: white;
-      background-color: darken($primary-green-logo-color, 10%); /* Example hover effect */
-    }
-  }
-  .save-task-button {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 1rem;
-    background-color: $primary-pink-logo-color;
-    border-color: transparent;
-    @include font_style;
-    color: $secondary-white-color;
-    font-size: 1vw;
-    height: 2.5vw;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      color: white;
-      background-color: darken($primary-green-logo-color, 10%); /* Example hover effect */
-    }
-  }
-  .task-content {
-    @include font-style;
-    color: $secondary-darkblue-color;
-    font-size: 1.5vw;
-    .task-free-text{
+      .option-button,
+      .delete-option-button {
+        padding: 0.5rem 1rem;
         background-color: $secondary-white-color;
-        border: none;
-        padding: 1vw;
-        width: calc(100% - 18vw);
-        margin-bottom: 1vw;
-        transition: box-shadow 0.3s ease;
-
-        &:focus {
-          outline: none;
-          box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        &::placeholder {
-          color: #999;
-        }
-      }
-    .task-ques {
-      margin: 1vw 0;
-    }
-    .text-free {
-      @include font-style;
-      color: $primary-blue-logo-color;
-    }
-    .question-section {
-      display: flex;
-      flex-direction: column;
-      .q-head {
-        display: flex;
-      }
-      .q-task-text {
+        border: 1px solid $secondary-darkgreen-color;
         @include font-style;
-        font-size: 1.5vw;
-        font-weight: 400;
-        color: $primary-blue-logo-color;
-      }
-
-      div {
-        margin-top: 1vw;
-
-        .correct-answer {
-          color: $primary-green-logo-color;
-          font-weight: bold;
-        }
-      }
-      .answers {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-right: 1vw;
-        font-size: 1.5vw;
-        @include font-style;
-      }
-    }
-    .task-media-list .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      border-radius: 0.5vw;
-
-      .img-media {
-        max-width: 100%;
-        height: 20vw;
-        transition: all 0.3s ease-in-out;
+        color: $secondary-darkgreen-color;
+        font-size: 1.2vw;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border-radius: 5px;
 
         &:hover {
-          transform: scale(1.1);
+          color: $secondary-white-color;
+          background-color: $primary-green-logo-color;
         }
       }
+
+      .delete-option-button {
+        background-color: $primary-pink-logo-color;
+        color: $secondary-white-color;
+        &:hover {
+          background-color: $primary-green-logo-color;
+        }
+      }
+    }
+
+    .save-task-button {
+      padding: 0.5rem 5rem;
+      background-color: $secondary-white-color;
+      border: 1px solid $secondary-darkgreen-color;
+      @include font_style;
+      color: $secondary-darkgreen-color;
+      font-size: 1.5vw;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-radius: 12px;
+      // width: 10vw;
+      &:hover {
+        background-color: $primary-green-logo-color;
+        color: $secondary-white-color;
+      }
+    }
+
+    .input-group-checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 1.5vw;
+
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: #f5f5f5;
+        border: 1px solid $secondary-white-color;
+        width: 1.5vw;
+        height: 1.5vw;
+        cursor: pointer;
+        margin-right: 1vw;
+
+        &:checked {
+          background-color: $primary-green-logo-color;
+          border-color: $primary-pink-logo-color;
+        }
+
+        &:hover {
+          background-color: rgba($primary-green-logo-color, 0.8);
+        }
+      }
+
+      .checkbox-label {
+        font-size: 1.2vw;
+        color: $secondary-white-color;
+      }
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }

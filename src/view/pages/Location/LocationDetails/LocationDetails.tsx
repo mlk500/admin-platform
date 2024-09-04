@@ -1,94 +1,115 @@
-import React from 'react';
-import './LocationDetails.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../redux/store';
-import { DownloadIcon, LeftArrowIcon } from '../../../photos';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setObjects } from '../../../../redux/slices/saveAllData';
+import React from "react";
+import "./LocationDetails.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { DownloadIcon, LeftArrowIcon } from "../../../photos";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setObjects } from "../../../../redux/slices/saveAllData";
 
 const LocationDetails: React.FC = () => {
-    const location = useSelector((state: RootState) => state.globalStates.selectedCard);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    return (
-        <div className='location-container' dir='rtl' style={{ background: "#E9C46A" }}>
-            <div className='add-location-header'>
-                <div className='sector-name'>פיזוטרפיה</div>
-                <div className='arrow-icon'><img className='arrow-icon' src={LeftArrowIcon} alt="arrow" /></div>
-            </div>
-            <div className='location-details'>
-                <div className='location-title'>{location.name}</div>
-                {/* {location.locationImage.imagePath &&
-                    <img src={location.locationImage.imagePath.replace("/Users/malakyehia/admin_system/ShibaProjectAdminFrontend", '../../..')}
-                    alt={location.locationImage.name} className='location-image-file' /> } */}
-                <div className='location-content'>
-                    <div className='location-floor'>
-                        <div className='location-floor-title'>
-                            {"נמצא בקומה : "}
-                        </div>
-                        <div className='floor'>
-                            {location.floor}
-                        </div>
-                    </div>
-                    <div className='location-description'>
-                        <div className='description-title'>{"תיאור"}</div>
-                        <div className='description'>{location.description}</div>
-                    </div>
-                    <div className='location-qr-section'>
-                        <div className='location-qr'>
-                            <img src={location.qrcode.replace("/Users/malakyehia/admin_system/ShibaProjectAdminFrontend", '../../..')}
-                                alt='QR Code' className='qr-code-image' />
-                        </div>
-                        <button className='download-qr-btn' onClick={() => {
-                            const fileName = location.qrcode.substring(location.qrcode.lastIndexOf('/') + 1);
-                            const link = document.createElement('a');
-                            link.href = location.qrcode.replace("/Users/malakyehia/admin_system/ShibaProjectAdminFrontend", '../../..');
-                            link.download = fileName;
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        }}>
-                            הורדת QR
-                            <img className='download-icon' src={DownloadIcon}></img>
-                        </button>
-                    </div>
-                    {location.objectsList.length == 0 ? (
-                        <div> {"No Objects for this location .."}</div>
-                    ) : (
-                        <button className='view-objects' onClick={() => { navigate(`/ObjectsPage/${location.locationID}`), dispatch(setObjects(location.objectsList)) }}>
-                            הצג אובייקטים של החדר
-                        </button>
-                    )}
+  const location = useSelector(
+    (state: RootState) => state.globalStates.selectedCard
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  if (!location) {
+    return <div>Loading...</div>;
+  }
 
-                    <button className='view-objects' onClick={() => { navigate(`/AddObjectLocation`); }}>
-                        הוסף אןבייקטים
-                    </button>
-
-                </div>
+  return (
+    <div className="location-container" dir="rtl">
+      <a href="/Locations" className="back-link">
+        <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
+      </a>
+      <div className="overlay" />
+      <div className="location-details">
+        <div className="location-title">{location.name}</div>
+        <div className="location-content">
+          <div className="location-floor">
+            <div className="location-floor-title">{" קומה : "}</div>
+            <div className="floor">{location.floor}</div>
+          </div>
+          {location.description && (
+            <div className="location-description">
+              <div className="description-title">{"תיאור"}</div>
+              <div className="description">{location.description}</div>
             </div>
+          )}
+          {location.locationImagePublicUrl && (
+            <div className="location-image-container">
+              <img src={location.locationImagePublicUrl} alt="Location" />
+            </div>
+          )}
+          <div className="location-qr-section">
+            <div className="location-qr">
+              {location.qrcodePublicUrl ? (
+                <img
+                  src={location.qrcodePublicUrl}
+                  alt="QR Code"
+                  className="qr-code-image"
+                  onError={(e) => {
+                    console.error("Error loading QR code:", e);
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : (
+                <div>QR Code not available</div>
+              )}
+            </div>
+            <button
+              className="download-qr-btn"
+              onClick={() => {
+                if (location.qrcodePublicUrl) {
+                  fetch(location.qrcodePublicUrl)
+                    .then((response) => response.blob())
+                    .then((blob) => {
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement("a");
+                      link.href = url;
+                      link.download = `QR_${location.name}.png`;
+                      document.body.appendChild(link);
+                      link.click();
+                      window.URL.revokeObjectURL(url);
+                      document.body.removeChild(link);
+                    })
+                    .catch((error) =>
+                      console.error("Error downloading QR code:", error)
+                    );
+                }
+              }}
+            >
+              הורדת QR
+              <img
+                className="download-icon"
+                src={DownloadIcon}
+                alt="Download"
+              />
+            </button>
+          </div>
+          {location.objectsList && location.objectsList.length > 0 && (
+            <button
+              className="view-objects"
+              onClick={() => {
+                navigate(`/ObjectsPage/${location.locationID}`);
+                dispatch(setObjects(location.objectsList));
+              }}
+            >
+              הצג אובייקטים של החדר
+            </button>
+          )}
+          <button
+            className="view-objects"
+            onClick={() => {
+              navigate(`/AddObjectLocation`);
+            }}
+          >
+            הוסף אובייקטים
+          </button>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
-// export interface Location {
-//     locationID: number;
-//     name: string;
-//     description?: string;
-//     floor: number;
-//     qrcode: string;
-//     locationImage?: LocationImage;
-//     objectsList?: ObjectLocation[];
-// }
 
 export default LocationDetails;
-
-
-{/* <button className='download-qr-btn' onClick={() => {
-    const fileName = location.qrcode.substring(location.qrcode.lastIndexOf('/') + 1);
-    const link = document.createElement('a');
-    link.href = location.qrcode.replace("/Users/malakyehia/admin_system/ShibaProjectAdminFrontend", '../../..');
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}}> */}

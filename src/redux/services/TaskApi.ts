@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import {Task } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
@@ -16,10 +16,20 @@ class TaskAPI {
   }
 
   async deleteTask(taskID: number): Promise<AxiosResponse> {
-    console.log("delete sent  "+ taskID)
-    const response = await genericAPI.delete<void>(`${TaskAPI.endpoint}/delete/${taskID}`);
-    console.log("delete response ", response.status);
-    return response;  
+    try {
+      const response = await genericAPI.delete<void>(`${TaskAPI.endpoint}/delete/${taskID}`);
+      console.log("delete response ", response.data);
+      return response;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.data.includes('Task is part of an existing game')) {
+          alert("המשימה היא חלק ממשחק קיים, נא לעדכן משחק ואז למחוק המשימה");
+      }
+        throw new Error(error.response.data.message || 'Error deleting task');
+      } else {
+        throw new Error('Error deleting task');
+      }
+    }
   }
 
   //  ---------------------------------- test the apis ----------------------------------------------------- 
