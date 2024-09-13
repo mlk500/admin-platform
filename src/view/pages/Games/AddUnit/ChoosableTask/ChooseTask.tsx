@@ -21,7 +21,22 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
         fetchTasks();
     }, []);
 
-    const navigationPath = fromParent === "EditUnit" ? "/EditUnit" : "/AddUnit";
+    // const navigationPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
+    let navigationPath: string;
+    switch (fromParent) {
+        case "EditUnit":
+            navigationPath = "/EditUnit";
+            break;
+        case "Edit-EditUnit":
+            navigationPath = "/Edit-EditUnit";
+            break;
+        case "AddUnit":
+            navigationPath = "/AddUnit";
+            break;
+        case "Edit-AddUnit":
+            navigationPath = "/Edit-AddUnit";
+            break;
+    }
 
     return (
         <HomePage objects={tasks}

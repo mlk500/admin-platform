@@ -62,9 +62,14 @@ const SectorsPage: FC = () => {
 
   const checkAdminPermission = (
     admin: Admin,
-    action: "delete" | "edit"
+    action: "delete" | "edit" | "add"
   ): boolean => {
-    if (isMainAdmin(admin.role)) {
+    console.log("action: " + action);
+    if (action === "add" && !isMainAdmin(currAdmin.role)) {
+      alert("אין הרשאה להוסיף משתמש חדש");
+      return false;
+    }
+    if (action !== "add" && isMainAdmin(admin.role)) {
       alert(`אי אפשר ${action === "delete" ? "למחוק" : "לערוך"} מנהל ראשי`);
       return false;
     }
@@ -121,6 +126,14 @@ const SectorsPage: FC = () => {
       }
     }
   };
+  const handleAdd = (): boolean => {
+    if (isMainAdmin(currAdmin.role)) {
+      return true;
+    } else {
+      alert("אין הרשאה להוסיף משתמש חדש");
+      return false;
+    }
+  };
 
   return (
     <div dir="rtl">
@@ -135,8 +148,10 @@ const SectorsPage: FC = () => {
             onEditAdmin={handleEdit}
           />
         )}
-        addButton="הוספת סקטור חדש"
+        // setCardOnClick={false}
+        addButton="הוספת משתמש חדש"
         addButtonPath="AddSector"
+        onAddClick={handleAdd}
       />
       {showConfirm && (
         <ConfirmationDialog

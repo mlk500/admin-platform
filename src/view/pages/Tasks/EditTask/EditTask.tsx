@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { taskAPI } from "../../../../redux/services/TaskApi";
 import MediaViewer from "../../../components/Common/MediaViewer/MediaViewer";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
 
 const AddNewTaskHebrew = {
   CreateNewTask: "עריכת משימה ",
@@ -37,6 +38,7 @@ const AddNewTaskHebrew = {
   NoMedia: "אין מדיה למשימה הזאת",
   Sectors: "בחירת מחלקה",
   WithMsg: "הצגת הודעת הצלחה ",
+  Cancel: "ביטול",
 };
 
 function EditTask() {
@@ -86,6 +88,8 @@ function EditTask() {
   const [withMsg, setWithMsg] = useState<boolean>(task.withMsg);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
+  const [showConfirm, setShowConfirm] = useState(false);
+
 
   useEffect(() => {
     if (selectedSector !== null) {
@@ -259,6 +263,15 @@ function EditTask() {
   return (
     <div className="main-container-edit-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {showConfirm && (
+        <ConfirmationDialog
+          onConfirm={() => {
+            setShowConfirm(false);
+            navigate("/Tasks");
+          }}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
       <a href="/Tasks" className="back-link">
         <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
       </a>
@@ -450,10 +463,21 @@ function EditTask() {
               </div>
             </div>
           </div>
-
-          <button className="save-task-button" onClick={handleSubmit}>
+          <div className="buttons">
+            <button className="save-button" onClick={handleSubmit}>
+              {AddNewTaskHebrew.Save}
+            </button>
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={() => setShowConfirm(true)}
+            >
+              {AddNewTaskHebrew.Cancel}
+            </button>
+          </div>
+          {/* <button className="save-task-button" onClick={handleSubmit}>
             {AddNewTaskHebrew.Save}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

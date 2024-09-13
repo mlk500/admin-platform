@@ -36,10 +36,14 @@ const NewSector = () => {
       await adminAPI.createSectorAdmin(newAdmin);
       alert("אדמין נוצר בהצלחה");
       navigate("/Sectors");
-    } catch (error) {
-      console.error("Failed to create sector admin:", error);
-      alert("Failed to create sector admin");
-      alert("שגיאה בייצור אדמין");
+    } catch (error: any) {
+      console.error("Failed to create sector admin:", error.response.data);
+      if (error.response.data.includes('Admin with this sector already exists.')) {
+        alert("מחלקה כבר קיימת במערכת");
+      }
+      else {
+        alert("שגיאה בייצור אדמין");
+      }
       setLoadingMessage("שגיאה בייצור אדמין");
       setTimeout(() => {
         setIsLoading(false);

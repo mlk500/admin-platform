@@ -27,8 +27,15 @@ const AddNewObjectHebrew = {
   UploadImages: "העלאת תמונות : ",
   Delete_Image: "מחיקת תמונה",
   ImagesNumber: "מספר תמונות: ",
+  MaxFileSize: "גודל מקסימלי: 32 MB",
   Save: "שמירה",
+  SizeLimit: "גודל הקבצים עולה על המגבלה של 32 מגה-בייט. מחק כדי לשמור.",
+  CurrentSize: "גודל נוכחי: ",
+  ExceedingBy: "חריגה ב: ",
+  TotalSize: "גודל עד כה: ",
 };
+
+const MAX_FILE_SIZE = 32 * 1024 * 1024; // 32 MB in bytes
 
 const AddObjectLocation: React.FC = () => {
   const location = useSelector(
@@ -43,6 +50,7 @@ const AddObjectLocation: React.FC = () => {
   const [pics, setPics] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
+  const [totalSize, setTotalSize] = useState<number>(0);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = event.target.files;
@@ -53,12 +61,20 @@ const AddObjectLocation: React.FC = () => {
       }));
       setSelectedFiles((prevFiles) => [...prevFiles, ...filesWithPreview]);
       setPics((prevPics) => [...prevPics, ...Array.from(newFiles)]);
+
+      const newTotalSize = [...pics, ...Array.from(newFiles)].reduce((acc, file) => acc + file.size, 0);
+      setTotalSize(newTotalSize);
     }
   };
 
   const handleDeleteImage = (index: number) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
-    setPics((prevPics) => prevPics.filter((_, idx) => idx !== index));
+    setPics((prevPics) => {
+      const updatedPics = prevPics.filter((_, idx) => idx !== index);
+      const newTotalSize = updatedPics.reduce((acc, file) => acc + file.size, 0);
+      setTotalSize(newTotalSize);
+      return updatedPics;
+    });
   };
 
   const handleSaveObject = async () => {
@@ -95,13 +111,19 @@ const AddObjectLocation: React.FC = () => {
         navigate(`/ObjectsPage/${location.locationID}`);
       }, 1000);
     } catch (error: any) {
-      console.error(error);
+      alert("שגיאה בשמירת אובייקט")
       setLoadingMessage("שגיאה בשמירת אובייקט");
       setTimeout(() => {
         setIsLoading(false);
         setLoadingMessage("");
       }, 2000);
     }
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return bytes + ' B';
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    else return (bytes / 1048576).toFixed(1) + ' MB';
   };
 
   return (
@@ -155,15 +177,26 @@ const AddObjectLocation: React.FC = () => {
         </div>
         <div className="object-media-list">
           <div className="image-count">
-            {AddNewObjectHebrew.ImagesNumber}
-            {selectedFiles.length}
+            {AddNewObjectHebrew.ImagesNumber} {selectedFiles.length}
           </div>
+          <div className="image-count">
+            {AddNewObjectHebrew.MaxFileSize}
+          </div>
+          <div className="image-count">
+            {AddNewObjectHebrew.TotalSize} {formatSize(totalSize)}
+          </div>
+          {totalSize > MAX_FILE_SIZE && (
+            <div className="image-count" style={{ color: '#ea3d85' }}>
+              {AddNewObjectHebrew.SizeLimit}
+              <br />
+              {AddNewObjectHebrew.ExceedingBy} {formatSize(totalSize - MAX_FILE_SIZE)}
+            </div>
+          )}
           {selectedFiles.length > 0 && (
             <Swiper {...SwiperConfig}>
               {selectedFiles.map((file, index) => (
                 <SwiperSlide key={index} className="swiper-slide">
                   <div className="image-wrapper">
-
                     <img
                       className="img-media"
                       src={file.preview}
@@ -181,7 +214,12 @@ const AddObjectLocation: React.FC = () => {
             </Swiper>
           )}
         </div>
-        <button onClick={handleSaveObject} className="save-object-button">
+        <button
+          onClick={handleSaveObject}
+          className="save-object-button"
+          disabled={totalSize > MAX_FILE_SIZE}
+          style={{ opacity: totalSize > MAX_FILE_SIZE ? 0.5 : 1 }}
+        >
           {AddNewObjectHebrew.Save}
         </button>
       </div>

@@ -19,23 +19,30 @@ const ChoosableObjectsPage: FC<ChoosableObjectsPageProps> = ({
   const { selectedLocation } = state as { selectedLocation: Location };
   // const selectedLocation = useSelector((state: RootState) => state.globalStates.selectedCard);
   console.log("from parent " + fromParent);
-  const returnPath = fromParent === "EditUnit" ? "/EditUnit" : "/AddUnit";
+  // const returnPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
+  let navigationPath: string;
+  switch (fromParent) {
+    case "EditUnit":
+      navigationPath = "/EditUnit";
+      break;
+    case "Edit-EditUnit":
+      navigationPath = "/Edit-EditUnit";
+      break;
+    case "AddUnit":
+      navigationPath = "/AddUnit";
+      break;
+    case "Edit-AddUnit":
+      navigationPath = "/Edit-AddUnit";
+      break;
+  }
   const handleObjectSelect = (object: ObjectLocation) => {
-    navigate(returnPath, {
+    navigate(navigationPath, {
       state: { selectedLocation, selectedObject: object },
     });
   };
   console.log("Selected Location: ", selectedLocation);
-  console.log("Objects List: ", selectedLocation?.objectsList);
 
   return (
-    // <div >
-    //     <HomePage objects={selectedLocation.objectsList}
-    //         {...selectedLocation.objectsList.map((obj: ObjectLocation) => (
-    //             <ChoosableObjectCard key={obj.objectID} object={obj} />
-    //         ))} page="Object" Component={ChoosableObjectCard} />
-    // </div>
-
     <div className="objects-container">
       {selectedLocation.objectsList?.map((object: ObjectLocation) => (
         <div key={object.objectID} onClick={() => handleObjectSelect(object)}>

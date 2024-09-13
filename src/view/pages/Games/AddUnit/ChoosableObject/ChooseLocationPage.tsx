@@ -25,8 +25,25 @@ const ChoosableLocationPage: FC<ChoosableLocationPageProps> = ({ fromParent }) =
         };
         fetchLocations();
     }, []);
-    const navigationPath = fromParent === "EditUnit" ? "/EditUnit" : "/AddUnit";
-    console.log("nav is " + navigationPath)
+    // const navigationPath = fromParent === "EditUnit" ? "/EditUnit" : "/AddUnit";
+    // const navigationPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
+    console.log("from parent " + fromParent);
+    let navigationPath: string;
+    switch (fromParent) {
+        case "EditUnit":
+            navigationPath = "/EditUnit";
+            break;
+        case "Edit-EditUnit":
+            navigationPath = "/Edit-EditUnit";
+            break;
+        case "AddUnit":
+            navigationPath = "/AddUnit";
+            break;
+        case "Edit-AddUnit":
+            navigationPath = "/Edit-AddUnit";
+            break;
+    }
+
 
     // const handleLocationSelect = (location: Location) => {
     //     navigate(`/ChoosableObjectsPage`, { state: { selectedLocation: location } });

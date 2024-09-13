@@ -19,14 +19,39 @@ const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  // const handleClick = () => {
+  //   if (object.objectsList?.length === 0) {
+  //     alert("No Objects for this location ..");
+  //   } else {
+  //     const objectPagePath =
+  //       navigationPath === "/EditUnit"
+  //         ? "/ChooseObject-edit"
+  //         : "/ChooseObject-add";
+  //     navigate(`${objectPagePath}/${object.locationID}`, {
+  //       state: { selectedLocation: object, fromParent: navigationPath },
+  //     });
+  //   }
+  // };
   const handleClick = () => {
     if (object.objectsList?.length === 0) {
       alert("No Objects for this location ..");
     } else {
-      const objectPagePath =
-        navigationPath === "/EditUnit"
-          ? "/ChooseObject-edit"
-          : "/ChooseObject-add";
+      let objectPagePath;
+      switch (navigationPath) {
+        case "/EditUnit":
+          objectPagePath = "/ChooseObject-edit";
+          break;
+        case "/Edit-EditUnit":
+          objectPagePath = "/edit-ChooseObject-edit";
+          break;
+        case "/AddUnit":
+          objectPagePath = "/ChooseObject-add";
+          break;
+        case "/Edit-AddUnit":
+          objectPagePath = "/edit-ChooseObject-add";
+          break;
+      }
+
       navigate(`${objectPagePath}/${object.locationID}`, {
         state: { selectedLocation: object, fromParent: navigationPath },
       });

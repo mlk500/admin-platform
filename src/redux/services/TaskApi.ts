@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import {Task } from "../models/Interfaces";
+import {QuestionTaskTBC, Task, TaskTBC } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
 class TaskAPI {
@@ -46,50 +46,6 @@ class TaskAPI {
   }
   }
 
-  // async createTask(task: Task, questionTask?: QuestionTask, mediaFiles?: File[]): Promise<Task> {
-  //   const formData = new FormData();
-  //   formData.append('task', new Blob([JSON.stringify(task)], {type: 'application/json'}));
-    
-  //   if (questionTask) {
-  //       formData.append('question', new Blob([JSON.stringify(questionTask)], {type: 'application/json'}));
-  //   }
-
-  //   // Ensure media files are appended properly
-  //   if (mediaFiles) {
-  //     mediaFiles.forEach(file => {
-  //       console.log('Appending file:', file); 
-  //       formData.append('media', file);
-       
-  //     });
-  // }
-    // if (mediaFiles) {
-    //     mediaFiles.forEach(file => {
-    //       console.log('Appending file:', file); 
-    //       if (file instanceof File) {
-    //           formData.append('media', file, file.name);
-    //       } else {
-    //           console.error('Error: Invalid file type', file);
-    //       }
-    //     });
-    // }
-
-    // const response = await genericAPI.post<Task>(`${TaskAPI.endpoint}/create`, formData);
-    // return response.data;
-// }
-
-
-
-  // async updateTask(taskId: number, task: Task, questionTask?: QuestionTask, mediaFiles?: File[]): Promise<Task> {
-  //   const formData = new FormData();
-  //   formData.append('task', JSON.stringify(task));
-  //   if (questionTask) {
-  //     formData.append('question', JSON.stringify(questionTask));
-  //   }
-  //   mediaFiles?.forEach(file => formData.append('media', file));
-
-  //   const response = await genericAPI.postFormData<Task>(`${TaskAPI.endpoint}/update/${taskId}`, formData);
-  //   return response.data;
-  // }
 
   async updateTask(taskId: number, formData: FormData): Promise<Task> {
     try {
@@ -101,7 +57,54 @@ class TaskAPI {
         throw error;
     }
 }
+async duplicateTask(
+  task: TaskTBC,
+  questionTask: QuestionTaskTBC | null,
+  newMediaFiles: File[] | null,
+  sectorAdmin: string,
+  existingMediaIds: number[] | null,
+  originalTaskID: number
+): Promise<Task> {
+  const formData = new FormData();
 
+  formData.append(
+    "task",
+    new Blob([JSON.stringify(task)], { type: "application/json" })
+  );
+
+  if (questionTask) {
+    formData.append(
+      "question",
+      new Blob([JSON.stringify(questionTask)], { type: "application/json" })
+    );
+  }
+
+  formData.append("admin", sectorAdmin);
+
+  if (newMediaFiles && newMediaFiles.length > 0) {
+    newMediaFiles.forEach((file) => {
+      formData.append(`media`, file, file.name);
+    });
+  }
+
+  if (existingMediaIds && existingMediaIds.length > 0) {
+    formData.append(
+      "existingMedia",
+      new Blob([JSON.stringify(existingMediaIds)], { type: "application/json" })
+    );
+  }
+console.log(sectorAdmin);
+  try {
+    const response = await genericAPI.postFormData<Task>(
+      `${TaskAPI.endpoint}/duplicate?originalTask=${originalTaskID}`, 
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error duplicating task:', error);
+    throw error;
+  }
+}
 
 }
 

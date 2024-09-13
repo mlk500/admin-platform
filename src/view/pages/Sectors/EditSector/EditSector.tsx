@@ -50,9 +50,14 @@ const EditSector: FC = () => {
       );
       alert("אדמין עודכן בהצלחה");
       navigate("/Sectors");
-    } catch (error) {
-      console.error("Failed to update sector admin:", error);
-      alert("עדכון אדמין נכשל");
+    } catch (error: any) {
+      console.error("Failed to create sector admin:", error.response.data);
+      if (error.response.data.includes('Admin with this sector already exists.')) {
+        alert("מחלקה כבר קיימת במערכת");
+      }
+      else {
+        alert("עדכון אדמין נכשל");
+      }
       setLoadingMessage("שגיאה בעדכון אדמין");
       setTimeout(() => {
         setIsLoading(false);

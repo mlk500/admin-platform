@@ -2,7 +2,7 @@ import React from 'react';
 import './ConfirmationDialog.scss';
 
 const ConfirmDialogHeb = {
-    message: " ? השינויים שביצעת לא ייששמרו.  האם עדיין ברצונך להמשיך",
+    message: " ? השינויים שביצעת לא ישמרו.  האם עדיין ברצונך להמשיך",
     Yes: "כן",
     No: "לא"
 };

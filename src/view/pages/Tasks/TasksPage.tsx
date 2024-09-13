@@ -21,9 +21,9 @@ const TasksPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -95,6 +95,10 @@ const TasksPage: FC = () => {
     }
   };
 
+  const handleDuplicate = (task: Task) => {
+    navigate("/DuplicateTask", { state: { taskToDuplicate: task } });
+  };
+
   return (
     <div dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
@@ -106,6 +110,7 @@ const TasksPage: FC = () => {
             {...props}
             onShowConfirm={handleDelete}
             onEditTask={handleEdit}
+            onDuplicateTask={handleDuplicate}
           />
         )}
         addButton="הוספת משימה חדשה"

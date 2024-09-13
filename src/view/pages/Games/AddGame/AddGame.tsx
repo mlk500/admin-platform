@@ -118,7 +118,7 @@ function AddGame() {
         <ConfirmationDialog
           onConfirm={() => {
             setShowConfirm(false);
-            navigate("/UnitsPage");
+            navigate("/Games");
             clearLocalStorage();
           }}
           onCancel={() => setShowConfirm(false)}

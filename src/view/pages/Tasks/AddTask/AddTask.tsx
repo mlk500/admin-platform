@@ -60,9 +60,9 @@ function AddTask() {
   const adminStr = localStorage.getItem("admin");
   const admin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const [selectedSector, setSelectedSector] = useState<number | null>(
     admin.role === UserRole.SectorAdmin ? admin.adminID : null
@@ -70,6 +70,7 @@ function AddTask() {
   const [visibleInfo, setVisibleInfo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
+
 
   useEffect(() => {
     return () => {
@@ -110,7 +111,7 @@ function AddTask() {
       return false;
     }
     if (correctAnswer === null) {
-      alert("You should mark an answer as correct");
+      alert("צריך לבחור תשובה נכונה");
       return false;
     }
     return true;
@@ -120,6 +121,11 @@ function AddTask() {
     if (!name.trim()) {
       alert("A task must have a name.");
       return;
+    }
+    if (question) {
+      if (!validateQuestion()) {
+        return;
+      }
     }
     if (
       !validateQuestion() &&
@@ -135,60 +141,61 @@ function AddTask() {
       alert("A task must have a sector.");
       return;
     }
+    else {
+      const task: TaskTBC = {
+        name,
+        description,
+        taskFreeTexts: additionalNotes ? [additionalNotes] : [],
+        withMsg,
+      };
 
-    const task: TaskTBC = {
-      name,
-      description,
-      taskFreeTexts: additionalNotes ? [additionalNotes] : [],
-      withMsg,
-    };
-
-    const questionTask: QuestionTask | undefined = showQuestion
-      ? {
+      const questionTask: QuestionTask | undefined = showQuestion
+        ? {
           questionTaskID: 0,
           question,
           answers,
           correctAnswer: correctAnswer ?? 0,
           taskID: 0,
         }
-      : undefined;
-    setIsLoading(true);
-    setLoadingMessage("שומר משימה ...");
-    const formData = new FormData();
-    formData.append(
-      "task",
-      new Blob([JSON.stringify(task)], { type: "application/json" })
-    );
-    if (questionTask) {
+        : undefined;
+      setIsLoading(true);
+      setLoadingMessage("שומר משימה ...");
+      const formData = new FormData();
       formData.append(
-        "question",
-        new Blob([JSON.stringify(questionTask)], { type: "application/json" })
+        "task",
+        new Blob([JSON.stringify(task)], { type: "application/json" })
       );
-    }
-    const selectedSectorName =
-      sectors.find((sector) => sector.adminID === selectedSector)?.sector || "";
-    formData.append("admin", selectedSectorName);
+      if (questionTask) {
+        formData.append(
+          "question",
+          new Blob([JSON.stringify(questionTask)], { type: "application/json" })
+        );
+      }
+      const selectedSectorName =
+        sectors.find((sector) => sector.adminID === selectedSector)?.sector || "";
+      formData.append("admin", selectedSectorName);
 
-    mediaFiles.forEach((mediaFile) => {
-      formData.append(`media`, mediaFile.file, mediaFile.fileName);
-    });
+      mediaFiles.forEach((mediaFile) => {
+        formData.append(`media`, mediaFile.file, mediaFile.fileName);
+      });
 
-    try {
-      const response = await taskAPI.createTask(formData);
-      console.log("Task created successfully", response);
-      setLoadingMessage("המשימה נשמרה בהצלחה!");
-      setTimeout(() => {
-        setIsLoading(false);
-        setLoadingMessage("");
-        navigate("/Tasks");
-      }, 1000);
-    } catch (error) {
-      console.error("Failed to create task", error);
-      setLoadingMessage("שגיאה בשמירת המשימה");
-      setTimeout(() => {
-        setIsLoading(false);
-        setLoadingMessage("");
-      }, 2000);
+      try {
+        const response = await taskAPI.createTask(formData);
+        console.log("Task created successfully", response);
+        setLoadingMessage("המשימה נשמרה בהצלחה!");
+        setTimeout(() => {
+          setIsLoading(false);
+          setLoadingMessage("");
+          navigate("/Tasks");
+        }, 1000);
+      } catch (error) {
+        console.error("Failed to create task", error);
+        setLoadingMessage("שגיאה בשמירת המשימה");
+        setTimeout(() => {
+          setIsLoading(false);
+          setLoadingMessage("");
+        }, 2000);
+      }
     }
   };
 

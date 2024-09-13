@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./AddLocation.scss";
-import { LeftArrowIcon, UploadFileIcon } from "../../../photos";
+import { LeftArrowIcon } from "../../../photos";
 import { useNavigate } from "react-router-dom";
 import { locationAPI } from "../../../../redux/services/LocationApi";
 import { LocationTBC } from "../../../../redux/models/Interfaces";
@@ -11,7 +11,7 @@ const AddLocationHebrew = {
   Name: "שם : ",
   Description: "תיאור : ",
   Floor: "קומה : ",
-  UploadFiles: "העלאת קבצים : ",
+  // UploadFiles: "העלאת קבצים : ",
   AddObjects: "הוספת אובייקטים",
   Save: "שמירה",
 };
@@ -21,21 +21,21 @@ const AddLocation = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [floor, setFloor] = useState<number | undefined>(undefined);
-  const [mediaFile, setMediaFile] = useState<File | null>(null);
-  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  // const [mediaFile, setMediaFile] = useState<File | null>(null);
+  // const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files;
-    if (selectedFiles && selectedFiles.length > 0) {
-      const file = selectedFiles[0];
-      setMediaFile(file);
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFiles = event.target.files;
+  //   if (selectedFiles && selectedFiles.length > 0) {
+  //     const file = selectedFiles[0];
+  //     setMediaFile(file);
 
-      const previewUrl = URL.createObjectURL(file);
-      setMediaPreview(previewUrl);
-    }
-  };
+  //     const previewUrl = URL.createObjectURL(file);
+  //     setMediaPreview(previewUrl);
+  //   }
+  // };
 
   const handleSave = () => {
     if (!name.trim() || floor === undefined) {
@@ -56,9 +56,9 @@ const AddLocation = () => {
       "location",
       new Blob([JSON.stringify(location)], { type: "application/json" })
     );
-    if (mediaFile) {
-      formData.append("image", mediaFile);
-    }
+    // if (mediaFile) {
+    //   formData.append("image", mediaFile);
+    // }
 
     locationAPI
       .createLocation(formData)
@@ -120,7 +120,7 @@ const AddLocation = () => {
           />
         </div>
 
-        <div className="input-group file-upload-group">
+        {/* <div className="input-group file-upload-group">
           <label className="input-label">{AddLocationHebrew.UploadFiles}</label>
           <label htmlFor="file-upload" className="file-upload-label">
             <img
@@ -155,7 +155,7 @@ const AddLocation = () => {
               </button>
             </div>
           )}
-        </div>
+        </div> */}
         <div className="location-buttons">
           <button className="save-location-button" onClick={handleSave}>
             {AddLocationHebrew.Save}

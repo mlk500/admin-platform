@@ -43,6 +43,7 @@ const EditGame: FC = () => {
     const [loadingMessage, setLoadingMessage] = useState("");
 
     useEffect(() => {
+        clearLocalStorage();
         const updatedGame = locationState?.updatedGame;
         if (updatedGame) {
             setGameName(updatedGame.gameName);
@@ -66,6 +67,18 @@ const EditGame: FC = () => {
         }
     }, [locationState, dispatch, game.units]);
 
+    const clearLocalStorage = () => {
+        localStorage.removeItem("addUnitName");
+        localStorage.removeItem("addUnitDescription");
+        localStorage.removeItem("addUnitHint");
+        localStorage.removeItem("selectedTask");
+        localStorage.removeItem("selectedLocation");
+        localStorage.removeItem("selectedObject");
+        localStorage.removeItem("gameName");
+        localStorage.removeItem("gameDesc");
+        localStorage.removeItem("units");
+    };
+
     const handleEditUnits = () => {
         dispatch(
             setCard({
@@ -75,7 +88,7 @@ const EditGame: FC = () => {
                 units,
             })
         );
-        navigate("/UnitsPage", {
+        navigate("/EditGameUnitsPage", {
             state: {
                 game: {
                     ...game,
@@ -83,7 +96,6 @@ const EditGame: FC = () => {
                     description: gameDescription,
                     units,
                 },
-                isEditMode: true,
             },
         });
     };

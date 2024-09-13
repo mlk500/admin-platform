@@ -32,6 +32,10 @@ import UnitDetailsView from "../pages/Games/UnitDetailsView/UnitDetailsView";
 import EditSector from "../pages/Sectors/EditSector/EditSector";
 import EditObject from "../pages/ObjectLocation/EditObject/EditObject";
 import EditGame from "../pages/Games/EditGame/EditGame";
+import EditGameUnitsPage from "../pages/Games/EditGame/EditGameUnitsPage/EditGameUnitsPage";
+import EditEditUnit from "../pages/Games/EditGame/Edit-EditUnit/Edit-EditUnit";
+import EditAddUnit from "../pages/Games/EditGame/Edit-Addunit/Edit-AddUnit";
+import DuplicateTask from "../pages/Tasks/DuplicateTask/DuplicateTask";
 
 function Layout() {
   return (
@@ -82,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "/EditTask",
         element: <EditTask />,
+      },
+      {
+        path: "/DuplicateTask",
+        element: <DuplicateTask />,
       },
       {
         path: "/EditSector",
@@ -161,8 +169,20 @@ const router = createBrowserRouter([
         element: <UnitsPage />,
       },
       {
+        path: "/EditGameUnitsPage",
+        element: <EditGameUnitsPage />,
+      },
+      {
         path: "/EditUnit",
         element: <EditUnit />,
+      },
+      {
+        path: "/Edit-EditUnit",
+        element: <EditEditUnit />,
+      },
+      {
+        path: "/Edit-AddUnit",
+        element: <EditAddUnit />,
       },
       {
         path: "/ObjectsPage/:locationID",
@@ -179,6 +199,30 @@ const router = createBrowserRouter([
       {
         path: "/UnitDetailsView",
         element: <UnitDetailsView />,
+      },
+      {
+        path: "/edit-ChooseTask-edit",
+        element: <ChoosableTaskPage fromParent="Edit-EditUnit" />,
+      },
+      {
+        path: "/edit-ChooseTask-add",
+        element: <ChoosableTaskPage fromParent="Edit-AddUnit" />,
+      },
+      {
+        path: "/edit-ChooseLocation-edit",
+        element: <ChoosableLocationPage fromParent="Edit-EditUnit" />,
+      },
+      {
+        path: "/edit-ChooseLocation-add",
+        element: <ChoosableLocationPage fromParent="Edit-AddUnit" />,
+      },
+      {
+        path: "/edit-ChooseObject-edit/:locationID",
+        element: <ChoosableObjectsPage fromParent="Edit-EditUnit" />,
+      },
+      {
+        path: "/edit-ChooseObject-add/:locationID",
+        element: <ChoosableObjectsPage fromParent="Edit-AddUnit" />,
       },
     ],
   },

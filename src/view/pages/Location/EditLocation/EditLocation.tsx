@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./EditLocation.scss";
-import { LeftArrowIcon, UploadFileIcon } from "../../../photos";
+import { LeftArrowIcon } from "../../../photos";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
@@ -13,7 +13,7 @@ const EditLocationHebrew = {
   Name: "שם : ",
   Description: "תיאור : ",
   Floor: "קומה : ",
-  UploadFiles: "העלאת קבצים : ",
+  // UploadFiles: "העלאת קבצים : ",
   Save: "שמירה",
   DeleteImage: "מחק תמונה",
 };
@@ -27,11 +27,11 @@ const EditLocation: React.FC = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [floor, setFloor] = useState<number | undefined>(undefined);
-  const [mediaFile, setMediaFile] = useState<File | null>(null);
-  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  // const [mediaFile, setMediaFile] = useState<File | null>(null);
+  // const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
-  const [deleteImage, setDeleteImage] = useState<boolean>(false);
+  // const [deleteImage, setDeleteImage] = useState<boolean>(false);
 
   useEffect(() => {
     if (location) {
@@ -39,29 +39,29 @@ const EditLocation: React.FC = () => {
       setDescription(location.description || "");
       setFloor(location.floor);
       if (location.locationImagePublicUrl) {
-        setMediaPreview(location.locationImagePublicUrl);
+        // setMediaPreview(location.locationImagePublicUrl);
       }
     }
   }, [location]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = event.target.files;
-    if (selectedFiles && selectedFiles.length > 0) {
-      const file = selectedFiles[0];
-      setMediaFile(file);
-      setDeleteImage(false);
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFiles = event.target.files;
+  //   if (selectedFiles && selectedFiles.length > 0) {
+  //     const file = selectedFiles[0];
+  //     setMediaFile(file);
+  //     setDeleteImage(false);
 
-      const previewUrl = URL.createObjectURL(file);
-      setMediaPreview(previewUrl);
-    }
-  };
+  //     const previewUrl = URL.createObjectURL(file);
+  //     setMediaPreview(previewUrl);
+  //   }
+  // };
 
-  const handleDeleteImage = () => {
-    URL.revokeObjectURL(mediaPreview || "");
-    setMediaFile(null);
-    setMediaPreview(null);
-    setDeleteImage(true);
-  };
+  // const handleDeleteImage = () => {
+  //   URL.revokeObjectURL(mediaPreview || "");
+  //   setMediaFile(null);
+  //   setMediaPreview(null);
+  //   setDeleteImage(true);
+  // };
 
   const handleSave = () => {
     if (!name.trim() || floor === undefined) {
@@ -82,10 +82,10 @@ const EditLocation: React.FC = () => {
       "location",
       new Blob([JSON.stringify(updatedLocation)], { type: "application/json" })
     );
-    if (mediaFile) {
-      formData.append("image", mediaFile);
-    }
-    formData.append("deleteImage", deleteImage.toString());
+    // if (mediaFile) {
+    //   formData.append("image", mediaFile);
+    // }
+    // formData.append("deleteImage", deleteImage.toString());
 
     locationAPI
       .updateLocation(updatedLocation.locationID, formData)
@@ -149,7 +149,7 @@ const EditLocation: React.FC = () => {
           />
         </div>
 
-        <div className="input-group file-upload-group">
+        {/* <div className="input-group file-upload-group">
           <label className="input-label">
             {EditLocationHebrew.UploadFiles}
           </label>
@@ -179,7 +179,7 @@ const EditLocation: React.FC = () => {
               </button>
             </div>
           )}
-        </div>
+        </div> */}
         <div className="location-buttons">
           <button className="save-location-button" onClick={handleSave}>
             {EditLocationHebrew.Save}

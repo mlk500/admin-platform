@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Fade } from "react-awesome-reveal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCard, setSector } from "../../../../redux/slices/GlobalStates";
 import "./HomePage.scss";
@@ -12,6 +12,7 @@ interface HomePageProps {
   addButton?: string;
   addButtonPath?: string;
   setCardOnClick?: boolean;
+  onAddClick?: () => void;
 }
 
 const HomePage: FC<HomePageProps> = ({
@@ -21,8 +22,11 @@ const HomePage: FC<HomePageProps> = ({
   addButton,
   addButtonPath,
   setCardOnClick = true,
+  onAddClick,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // console.log("home page obj " + objects)
   return (
     <div className="home-page" dir="rtl">
@@ -33,8 +37,8 @@ const HomePage: FC<HomePageProps> = ({
               page === "Game"
                 ? ob.gameName
                 : page === "Sector"
-                ? ob.username
-                : ob.name;
+                  ? ob.username
+                  : ob.name;
             console.log("ob name  is ", ob);
 
             return (
@@ -65,7 +69,19 @@ const HomePage: FC<HomePageProps> = ({
       </div>
       {addButton && (
         <div className="add-new">
-          <Link to={`/${addButtonPath}`} className="link">
+          <Link
+            to={`/${addButtonPath}`}
+            className="link"
+            onClick={(e) => {
+              if (page === "Sector" && onAddClick) {
+                e.preventDefault();
+                const result = onAddClick();
+                if (typeof result === 'boolean' && result) {
+                  navigate(`/${addButtonPath}`);
+                }
+              }
+            }}
+          >
             <button className="add-button">{addButton}</button>
           </Link>
         </div>

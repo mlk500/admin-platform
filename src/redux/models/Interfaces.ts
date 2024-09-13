@@ -18,6 +18,12 @@ export interface TaskTBC {
   withMsg: boolean;
 }
 
+export interface QuestionTaskTBC {
+  question: string;
+  answers: string[];
+  correctAnswer: number;
+}
+
 export interface QuestionTask {
   questionTaskID: number;
   question: string;
