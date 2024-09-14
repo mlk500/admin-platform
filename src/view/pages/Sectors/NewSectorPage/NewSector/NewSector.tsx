@@ -18,10 +18,10 @@ const NewSector = () => {
   const [sector, setSector] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState("");
 
   const isFormValid = (): boolean => {
-    return username.trim() !== '' && sector.trim() !== '';
+    return username.trim() !== "" && sector.trim() !== "";
   };
 
   const handleSubmit = async () => {
@@ -30,7 +30,7 @@ const NewSector = () => {
       return;
     }
     setIsLoading(true);
-    setLoadingMessage('מוסיף אדמין...');
+    setLoadingMessage("מוסיף אדמין...");
     const newAdmin: AdminTBC = { username, password, sector };
     try {
       await adminAPI.createSectorAdmin(newAdmin);
@@ -38,16 +38,17 @@ const NewSector = () => {
       navigate("/Sectors");
     } catch (error: any) {
       console.error("Failed to create sector admin:", error.response.data);
-      if (error.response.data.includes('Admin with this sector already exists.')) {
+      if (
+        error.response.data.includes("Admin with this sector already exists.")
+      ) {
         alert("מחלקה כבר קיימת במערכת");
-      }
-      else {
+      } else {
         alert("שגיאה בייצור אדמין");
       }
       setLoadingMessage("שגיאה בייצור אדמין");
       setTimeout(() => {
         setIsLoading(false);
-        setLoadingMessage('');
+        setLoadingMessage("");
       }, 2000);
     }
   };
@@ -60,7 +61,7 @@ const NewSector = () => {
           <img className="hero-img" src={HeroPhoto} alt="hero-photo" />
           <div className="hero-right">
             <div className="title">הוספת</div>
-            <div className="title">סקטור חדש</div>
+            <div className="title">משתמש חדש</div>
           </div>
         </div>
       </div>

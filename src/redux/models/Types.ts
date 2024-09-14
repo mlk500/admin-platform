@@ -5,7 +5,7 @@ export type Page = {
 };
 
 export const buttonsName = {
-  Sectors: "סקטורים",
+  Sectors: "משתמשים",
   Games: "משחקים",
   Locations: "חדרים",
   Tasks: "משימות",

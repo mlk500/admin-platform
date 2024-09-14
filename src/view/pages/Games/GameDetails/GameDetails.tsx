@@ -16,7 +16,7 @@ const GameHeb = {
   NoUnits: "עדיין אין חוליות",
   DownloadQR: "הורדת QR",
   GameName: "שם המשחק: ",
-  Sector: "סקטור: ",
+  Sector: "משתמש: ",
 };
 
 const GameDetails: React.FC = () => {

@@ -34,7 +34,7 @@ const SectorsPage: FC = () => {
   useEffect(() => {
     const fetchSectors = async () => {
       setIsLoading(true);
-      setLoadingMessage("טוען סקטורים...");
+      setLoadingMessage("טוען משתמשים...");
       try {
         const sectors = await adminAPI.getAllAdmins();
         dispatch(setSectors(sectors));
@@ -42,7 +42,7 @@ const SectorsPage: FC = () => {
         setLoadingMessage("");
       } catch (error) {
         console.error("Error fetching sectors:", error);
-        setLoadingMessage("שגיאה בטעינת סקטורים");
+        setLoadingMessage("שגיאה בטעינת משתמשים");
       } finally {
         setIsLoading(false);
       }
