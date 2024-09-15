@@ -13,7 +13,7 @@ interface GlobalStates {
 
 const initialState: GlobalStates = {
   selectedCard: {},
-  page: '',
+  page: "",
   sectorColor: "red",
   location: null,
   sector: null,
@@ -34,17 +34,16 @@ const globalStatesSlice = createSlice({
     setSectorColor(state, action: PayloadAction<string>) {
       state.sectorColor = action.payload;
     },
-    setSector(state, action: PayloadAction<Admin>){
+    setSector(state, action: PayloadAction<Admin>) {
       state.sector = action.payload;
     },
-    setLoggedInAdmin(state, action: PayloadAction<Admin>){
+    setLoggedInAdmin(state, action: PayloadAction<Admin>) {
       state.loggedInAdmin = action.payload;
-    }
+    },
   },
 });
 
-export const { setCard, setPage, setSectorColor, setSector, setLoggedInAdmin } = globalStatesSlice.actions;
+export const { setCard, setPage, setSectorColor, setSector, setLoggedInAdmin } =
+  globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;
-
-

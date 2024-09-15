@@ -25,6 +25,7 @@ import DeleteIconBlack from "../photos/Icons/blackDelete.png";
 import InfoIcon from "../photos/Icons/icons8-info-64.svg";
 import Model from "../photos/Icons/model.png";
 import CardBG from "../photos/CardBG.jpg";
+import messageIcon from "../photos/messageIcon.png";
 export {
   CardBG,
   EditIconBlack,
@@ -53,4 +54,5 @@ export {
   DownloadIcon,
   InfoIcon,
   Model,
+  messageIcon,
 };

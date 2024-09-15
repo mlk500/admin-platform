@@ -1,20 +1,30 @@
 import { FC, memo } from "react";
-import { StaticsIcon } from "../../../photos";
+import { messageIcon, StaticsIcon } from "../../../photos";
 import "./MainNavbar.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 interface MainNavbarProps {
   activeButton: string;
 }
 
 const MainNavbar: FC<MainNavbarProps> = ({ activeButton }) => {
+  const admin = useSelector(
+    (state: RootState) => state.globalStates.loggedInAdmin
+  );
+
   return (
-    <div className="main-navbar">
+    <div className="main-navbar" dir="rtl">
+      <div className="title">{activeButton}</div>
       <div className="statics-button">
+        <div className="message-container">
+          <img className="message-icon" src={messageIcon} alt="messageIcon" />
+          <span className="name">{`שלום ${admin?.username || "Admin"}`}</span>
+        </div>
         <img className="statics-img" src={StaticsIcon} alt="Statics" />
       </div>
-      <div className="title">{activeButton}</div>
     </div>
   );
 };
 
-export default memo(MainNavbar); // Using React.memo to prevent unnecessary re-renders
+export default memo(MainNavbar);
