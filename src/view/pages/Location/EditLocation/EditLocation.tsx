@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./EditLocation.scss";
-import { LeftArrowIcon } from "../../../photos";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
@@ -111,9 +110,6 @@ const EditLocation: React.FC = () => {
   return (
     <div className="main-container-edit-location" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <a href="/Locations" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </a>
       <div className="overlay" />
       <div className="edit-location-container">
         <h2 className="edit-location-title">{EditLocationHebrew.EditRoom}</h2>

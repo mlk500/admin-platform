@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./EditTask.scss";
-import { LeftArrowIcon, UploadFileIcon } from "../../../photos";
+import { UploadFileIcon } from "../../../photos";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { MediaTask, Task } from "../../../../redux/models/Interfaces";
@@ -89,7 +89,6 @@ function EditTask() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [showConfirm, setShowConfirm] = useState(false);
-
 
   useEffect(() => {
     if (selectedSector !== null) {
@@ -272,9 +271,6 @@ function EditTask() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
-      <a href="/Tasks" className="back-link">
-        <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
-      </a>
       <div className="overlay" />
       <div className="edit-task-container" dir="rtl">
         <div className="scrollable-content">

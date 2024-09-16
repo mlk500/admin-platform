@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AddTask.scss";
-import { LeftArrowIcon, UploadFileIcon } from "../../../photos";
+import { UploadFileIcon } from "../../../photos";
 import {
   Admin,
   MediaTaskTBC,
@@ -60,9 +60,9 @@ function AddTask() {
   const adminStr = localStorage.getItem("admin");
   const admin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const [selectedSector, setSelectedSector] = useState<number | null>(
     admin.role === UserRole.SectorAdmin ? admin.adminID : null
@@ -70,7 +70,6 @@ function AddTask() {
   const [visibleInfo, setVisibleInfo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
-
 
   useEffect(() => {
     return () => {
@@ -140,8 +139,7 @@ function AddTask() {
     if (selectedSector === null) {
       alert("A task must have a sector.");
       return;
-    }
-    else {
+    } else {
       const task: TaskTBC = {
         name,
         description,
@@ -151,12 +149,12 @@ function AddTask() {
 
       const questionTask: QuestionTask | undefined = showQuestion
         ? {
-          questionTaskID: 0,
-          question,
-          answers,
-          correctAnswer: correctAnswer ?? 0,
-          taskID: 0,
-        }
+            questionTaskID: 0,
+            question,
+            answers,
+            correctAnswer: correctAnswer ?? 0,
+            taskID: 0,
+          }
         : undefined;
       setIsLoading(true);
       setLoadingMessage("שומר משימה ...");
@@ -172,7 +170,8 @@ function AddTask() {
         );
       }
       const selectedSectorName =
-        sectors.find((sector) => sector.adminID === selectedSector)?.sector || "";
+        sectors.find((sector) => sector.adminID === selectedSector)?.sector ||
+        "";
       formData.append("admin", selectedSectorName);
 
       mediaFiles.forEach((mediaFile) => {
@@ -202,11 +201,7 @@ function AddTask() {
   return (
     <div className="main-container-add-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <div className="add-task-header">
-        <a href="/Tasks" className="back-link">
-          <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
-        </a>
-      </div>
+      <div className="add-task-header"></div>
       <div className="overlay" />
 
       <div className="add-task-container" dir="rtl">

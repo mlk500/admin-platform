@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { DoctorUserIcon, HospitalIcon, LeftArrowIcon } from "../../../photos";
+import { DoctorUserIcon, HospitalIcon } from "../../../photos";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,9 +13,6 @@ const SectorDetails: FC = () => {
 
   return (
     <div className="sector-details" dir="rtl">
-      <Link to="/Sectors" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </Link>
       <div className="overlay"></div>
       <div className="sector-details-content">
         <div className="edit-sector-header">

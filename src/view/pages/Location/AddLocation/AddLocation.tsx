@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./AddLocation.scss";
-import { LeftArrowIcon } from "../../../photos";
 import { useNavigate } from "react-router-dom";
 import { locationAPI } from "../../../../redux/services/LocationApi";
 import { LocationTBC } from "../../../../redux/models/Interfaces";
@@ -84,9 +83,6 @@ const AddLocation = () => {
   return (
     <div className="main-container-add-location" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <a href="/Locations" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </a>
       <div className="overlay" />
       <div className="add-location-container">
         <h2 className="add-location-title">{AddLocationHebrew.AddNewRoom}</h2>

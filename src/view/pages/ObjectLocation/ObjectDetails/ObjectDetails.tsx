@@ -1,12 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { SwiperConfig } from "../../../components";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import "./ObjectDetails.scss";
 import { ObjectImage } from "../../../../redux/models/Interfaces";
 
@@ -48,19 +42,18 @@ const ObjectDetails: React.FC = () => {
               {objectImages.length}
             </div>
             {objectImages.length > 0 ? (
-              <Swiper {...SwiperConfig}>
+              <div className="image-grid">
                 {objectImages.map((img: ObjectImage) => (
-                  <SwiperSlide key={img.id} className="swiper-slide">
-                    <img
-                      className="img-media"
-                      src={img.imageUrl}
-                      alt={img.name}
-                    />
-                  </SwiperSlide>
+                  <img
+                    key={img.id}
+                    className="img-media"
+                    src={img.imageUrl}
+                    alt={img.name}
+                  />
                 ))}
-              </Swiper>
+              </div>
             ) : (
-              <p>{ObjectDetailsHebrew.NoImagesAvailable}</p>
+              <div>{ObjectDetailsHebrew.NoImagesAvailable}</div>
             )}
           </div>
         </div>

@@ -41,8 +41,10 @@
   }
 
   .location-details {
-    width: 40vw;
+    overflow-y: scroll;
+    overflow-y: auto;
     height: 50vw;
+    width: 40vw;
     background-image: url("../../../photos/CardBG.jpg");
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.7);
@@ -50,26 +52,29 @@
     padding: 2vw;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     z-index: 2;
-    text-align: right;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     animation: fadeInUp 0.6s ease-out;
-
     &::before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      border-radius: 15px;
+      height: 70vw;
+      background-color: rgba(0, 0, 0, 0.7); // Semi-transparent overlay
+      border-radius: 12px; // Match the border radius of the card
+      pointer-events: none; // Ensure the overlay doesn't block interactions
+      z-index: -1; // Position it behind the content
+    }
+    .overlay {
+      position: relative;
+      top: 0;
+      left: 0;
+      height: 50vw;
+      width: 40vw;
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: -1;
     }
-
     .location-title {
       @include font-style;
       font-weight: 600;

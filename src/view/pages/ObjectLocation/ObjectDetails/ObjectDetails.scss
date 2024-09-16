@@ -24,7 +24,8 @@
 
   .object-details {
     width: 40vw;
-    height: 100%;
+    height: 50vw;
+    overflow-y: scroll;
     background-image: url("../../../photos/CardBG.jpg");
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.7);
@@ -45,7 +46,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 100% * 4;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       z-index: -1;
@@ -101,23 +102,18 @@
         p {
           color: $secondary-white-color;
         }
+        .image-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 10px;
+        }
 
-        .swiper-slide {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          overflow: hidden;
-          border-radius: 0.5vw;
-
-          .img-media {
-            max-width: 100%;
-            height: 20vw;
-            transition: all 0.3s ease-in-out;
-
-            &:hover {
-              transform: scale(1.1);
-            }
-          }
+        .image-grid img {
+          width: 100%;
+          height: auto;
+          border-radius: 5px;
+          object-fit: cover;
+          border: 1px solid #ddd;
         }
       }
     }

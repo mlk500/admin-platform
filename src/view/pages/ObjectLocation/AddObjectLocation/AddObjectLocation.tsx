@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { LeftArrowIcon, UploadFileIcon } from "../../../photos";
+import { UploadFileIcon } from "../../../photos";
 import { SwiperConfig } from "../../../components";
 import "./AddObjectLocation.scss";
 import { useNavigate } from "react-router-dom";
@@ -62,16 +62,24 @@ const AddObjectLocation: React.FC = () => {
       setSelectedFiles((prevFiles) => [...prevFiles, ...filesWithPreview]);
       setPics((prevPics) => [...prevPics, ...Array.from(newFiles)]);
 
-      const newTotalSize = [...pics, ...Array.from(newFiles)].reduce((acc, file) => acc + file.size, 0);
+      const newTotalSize = [...pics, ...Array.from(newFiles)].reduce(
+        (acc, file) => acc + file.size,
+        0
+      );
       setTotalSize(newTotalSize);
     }
   };
 
   const handleDeleteImage = (index: number) => {
-    setSelectedFiles((prevFiles) => prevFiles.filter((_, idx) => idx !== index));
+    setSelectedFiles((prevFiles) =>
+      prevFiles.filter((_, idx) => idx !== index)
+    );
     setPics((prevPics) => {
       const updatedPics = prevPics.filter((_, idx) => idx !== index);
-      const newTotalSize = updatedPics.reduce((acc, file) => acc + file.size, 0);
+      const newTotalSize = updatedPics.reduce(
+        (acc, file) => acc + file.size,
+        0
+      );
       setTotalSize(newTotalSize);
       return updatedPics;
     });
@@ -111,7 +119,7 @@ const AddObjectLocation: React.FC = () => {
         navigate(`/ObjectsPage/${location.locationID}`);
       }, 1000);
     } catch (error: any) {
-      alert("שגיאה בשמירת אובייקט")
+      alert("שגיאה בשמירת אובייקט");
       setLoadingMessage("שגיאה בשמירת אובייקט");
       setTimeout(() => {
         setIsLoading(false);
@@ -121,17 +129,14 @@ const AddObjectLocation: React.FC = () => {
   };
 
   const formatSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B';
-    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-    else return (bytes / 1048576).toFixed(1) + ' MB';
+    if (bytes < 1024) return bytes + " B";
+    else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+    else return (bytes / 1048576).toFixed(1) + " MB";
   };
 
   return (
     <div className="main-container-add-object" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <a href="/Locations" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </a>
       <div className="overlay" />
       <div className="add-object-container">
         <h2 className="add-object-title">{AddNewObjectHebrew.AddNewObjects}</h2>
@@ -179,17 +184,16 @@ const AddObjectLocation: React.FC = () => {
           <div className="image-count">
             {AddNewObjectHebrew.ImagesNumber} {selectedFiles.length}
           </div>
-          <div className="image-count">
-            {AddNewObjectHebrew.MaxFileSize}
-          </div>
+          <div className="image-count">{AddNewObjectHebrew.MaxFileSize}</div>
           <div className="image-count">
             {AddNewObjectHebrew.TotalSize} {formatSize(totalSize)}
           </div>
           {totalSize > MAX_FILE_SIZE && (
-            <div className="image-count" style={{ color: '#ea3d85' }}>
+            <div className="image-count" style={{ color: "#ea3d85" }}>
               {AddNewObjectHebrew.SizeLimit}
               <br />
-              {AddNewObjectHebrew.ExceedingBy} {formatSize(totalSize - MAX_FILE_SIZE)}
+              {AddNewObjectHebrew.ExceedingBy}{" "}
+              {formatSize(totalSize - MAX_FILE_SIZE)}
             </div>
           )}
           {selectedFiles.length > 0 && (

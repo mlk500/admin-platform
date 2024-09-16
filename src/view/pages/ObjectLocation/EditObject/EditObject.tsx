@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { UploadFileIcon, LeftArrowIcon } from "../../../photos";
+import { UploadFileIcon } from "../../../photos";
 import { SwiperConfig } from "../../../components";
 import { RootState } from "../../../../redux/store";
 import { setCard } from "../../../../redux/slices/GlobalStates";
@@ -125,9 +125,7 @@ const EditObjectLocation: React.FC = () => {
   return (
     <div className="main-container-edit-object" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <a href="/Locations" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </a>
+
       <div className="overlay" />
       <div className="edit-object-container">
         <h2 className="edit-object-title">{EditObjectHebrew.EditObject}</h2>

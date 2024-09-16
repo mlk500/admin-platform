@@ -2,7 +2,7 @@ import React from "react";
 import "./LocationDetails.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { DownloadIcon, LeftArrowIcon } from "../../../photos";
+import { DownloadIcon } from "../../../photos";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setObjects } from "../../../../redux/slices/saveAllData";
@@ -19,9 +19,6 @@ const LocationDetails: React.FC = () => {
 
   return (
     <div className="location-container" dir="rtl">
-      <a href="/Locations" className="back-link">
-        <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
-      </a>
       <div className="overlay" />
       <div className="location-details">
         <div className="location-title">{location.name}</div>

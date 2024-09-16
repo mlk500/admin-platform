@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { Game } from "../../../../redux/models/Interfaces";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./GameDetails.scss";
-// import { DownloadIcon, LeftArrowIcon } from "../../../photos";
-import { LeftArrowIcon } from "../../../photos";
 import { adminAPI } from "../../../../redux/services/AdminApi";
 
 const GameHeb = {
@@ -67,9 +65,6 @@ const GameDetails: React.FC = () => {
 
   return (
     <div className="game-container">
-      <Link to="/Games" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </Link>
       <div className="game-overlay"></div>
       <div className="game-details-content">
         {/* Main Title as Sector Name */}

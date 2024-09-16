@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { DoctorUserIcon, PasswordIcon, LeftArrowIcon } from "../../../photos";
+import { DoctorUserIcon, PasswordIcon } from "../../../photos";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,10 +52,11 @@ const EditSector: FC = () => {
       navigate("/Sectors");
     } catch (error: any) {
       console.error("Failed to create sector admin:", error.response.data);
-      if (error.response.data.includes('Admin with this sector already exists.')) {
+      if (
+        error.response.data.includes("Admin with this sector already exists.")
+      ) {
         alert("מחלקה כבר קיימת במערכת");
-      }
-      else {
+      } else {
         alert("עדכון אדמין נכשל");
       }
       setLoadingMessage("שגיאה בעדכון אדמין");
@@ -69,9 +70,6 @@ const EditSector: FC = () => {
   return (
     <div className="edit-sector" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-      <Link to="/Sectors" className="back-link">
-        <img src={LeftArrowIcon} alt="Back" className="back-arrow-icon" />
-      </Link>
       <div className="overlay" />
       <div className="sector-form-container">
         <h2 className="form-title">עריכת מגזר</h2>

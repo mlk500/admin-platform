@@ -3,7 +3,6 @@ import "./TaskDetails.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { Task } from "../../../../redux/models/Interfaces";
-import { LeftArrowIcon } from "../../../photos";
 import MediaViewer from "../../../components/Common/MediaViewer/MediaViewer";
 
 const TaskDetailsHebrew = {
@@ -29,9 +28,6 @@ const TaskDetails: React.FC = () => {
 
   return (
     <div className="task-container" dir="rtl">
-      <a href="/Tasks" className="back-link">
-        <img className="back-arrow-icon" src={LeftArrowIcon} alt="Back" />
-      </a>
       <div className="overlay" />
       <div className="task-details">
         <div className="task-title">{task.name}</div>
