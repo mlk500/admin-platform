@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import { UploadFileIcon } from "../../../photos";
-import { SwiperConfig } from "../../../components";
 import "./AddObjectLocation.scss";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -197,25 +191,23 @@ const AddObjectLocation: React.FC = () => {
             </div>
           )}
           {selectedFiles.length > 0 && (
-            <Swiper {...SwiperConfig}>
+            <div className="image-grid">
               {selectedFiles.map((file, index) => (
-                <SwiperSlide key={index} className="swiper-slide">
-                  <div className="image-wrapper">
-                    <img
-                      className="img-media"
-                      src={file.preview}
-                      alt={`Uploaded ${index}`}
-                    />
-                    <button
-                      className="delete-image-btn"
-                      onClick={() => handleDeleteImage(index)}
-                    >
-                      {AddNewObjectHebrew.Delete_Image}
-                    </button>
-                  </div>
-                </SwiperSlide>
+                <div key={index} className="image-grid-item">
+                  <img
+                    className="img-media"
+                    src={file.preview}
+                    alt={`Uploaded ${index}`}
+                  />
+                  <button
+                    className="delete-image-btn"
+                    onClick={() => handleDeleteImage(index)}
+                  >
+                    {AddNewObjectHebrew.Delete_Image}
+                  </button>
+                </div>
               ))}
-            </Swiper>
+            </div>
           )}
         </div>
         <button

@@ -294,6 +294,8 @@ function AddTask() {
                     }))}
                     onDelete={handleDeleteMedia}
                     deletable={true}
+                    maxMediaCount={6}
+                    onUploadRestricted={(message) => alert(message)}
                   />
                   <button
                     type="button"

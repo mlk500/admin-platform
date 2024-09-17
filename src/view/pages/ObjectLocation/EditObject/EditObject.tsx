@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "./EditObject.scss";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import { UploadFileIcon } from "../../../photos";
-import { SwiperConfig } from "../../../components";
 import { RootState } from "../../../../redux/store";
 import { setCard } from "../../../../redux/slices/GlobalStates";
 import {
@@ -174,42 +167,48 @@ const EditObjectLocation: React.FC = () => {
               {EditObjectHebrew.ImagesNumber}{" "}
               {objectImages.length + newFiles.length}
             </div>
-            {objectImages.length > 0 || newFiles.length > 0 ? (
-              <Swiper {...SwiperConfig}>
-                {objectImages.map((img: ObjectImage) => (
-                  <SwiperSlide key={img.id} className="swiper-slide">
-                    <img
-                      className="img-media"
-                      src={img.imageUrl}
-                      alt={img.name}
-                    />
-                    <button
-                      className="delete-image-btn"
-                      onClick={() => handleDeleteExistingImage(img.id)}
-                    >
-                      {EditObjectHebrew.Delete_Image}
-                    </button>
-                  </SwiperSlide>
-                ))}
-                {newFiles.map((file, index) => (
-                  <SwiperSlide key={`new-${index}`} className="swiper-slide">
-                    <img
-                      className="img-media"
-                      src={URL.createObjectURL(file)}
-                      alt={`New ${index}`}
-                    />
-                    <button
-                      className="delete-image-btn"
-                      onClick={() => handleDeleteNewImage(index)}
-                    >
-                      {EditObjectHebrew.Delete_Image}
-                    </button>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            ) : (
-              <p>{EditObjectHebrew.NoImagesAvailable}</p>
-            )}
+            <div className="object-media-list">
+              <div className="image-count">
+                {EditObjectHebrew.ImagesNumber}{" "}
+                {objectImages.length + newFiles.length}
+              </div>
+              {objectImages.length > 0 || newFiles.length > 0 ? (
+                <div className="image-grid">
+                  {objectImages.map((img: ObjectImage) => (
+                    <div key={img.id} className="image-grid-item">
+                      <img
+                        className="img-media"
+                        src={img.imageUrl}
+                        alt={img.name}
+                      />
+                      <button
+                        className="delete-image-btn"
+                        onClick={() => handleDeleteExistingImage(img.id)}
+                      >
+                        {EditObjectHebrew.Delete_Image}
+                      </button>
+                    </div>
+                  ))}
+                  {newFiles.map((file, index) => (
+                    <div key={`new-${index}`} className="image-grid-item">
+                      <img
+                        className="img-media"
+                        src={URL.createObjectURL(file)}
+                        alt={`New ${index}`}
+                      />
+                      <button
+                        className="delete-image-btn"
+                        onClick={() => handleDeleteNewImage(index)}
+                      >
+                        {EditObjectHebrew.Delete_Image}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>{EditObjectHebrew.NoImagesAvailable}</p>
+              )}
+            </div>
           </div>
         </div>
         <button onClick={handleSaveObject} className="save-object-button">

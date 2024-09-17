@@ -42,8 +42,7 @@
 
   .add-object-container {
     width: 40vw;
-    max-height: auto;
-    overflow-y: auto;
+    height: 55vw;
     background-image: url("../../../photos/CardBG.jpg");
     background-size: cover;
     background-color: rgba(0, 0, 0, 0.7);
@@ -51,21 +50,18 @@
     padding: 2vw;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     z-index: 2;
-    text-align: right;
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     animation: fadeInUp 0.6s ease-out;
-
+    overflow-y: scroll;
     &::before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
+      height: 55vw * 1.5;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       z-index: -1;
@@ -156,32 +152,25 @@
         text-align: right;
       }
 
-      .swiper-container {
-        width: 100%;
-        height: 25vw;
-        margin-bottom: 2vw;
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1vw;
       }
 
-      .swiper-slide {
+      .image-grid-item {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
         align-items: center;
-        height: 100%;
-
-        .image-wrapper {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
+        justify-content: center;
+        padding: 1vh;
+        box-sizing: border-box;
 
         .img-media {
-          max-width: 100%;
-          max-height: 20vw;
+          width: 100%;
+          height: 100px;
           object-fit: contain;
+          border-radius: 0.5vw;
           transition: all 0.3s ease-in-out;
 
           &:hover {
@@ -190,16 +179,14 @@
         }
 
         .delete-image-btn {
-          margin-top: 1vw;
-          padding: 0.5vw 1vw;
+          margin-top: 1vh;
+          padding: 0.5vh 2vw;
           background-color: $primary-pink-logo-color;
           border: none;
-          @include font-style;
           color: $secondary-white-color;
+          font-size: 1.4vh;
           cursor: pointer;
-          text-align: center;
           transition: background-color 0.3s ease;
-          font-size: 1.2vw;
 
           &:hover {
             background-color: darken($primary-pink-logo-color, 10%);
