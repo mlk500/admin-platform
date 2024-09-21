@@ -16,6 +16,7 @@ const EditGameHebrew = {
   Save: "שמירה",
   ViewUnits: "עריכת חוליות",
   NoUnits: "עדיין אין חוליות",
+  AddUnit: "הוספת חוליה",
 };
 
 interface LocationState {
@@ -42,6 +43,7 @@ const EditGame: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
   useEffect(() => {
     clearLocalStorage();
     const updatedGame = locationState?.updatedGame;
@@ -100,6 +102,10 @@ const EditGame: FC = () => {
     });
   };
 
+  const handleAddUnit = () => {
+    navigate("/AddUnit", { state: { gameID: game.gameID } });
+  };
+
   const handleSubmit = async () => {
     if (gameName && !gameName.trim()) {
       setAlertMessage("שם המשחק לא יכול להיות ריק");
@@ -112,6 +118,7 @@ const EditGame: FC = () => {
         ...game,
         gameName,
         description: gameDescription,
+        units,
       };
 
       const response = await gameAPI.updateGame(
@@ -145,41 +152,59 @@ const EditGame: FC = () => {
   };
 
   return (
-    <div className="edit-game" dir="rtl">
+    <div className="edit-game-EditGame" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
       {alertMessage && <AlertMessage message={alertMessage} />}
-      <div className="overlay" />
-      <div className="game-form-container">
-        <h2 className="form-title">{EditGameHebrew.EditGame}</h2>
-        <div className="form-group">
-          <label className="form-label">{EditGameHebrew.Name}</label>
-          <div className="input-wrapper">
+      <div className="overlay-EditGame" />
+      <div className="game-form-container-EditGame">
+        <h2 className="form-title-EditGame">{EditGameHebrew.EditGame}</h2>
+        <div className="form-group-EditGame">
+          <label className="form-label-EditGame">{EditGameHebrew.Name}</label>
+          <div className="input-wrapper-EditGame">
             <input
-              className="game-input"
+              className="game-input-EditGame"
               value={gameName}
               onChange={(e) => setGameName(e.target.value)}
             />
           </div>
         </div>
-        <div className="form-group">
-          <label className="form-label">{EditGameHebrew.Description}</label>
-          <div className="input-wrapper">
+        <div className="form-group-EditGame">
+          <label className="form-label-EditGame">
+            {EditGameHebrew.Description}
+          </label>
+          <div className="input-wrapper-EditGame">
             <textarea
-              className="game-textarea"
+              className="game-textarea-EditGame"
               value={gameDescription}
               onChange={(e) => setGameDescription(e.target.value)}
             />
           </div>
         </div>
         {units.length === 0 ? (
-          <div className="no-units">{EditGameHebrew.NoUnits}</div>
+          <>
+            <div className="no-units-EditGame">{EditGameHebrew.NoUnits}</div>
+            <button
+              className="add-unit-button-EditGame"
+              onClick={handleAddUnit}
+            >
+              {EditGameHebrew.AddUnit}
+            </button>
+          </>
         ) : (
-          <button className="edit-units" onClick={handleEditUnits}>
-            {EditGameHebrew.ViewUnits}
-          </button>
+          <>
+            <button className="edit-units-EditGame" onClick={handleEditUnits}>
+              {EditGameHebrew.ViewUnits}
+            </button>
+            <button
+              className="add-unit-button-EditGame"
+              onClick={handleAddUnit}
+            >
+              {EditGameHebrew.AddUnit}
+            </button>
+          </>
         )}
-        <div className="form-buttons">
-          <button onClick={handleSubmit} className="update-button">
+        <div className="form-buttons-EditGame">
+          <button onClick={handleSubmit} className="update-button-EditGame">
             {EditGameHebrew.Save}
           </button>
         </div>

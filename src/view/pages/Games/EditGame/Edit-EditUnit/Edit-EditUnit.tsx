@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import {
   Game,
@@ -10,7 +10,7 @@ import {
   Unit,
 } from "../../../../../redux/models/Interfaces";
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
-// import "";
+import { setCard } from "../../../../../redux/slices/GlobalStates";
 
 const EditUnitHebrew = {
   EditUnit: "עריכת חוליה",
@@ -43,13 +43,14 @@ function EditEditUnit() {
   const [description, setDescription] = useState("");
   const [hint, setHint] = useState("");
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const dispatch = useDispatch();
+
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
   const [selectedObject, setSelectedObject] = useState<ObjectLocation | null>(
     null
   );
-  // const [showConfirm, setShowConfirm] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -143,7 +144,7 @@ function EditEditUnit() {
       return;
     }
 
-    const updated: Unit = {
+    const updatedUnit: Unit = {
       unitID: unitID!,
       unitOrder: unitOrder!,
       name,
@@ -160,10 +161,14 @@ function EditEditUnit() {
     const updatedGame = { ...game };
     updatedGame.units =
       updatedGame.units?.map((u) =>
-        u.unitID === updated.unitID ? updated : u
+        u.unitID === updatedUnit.unitID ? updatedUnit : u
       ) || [];
 
-    navigate("/EditGameUnitsPage", { state: { updatedUnit: updated } });
+    // Update the entire game with the updated unit and dispatch it to the global state
+    dispatch(setCard(updatedGame));
+
+    // Navigate back to the EditGameUnitsPage with the updated game state
+    navigate("/EditGameUnitsPage", { state: { game: updatedGame } });
     clearLocalStorage();
   };
 
@@ -196,7 +201,9 @@ function EditEditUnit() {
     localStorage.setItem("edit-editUnit", JSON.stringify(unitToSave));
     navigate("/edit-ChooseTask-edit");
   };
+
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
   return (
     <div className="main-container-edit-unit">
       {alertMessage && <AlertMessage message={alertMessage} />}
