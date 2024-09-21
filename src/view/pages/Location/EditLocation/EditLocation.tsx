@@ -6,6 +6,7 @@ import { RootState } from "../../../../redux/store";
 import { locationAPI } from "../../../../redux/services/LocationApi";
 import { Location } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const EditLocationHebrew = {
   EditRoom: "עריכת מקום",
@@ -31,7 +32,7 @@ const EditLocation: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   // const [deleteImage, setDeleteImage] = useState<boolean>(false);
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   useEffect(() => {
     if (location) {
       setName(location.name || "");
@@ -64,7 +65,7 @@ const EditLocation: React.FC = () => {
 
   const handleSave = () => {
     if (!name.trim() || floor === undefined) {
-      alert("שם ומספר קומה הם שדות חובה.");
+      setAlertMessage("שם ומספר קומה הם שדות חובה.");
       return;
     }
     const updatedLocation: Location = {
@@ -98,7 +99,7 @@ const EditLocation: React.FC = () => {
       })
       .catch((error) => {
         console.error("Detailed error:", error);
-        alert("שגיאה בעדכון המקום");
+        setAlertMessage("שגיאה בעדכון המקום");
         setLoadingMessage("שגיאה בעדכון המקום");
         setTimeout(() => {
           setIsLoading(false);
@@ -110,6 +111,7 @@ const EditLocation: React.FC = () => {
   return (
     <div className="main-container-edit-location" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="edit-location-container">
         <h2 className="edit-location-title">{EditLocationHebrew.EditRoom}</h2>

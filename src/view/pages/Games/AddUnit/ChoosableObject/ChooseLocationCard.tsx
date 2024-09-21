@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../../redux/models/Interfaces";
 import "./ChooseCard.scss";
+import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
 
 interface ChoosableLocationCardProps {
   object: Location;
@@ -18,10 +19,9 @@ const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
   navigationPath,
 }) => {
   const navigate = useNavigate();
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   // const handleClick = () => {
   //   if (object.objectsList?.length === 0) {
-  //     alert("No Objects for this location ..");
   //   } else {
   //     const objectPagePath =
   //       navigationPath === "/EditUnit"
@@ -34,7 +34,7 @@ const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
   // };
   const handleClick = () => {
     if (object.objectsList?.length === 0) {
-      alert("No Objects for this location ..");
+      setAlertMessage("אין אובייקטים עבור המיקום הזה");
     } else {
       let objectPagePath;
       switch (navigationPath) {
@@ -60,6 +60,7 @@ const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
 
   return (
     <div className="Location-card" onClick={handleClick} dir="rtl">
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="card-header">
         <div className="title">{object.name}</div>
         <div className="buttons">

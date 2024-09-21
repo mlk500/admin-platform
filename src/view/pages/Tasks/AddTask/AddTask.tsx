@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import MediaViewer from "../../../components/Common/MediaViewer/MediaViewer";
 import { CiCircleInfo } from "react-icons/ci";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddNewTaskHebrew = {
   CreateNewTask: "הוספת משימה חדשה",
@@ -58,6 +59,7 @@ function AddTask() {
   const sectors = useSelector((state: RootState) => state.AllData.Sectors);
   const [withMsg, setWithMsg] = useState<boolean>(true);
   const adminStr = localStorage.getItem("admin");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const admin: Admin = adminStr
     ? {
         ...JSON.parse(adminStr),
@@ -110,7 +112,7 @@ function AddTask() {
       return false;
     }
     if (correctAnswer === null) {
-      alert("צריך לבחור תשובה נכונה");
+      setAlertMessage("צריך לבחור תשובה נכונה");
       return false;
     }
     return true;
@@ -118,7 +120,7 @@ function AddTask() {
 
   const validateAndSave = async () => {
     if (!name.trim()) {
-      alert("A task must have a name.");
+      setAlertMessage("A task must have a name.");
       return;
     }
     if (question) {
@@ -131,13 +133,13 @@ function AddTask() {
       mediaFiles.length === 0 &&
       !additionalNotes.trim()
     ) {
-      alert(
+      setAlertMessage(
         "A task must have at least one element (question, media, or notes)."
       );
       return;
     }
     if (selectedSector === null) {
-      alert("A task must have a sector.");
+      setAlertMessage("A task must have a sector.");
       return;
     } else {
       const task: TaskTBC = {
@@ -201,9 +203,9 @@ function AddTask() {
   return (
     <div className="main-container-add-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="add-task-header"></div>
       <div className="overlay" />
-
       <div className="add-task-container" dir="rtl">
         <div className="scrollable-content">
           <div className="add-task-title">{AddNewTaskHebrew.CreateNewTask}</div>
@@ -295,7 +297,7 @@ function AddTask() {
                     onDelete={handleDeleteMedia}
                     deletable={true}
                     maxMediaCount={6}
-                    onUploadRestricted={(message) => alert(message)}
+                    onUploadRestricted={(message) => setAlertMessage(message)}
                   />
                   <button
                     type="button"

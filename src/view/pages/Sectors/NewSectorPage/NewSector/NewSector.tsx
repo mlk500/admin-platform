@@ -11,6 +11,7 @@ import "./NewSector.scss";
 import { adminAPI } from "../../../../../redux/services/AdminApi";
 import { AdminTBC } from "../../../../../redux/models/Interfaces";
 import Loader from "../../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
 
 const NewSector = () => {
   const [username, setUsername] = useState("");
@@ -19,14 +20,14 @@ const NewSector = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const isFormValid = (): boolean => {
     return username.trim() !== "" && sector.trim() !== "";
   };
 
   const handleSubmit = async () => {
     if (!isFormValid()) {
-      alert("שם משתמש ותפקיד לא יכולים להיות ריקים");
+      setAlertMessage("שם משתמש ותפקיד לא יכולים להיות ריקים");
       return;
     }
     setIsLoading(true);
@@ -34,16 +35,16 @@ const NewSector = () => {
     const newAdmin: AdminTBC = { username, password, sector };
     try {
       await adminAPI.createSectorAdmin(newAdmin);
-      alert("אדמין נוצר בהצלחה");
+      setAlertMessage("אדמין נוצר בהצלחה");
       navigate("/Sectors");
     } catch (error: any) {
       console.error("Failed to create sector admin:", error.response.data);
       if (
         error.response.data.includes("Admin with this sector already exists.")
       ) {
-        alert("מחלקה כבר קיימת במערכת");
+        setAlertMessage("מחלקה כבר קיימת במערכת");
       } else {
-        alert("שגיאה בייצור אדמין");
+        setAlertMessage("שגיאה בייצור אדמין");
       }
       setLoadingMessage("שגיאה בייצור אדמין");
       setTimeout(() => {
@@ -56,6 +57,7 @@ const NewSector = () => {
   return (
     <div className="new-sector-page">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="hero-container-part-one">
         <div className="hero-content">
           <img className="hero-img" src={HeroPhoto} alt="hero-photo" />

@@ -9,6 +9,7 @@ import { taskAPI } from "../../../../redux/services/TaskApi";
 import MediaViewer from "../../../components/Common/MediaViewer/MediaViewer";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddNewTaskHebrew = {
   CreateNewTask: "עריכת משימה ",
@@ -78,6 +79,7 @@ function EditTask() {
   const [deletedQuestionId, setDeletedQuestionId] = useState<number | null>(
     null
   );
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sectors = useSelector((state: RootState) => state.AllData.Sectors);
@@ -166,7 +168,7 @@ function EditTask() {
 
   const handleSubmit = async () => {
     if (!taskName.trim()) {
-      alert("A task must have a name.");
+      setAlertMessage("A task must have a name.");
       return;
     }
     if (
@@ -175,7 +177,7 @@ function EditTask() {
       keptMediaTasks.length === 0 &&
       !additionalNotes.trim()
     ) {
-      alert(
+      setAlertMessage(
         "A task must have at least one element (question, media, or notes)."
       );
       return;
@@ -241,7 +243,7 @@ function EditTask() {
     try {
       const updatedTask = await taskAPI.updateTask(task.taskID, formData);
       dispatch({ type: "UPDATE_TASK_SUCCESS", payload: updatedTask });
-      alert("Task updated successfully!");
+      setAlertMessage("Task updated successfully!");
       setLoadingMessage("המשימה נשמרה בהצלחה!");
       setTimeout(() => {
         setIsLoading(false);
@@ -250,7 +252,7 @@ function EditTask() {
       }, 1000);
     } catch (error) {
       console.error("Failed to update task:", error);
-      alert("Failed to update the task.");
+      setAlertMessage("Failed to update the task.");
       setLoadingMessage("שגיאה בשמירת המשימה");
       setTimeout(() => {
         setIsLoading(false);
@@ -262,6 +264,7 @@ function EditTask() {
   return (
     <div className="main-container-edit-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       {showConfirm && (
         <ConfirmationDialog
           onConfirm={() => {

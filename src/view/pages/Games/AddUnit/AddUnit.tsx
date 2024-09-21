@@ -8,6 +8,7 @@ import {
   Task,
   Unit,
 } from "../../../../redux/models/Interfaces";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddUnitHebrew = {
   CreateNewUnit: "הוספת חוליה",
@@ -42,6 +43,7 @@ function AddUnit() {
   const location = useLocation();
   const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(
     safeParse(localStorage.getItem("selectedTask") || "null")
   );
@@ -85,7 +87,7 @@ function AddUnit() {
 
   const handleSaveUnit = () => {
     if (!name.trim() || !hint.trim()) {
-      alert("Please provide a name and a hint for the task");
+      setAlertMessage("אנא ספק שם ורמז למשימה");
     } else {
       if (selectedTask && selectedObject && selectedLocation) {
         const createdUnit: Unit = {
@@ -101,12 +103,14 @@ function AddUnit() {
         navigate("/UnitsPage", { state: { newUnit: createdUnit } });
         clearLocalStorage();
       } else {
-        alert("Please select a task, an object, and a location before saving.");
+        setAlertMessage("אנא בחר משימה, אובייקט ומיקום לפני שמירה.");
       }
     }
   };
   return (
     <div className="main-container-add-unit">
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       {showConfirm && (
         <ConfirmationDialog
           onConfirm={() => {

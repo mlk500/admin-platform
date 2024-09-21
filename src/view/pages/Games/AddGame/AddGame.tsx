@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { gameAPI } from "../../../../redux/services/GameApi";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddNewGameHeb = {
   CreateNewGame: "הוספת משחק חדש ",
@@ -24,12 +25,13 @@ function AddGame() {
     localStorage.getItem("gameDesc") || ""
   );
   const [gameUnits, setGameUnits] = useState<Unit[]>([]);
-  const [gameImage,] = useState<File | null>(null);
+  const [gameImage] = useState<File | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [showConfirm, setShowConfirm] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const units = location.state?.units || [];
@@ -66,7 +68,7 @@ function AddGame() {
 
   const handleSave = async () => {
     if (!gameName || !gameName.trim()) {
-      alert("חייב להיות שם למשחק");
+      setAlertMessage("חייב להיות שם למשחק");
     } else {
       const game: GameTBC = { gameName: gameName, description: gameDesc };
       const updatedGameUnits = gameUnits.map((unit) => ({
@@ -114,6 +116,8 @@ function AddGame() {
   return (
     <div className="main-container-add-game">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       {showConfirm && (
         <ConfirmationDialog
           onConfirm={() => {

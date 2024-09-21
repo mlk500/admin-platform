@@ -16,12 +16,13 @@ import { adminAPI } from "../../../redux/services/AdminApi";
 import { buttonsName } from "../../../redux/models/Types";
 import { Admin, UserRole } from "../../../redux/models/Interfaces";
 import "./SectorsPage.scss";
+import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 
 const SectorsPage: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const admins = useSelector((state: RootState) => state.AllData.Sectors);
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [adminToDelete, setAdminToDelete] = useState<Admin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -66,15 +67,17 @@ const SectorsPage: FC = () => {
   ): boolean => {
     console.log("action: " + action);
     if (action === "add" && !isMainAdmin(currAdmin.role)) {
-      alert("אין הרשאה להוסיף משתמש חדש");
+      setAlertMessage("אין הרשאה להוסיף משתמש חדש");
       return false;
     }
     if (action !== "add" && isMainAdmin(admin.role)) {
-      alert(`אי אפשר ${action === "delete" ? "למחוק" : "לערוך"} מנהל ראשי`);
+      setAlertMessage(
+        `אי אפשר ${action === "delete" ? "למחוק" : "לערוך"} מנהל ראשי`
+      );
       return false;
     }
     if (!isMainAdmin(currAdmin.role)) {
-      alert(`אין הרשאה ${action === "delete" ? "למחוק" : "לערוך"}`);
+      setAlertMessage(`אין הרשאה ${action === "delete" ? "למחוק" : "לערוך"}`);
       return false;
     }
     return true;
@@ -130,7 +133,7 @@ const SectorsPage: FC = () => {
     if (isMainAdmin(currAdmin.role)) {
       return true;
     } else {
-      alert("אין הרשאה להוסיף משתמש חדש");
+      setAlertMessage("אין הרשאה להוסיף משתמש חדש");
       return false;
     }
   };
@@ -138,6 +141,7 @@ const SectorsPage: FC = () => {
   return (
     <div dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <HomePage
         objects={admins}
         page="Sector"

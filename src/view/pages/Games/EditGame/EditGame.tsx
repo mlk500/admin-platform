@@ -7,6 +7,7 @@ import { Game, Unit } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import { setCard } from "../../../../redux/slices/GlobalStates";
 import "./EditGame.scss";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const EditGameHebrew = {
   EditGame: "עריכת משחק",
@@ -40,7 +41,7 @@ const EditGame: FC = () => {
   const [updatedUnits, setUpdatedUnits] = useState<Unit[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   useEffect(() => {
     clearLocalStorage();
     const updatedGame = locationState?.updatedGame;
@@ -101,7 +102,7 @@ const EditGame: FC = () => {
 
   const handleSubmit = async () => {
     if (gameName && !gameName.trim()) {
-      alert("שם המשחק לא יכול להיות ריק");
+      setAlertMessage("שם המשחק לא יכול להיות ריק");
       return;
     }
     setIsLoading(true);
@@ -129,14 +130,14 @@ const EditGame: FC = () => {
           units: units,
         };
         dispatch(setCard(updatedGame));
-        alert("משחק עודכן בהצלחה");
+        setAlertMessage("משחק עודכן בהצלחה");
         navigate("/Games");
       } else {
         throw new Error("Failed to update game");
       }
     } catch (error) {
       console.error("Failed to update game:", error);
-      alert("עדכון משחק נכשל");
+      setAlertMessage("עדכון משחק נכשל");
     } finally {
       setIsLoading(false);
       setLoadingMessage("");
@@ -146,6 +147,7 @@ const EditGame: FC = () => {
   return (
     <div className="edit-game" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="game-form-container">
         <h2 className="form-title">{EditGameHebrew.EditGame}</h2>

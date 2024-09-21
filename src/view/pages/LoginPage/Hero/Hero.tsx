@@ -11,6 +11,7 @@ import {
 import { buttonsName } from "../../../../redux/models/Types";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import "../Hero/Hero.scss";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const Hero: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -18,10 +19,10 @@ const Hero: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const handleLogin = async () => {
     if (!username.trim() || !password.trim()) {
-      alert("Provide username and password");
+      setAlertMessage("Provide username and password");
     } else {
       setIsLoading(true);
       try {
@@ -33,7 +34,7 @@ const Hero: React.FC = () => {
         localStorage.setItem("page", buttonsName.Sectors);
         navigate("/Sectors");
       } catch (error: any) {
-        alert("Login failed: " + error.message);
+        setAlertMessage("Login failed: " + error.message);
       } finally {
         setIsLoading(false);
       }
@@ -43,6 +44,7 @@ const Hero: React.FC = () => {
   return (
     <div className="hero-container">
       <Loader isLoading={isLoading} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="hero-container-part-one">
         <div className="hero-content">
           <img className="hero-img" src={HeroPhoto} alt="hero-photo" />

@@ -12,6 +12,7 @@ import {
 import { RootState } from "../../../../redux/store";
 import "./EditUnit.scss";
 import { setCard } from "../../../../redux/slices/GlobalStates";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddUnitHebrew = {
   CreateNewUnit: "עריכת חוליה",
@@ -135,11 +136,13 @@ function EditUnit() {
   }
   const handleSaveUnit = () => {
     if (!name.trim() || !hint.trim()) {
-      alert("Please provide a name and a hint for the task");
+      setAlertMessage("Please provide a name and a hint for the task");
       return;
     }
     if (!(selectedTask && selectedObject && selectedLocation)) {
-      alert("Please select a task, an object, and a location before saving.");
+      setAlertMessage(
+        "Please select a task, an object, and a location before saving."
+      );
       return;
     }
 
@@ -195,7 +198,7 @@ function EditUnit() {
     localStorage.setItem("editUnit", JSON.stringify(unitToSave));
     navigate("/ChooseTask-edit");
   };
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   return (
     <div className="main-container-edit-unit">
       {showConfirm && (
@@ -208,6 +211,8 @@ function EditUnit() {
           onCancel={() => setShowConfirm(false)}
         />
       )}
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       {/* Overlay */}
       <div className="overlay" />
       <div className="edit-unit-container" dir="rtl">

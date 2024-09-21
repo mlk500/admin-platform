@@ -19,6 +19,7 @@ import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { useNavigate } from "react-router-dom";
 import { locationAPI } from "../../../redux/services/LocationApi";
 import { taskAPI } from "../../../redux/services/TaskApi";
+import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 
 const GamesPage: FC = () => {
   const dispatch = useDispatch();
@@ -29,14 +30,15 @@ const GamesPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [refetchTrigger, setRefetchTrigger] = useState(0);
   const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -54,7 +56,7 @@ const GamesPage: FC = () => {
       currAdmin.adminID !== game.adminID &&
       currAdmin.role !== UserRole.MainAdmin
     ) {
-      alert("אי אפשר למחוק משחק שלא שייך למחלקה שלך");
+      setAlertMessage("אי אפשר למחוק משחק שלא שייך למחלקה שלך");
     } else {
       setGameToDelete(game);
       setShowConfirm(true);
@@ -72,7 +74,7 @@ const GamesPage: FC = () => {
         console.log("sttus is " + response.status);
         if (response.status === 200) {
           const message = gameToDelete.gameName + " משחק נמחק בהצלחה ";
-          alert(message);
+          setAlertMessage(message);
           dispatch(
             setGames(games.filter((obj) => obj.gameID !== gameToDelete.gameID))
           );
@@ -85,17 +87,15 @@ const GamesPage: FC = () => {
         }
       } catch (error: any) {
         dispatch(setGames(games));
-        console.error("Error deleting game: ", error);
-        alert("שגיאה במחיקת המשחק:\n" + error);
+        setAlertMessage("שגיאה במחיקת המשחק:\n" + error);
         setLoadingMessage("שגיאה במחיקת המשחק:\n" + error);
         setTimeout(() => {
           setIsLoading(false);
           setLoadingMessage("");
         }, 2000);
       }
-    }
-    else {
-      alert("שגיאה במחיקת המשחק");
+    } else {
+      setAlertMessage("שגיאה במחיקת המשחק");
     }
   };
   const handleEdit = (game: Game) => {
@@ -106,6 +106,8 @@ const GamesPage: FC = () => {
   return (
     <div dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       <HomePage
         objects={games}
         page="Game"

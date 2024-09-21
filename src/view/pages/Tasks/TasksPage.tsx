@@ -12,6 +12,7 @@ import { setCard, setPage } from "../../../redux/slices/GlobalStates";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { buttonsName } from "../../../redux/models/Types";
+import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 
 const TasksPage: FC = () => {
   const dispatch = useDispatch();
@@ -21,15 +22,15 @@ const TasksPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [refetchTrigger, setRefetchTrigger] = useState(0);
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   useEffect(() => {
     const fetchTasks = async () => {
       setIsLoading(true);
@@ -54,7 +55,7 @@ const TasksPage: FC = () => {
       currAdmin.adminID !== task.adminIDAPI &&
       currAdmin.role !== UserRole.MainAdmin
     ) {
-      alert("אי אפשר למחוק משימה שלא שייכת למחלקה שלך");
+      setAlertMessage("אי אפשר למחוק משימה שלא שייכת למחלקה שלך");
     } else {
       setTaskToDelete(task);
       setShowConfirm(true);
@@ -74,7 +75,7 @@ const TasksPage: FC = () => {
         }
       } catch (error: any) {
         console.error("Error deleting task:", error);
-        alert("שגיאה במחיקת המשימה:\n" + (error || "Unknown error"));
+        setAlertMessage("שגיאה במחיקת המשימה:\n" + (error || "Unknown error"));
         setLoadingMessage("שגיאה במחיקת המשימה");
       } finally {
         setIsLoading(false);
@@ -88,7 +89,7 @@ const TasksPage: FC = () => {
       currAdmin.adminID !== task.adminIDAPI &&
       currAdmin.role !== UserRole.MainAdmin
     ) {
-      alert("אי אפשר לערוך משימה שלא שייכת למחלקה שלך");
+      setAlertMessage("אי אפשר לערוך משימה שלא שייכת למחלקה שלך");
     } else {
       dispatch(setCard(task));
       navigate("/EditTask");
@@ -102,6 +103,7 @@ const TasksPage: FC = () => {
   return (
     <div dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <HomePage
         objects={tasks}
         page="Task"

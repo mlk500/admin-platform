@@ -14,6 +14,7 @@ import { taskAPI } from "../../../../redux/services/TaskApi";
 import MediaViewer from "../../../components/Common/MediaViewer/MediaViewer";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const DuplicateTaskHebrew = {
   DuplicateTask: "שכפול משימה",
@@ -90,6 +91,7 @@ function DuplicateTask() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sectors = useSelector((state: RootState) => state.AllData.Sectors);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   const handleMediaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -120,7 +122,7 @@ function DuplicateTask() {
 
   const handleSubmit = async () => {
     if (!taskName.trim()) {
-      alert("A task must have a name.");
+      setAlertMessage("A task must have a name.");
       return;
     }
     if (
@@ -129,13 +131,13 @@ function DuplicateTask() {
       newMediaFiles.length === 0 &&
       existingMediaTasks.length === 0
     ) {
-      alert(
+      setAlertMessage(
         "A task must have at least one element (question, media, or notes)."
       );
       return;
     }
     if (selectedSector === null) {
-      alert("A task must have a sector.");
+      setAlertMessage("A task must have a sector.");
       return;
     }
 
@@ -175,7 +177,7 @@ function DuplicateTask() {
       );
 
       dispatch({ type: "ADD_TASK_SUCCESS", payload: duplicatedTask });
-      alert("Task duplicated successfully!");
+      setAlertMessage("Task duplicated successfully!");
       setLoadingMessage("המשימה נוצרה בהצלחה!");
       setTimeout(() => {
         setIsLoading(false);
@@ -184,7 +186,7 @@ function DuplicateTask() {
       }, 1000);
     } catch (error) {
       console.error("Failed to duplicate task:", error);
-      alert("Failed to duplicate the task.");
+      setAlertMessage("Failed to duplicate the task.");
       setLoadingMessage("שגיאה ביצירת המשימה");
       setTimeout(() => {
         setIsLoading(false);
@@ -196,6 +198,7 @@ function DuplicateTask() {
   return (
     <div className="main-container-edit-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       {showConfirm && (
         <ConfirmationDialog
           onConfirm={() => {

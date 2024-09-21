@@ -18,10 +18,10 @@ const createAxiosInstance = (): AxiosInstance => {
           error.response.data &&
           error.response.data.error === "Token has expired"
         ) {
-          alert("Token has expired. Redirecting to login...");
+          alert("תוקף ההתחברות פג. מעביר לדף התחברות...");
           localStorage.clear();
           router.navigate("/");
-          console.log("Token has expired. Redirecting to login...");
+          console.log("תוקף האסימון פג. מעביר לדף התחברות...");
         }
       }
       return Promise.reject(error);

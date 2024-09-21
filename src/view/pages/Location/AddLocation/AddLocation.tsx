@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { locationAPI } from "../../../../redux/services/LocationApi";
 import { LocationTBC } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const AddLocationHebrew = {
   AddNewRoom: "הוספת מקום חדש",
@@ -24,7 +25,7 @@ const AddLocation = () => {
   // const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const selectedFiles = event.target.files;
   //   if (selectedFiles && selectedFiles.length > 0) {
@@ -38,7 +39,7 @@ const AddLocation = () => {
 
   const handleSave = () => {
     if (!name.trim() || floor === undefined) {
-      alert("שם ומספר קומה הם שדות חובה.");
+      setAlertMessage("שם ומספר קומה הם שדות חובה.");
       return;
     }
     const location: LocationTBC = {
@@ -71,7 +72,7 @@ const AddLocation = () => {
       })
       .catch((error) => {
         console.error("Detailed error:", error.response || error);
-        alert("שגיאה בשמירת המקום");
+        setAlertMessage("שגיאה בשמירת המקום");
         setLoadingMessage("שגיאה בשמירת המקום");
         setTimeout(() => {
           setIsLoading(false);
@@ -83,6 +84,7 @@ const AddLocation = () => {
   return (
     <div className="main-container-add-location" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="add-location-container">
         <h2 className="add-location-title">{AddLocationHebrew.AddNewRoom}</h2>

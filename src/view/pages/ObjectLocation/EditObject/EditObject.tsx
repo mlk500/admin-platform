@@ -11,6 +11,7 @@ import {
 } from "../../../../redux/models/Interfaces";
 import { objectAPI } from "../../../../redux/services/ObjectLocationApi";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const EditObjectHebrew = {
   EditObject: "עריכת אובייקט",
@@ -44,7 +45,7 @@ const EditObjectLocation: React.FC = () => {
   const [deletedImageIds, setDeletedImageIds] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (selectedFiles) {
@@ -63,7 +64,7 @@ const EditObjectLocation: React.FC = () => {
 
   const handleSaveObject = async () => {
     if (!objectName.trim()) {
-      alert("An object must have a name.");
+      setAlertMessage("An object must have a name.");
       return;
     }
 
@@ -106,7 +107,9 @@ const EditObjectLocation: React.FC = () => {
       }, 1000);
     } catch (error: any) {
       console.error("Error updating object:", error);
-      alert(error.message || "An error occurred while updating the object");
+      setAlertMessage(
+        error.message || "An error occurred while updating the object"
+      );
       setLoadingMessage("שגיאה בעדכון אובייקט");
       setTimeout(() => {
         setIsLoading(false);
@@ -118,7 +121,7 @@ const EditObjectLocation: React.FC = () => {
   return (
     <div className="main-container-edit-object" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
-
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="edit-object-container">
         <h2 className="edit-object-title">{EditObjectHebrew.EditObject}</h2>

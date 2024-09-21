@@ -7,13 +7,14 @@ import { adminAPI } from "../../../../redux/services/AdminApi";
 import "./EditSector.scss";
 import { Admin } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const EditSector: FC = () => {
   const sector = useSelector(
     (state: RootState) => state.globalStates.selectedCard
   ) as Admin;
   const navigate = useNavigate();
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const [username, setUsername] = useState(sector.username);
   const [sectorName, setSectorName] = useState(sector.sector);
   const [password, setPassword] = useState("");
@@ -32,7 +33,7 @@ const EditSector: FC = () => {
 
   const handleSubmit = async () => {
     if (!isFormValid()) {
-      alert("שם משתמש ותפקיד לא יכולים להיות ריקים");
+      setAlertMessage("שם משתמש ותפקיד לא יכולים להיות ריקים");
       return;
     }
     setIsLoading(true);
@@ -48,16 +49,16 @@ const EditSector: FC = () => {
         updatedAdmin,
         passwordChanged ? password : undefined
       );
-      alert("אדמין עודכן בהצלחה");
+      setAlertMessage("אדמין עודכן בהצלחה");
       navigate("/Sectors");
     } catch (error: any) {
       console.error("Failed to create sector admin:", error.response.data);
       if (
         error.response.data.includes("Admin with this sector already exists.")
       ) {
-        alert("מחלקה כבר קיימת במערכת");
+        setAlertMessage("מחלקה כבר קיימת במערכת");
       } else {
-        alert("עדכון אדמין נכשל");
+        setAlertMessage("עדכון אדמין נכשל");
       }
       setLoadingMessage("שגיאה בעדכון אדמין");
       setTimeout(() => {
@@ -70,6 +71,7 @@ const EditSector: FC = () => {
   return (
     <div className="edit-sector" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="sector-form-container">
         <h2 className="form-title">עריכת מגזר</h2>

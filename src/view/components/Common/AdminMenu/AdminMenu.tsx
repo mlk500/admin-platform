@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { Admin, UserRole } from "../../../../redux/models/Interfaces";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
 import { trainModelApi } from "../../../../redux/services/TrainModelApi";
+import AlertMessage from "../AlertMessage/AlertMessage";
 
 interface AdminMenuProps {
   setActiveButton: (buttonName: string) => void;
@@ -26,6 +27,7 @@ interface AdminMenuProps {
 const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
   const dispatch = useDispatch();
   const adminStr = localStorage.getItem("admin");
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const currAdmin: Admin = adminStr
     ? {
         ...JSON.parse(adminStr),
@@ -49,22 +51,22 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
       debouncedSetPage(page);
     }
   };
-
   const handleTrainModel = async () => {
     setShowConfirm(false);
     try {
-      alert("התחיל אימון מודל");
+      setAlertMessage("התחיל אימון מודל");
       const response = await trainModelApi.retrainModel();
       console.log("Model retrained successfully:", response.data);
-      alert("אימון מודל הסתיים בהצלחה");
+      setAlertMessage("אימון מודל הסתיים בהצלחה");
     } catch (error) {
       console.error("Failed to retrain model:", error);
-      alert("שגיאה באימון מודל");
+      setAlertMessage("שגיאה באימון מודל");
     }
   };
 
   return (
     <div className="admin-menu">
+      {alertMessage && <AlertMessage message={alertMessage} />}
       {showConfirm && (
         <ConfirmationDialog
           onConfirm={handleTrainModel}
@@ -138,7 +140,7 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
             }`}
             onClick={() => {
               if (currAdmin?.role !== UserRole.MainAdmin) {
-                alert("אין לך הרשאות להשתמש במודל");
+                setAlertMessage("אין לך הרשאות להשתמש במודל");
               } else {
                 setShowConfirm(true);
                 handlePageChange(buttonsName.TrainModel);

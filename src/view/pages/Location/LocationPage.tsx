@@ -12,17 +12,21 @@ import { buttonsName } from "../../../redux/models/Types";
 import { setCard, setPage } from "../../../redux/slices/GlobalStates";
 import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { useNavigate } from "react-router-dom";
+import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 
 const LocationsPage: FC = () => {
   // const page = useSelector((state: RootState) => state.globalStates.page);
   const dispatch = useDispatch();
   const locations = useSelector((state: RootState) => state.AllData.locations);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [locationToDelete, setLocationToDelete] = useState<Location | null>(null);
+  const [locationToDelete, setLocationToDelete] = useState<Location | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [refetchTrigger, setRefetchTrigger] = useState(0);
   const navigate = useNavigate();
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -54,14 +58,16 @@ const LocationsPage: FC = () => {
       setIsLoading(true);
       setLoadingMessage("מוחק מקום ...");
       try {
-        const response = await locationAPI.deleteLocation(locationToDelete.locationID);
+        const response = await locationAPI.deleteLocation(
+          locationToDelete.locationID
+        );
         if (response.status === 200) {
           setRefetchTrigger((prev) => prev + 1);
           setLoadingMessage("מקום נמחקה בהצלחה!");
         }
       } catch (error: any) {
         console.error("Error deleting location: ", error);
-        alert("שגיאה במחיקת המקום:\n" + (error || "Unknown error"));
+        setAlertMessage("שגיאה במחיקת המקום:\n" + (error || "Unknown error"));
       } finally {
         setIsLoading(false);
         setLoadingMessage("");
@@ -73,10 +79,11 @@ const LocationsPage: FC = () => {
     dispatch(setCard(location));
     navigate("/EditLocation");
   };
-
   return (
     <div dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       <HomePage
         objects={locations}
         page="Location"

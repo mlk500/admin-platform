@@ -9,6 +9,7 @@ import { ObjectLocation } from "../../../../redux/models/Interfaces";
 import { objectAPI } from "../../../../redux/services/ObjectLocationApi";
 import { Location } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 interface FileWithPreview extends File {
   preview: string;
@@ -45,7 +46,7 @@ const AddObjectLocation: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [totalSize, setTotalSize] = useState<number>(0);
-
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = event.target.files;
     if (newFiles) {
@@ -81,7 +82,7 @@ const AddObjectLocation: React.FC = () => {
 
   const handleSaveObject = async () => {
     if (!objectName.trim()) {
-      alert("An object must have a name.");
+      setAlertMessage("An object must have a name.");
       return;
     }
     const newObject: ObjectLocation = {
@@ -113,7 +114,7 @@ const AddObjectLocation: React.FC = () => {
         navigate(`/ObjectsPage/${location.locationID}`);
       }, 1000);
     } catch (error: any) {
-      alert("שגיאה בשמירת אובייקט");
+      setAlertMessage("שגיאה בשמירת אובייקט");
       setLoadingMessage("שגיאה בשמירת אובייקט");
       setTimeout(() => {
         setIsLoading(false);
@@ -131,6 +132,7 @@ const AddObjectLocation: React.FC = () => {
   return (
     <div className="main-container-add-object" dir="rtl">
       <Loader isLoading={isLoading} message={loadingMessage} />
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="add-object-container">
         <h2 className="add-object-title">{AddNewObjectHebrew.AddNewObjects}</h2>
