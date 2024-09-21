@@ -7,7 +7,6 @@ import {
   Unit,
 } from "../../../../../redux/models/Interfaces";
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
-// import "./AddUnit.scss";
 
 const AddUnitHebrew = {
   CreateNewUnit: "הוספת חוליה",
@@ -19,7 +18,6 @@ const AddUnitHebrew = {
   SelectedObject: "אובייקט לחוליה: ",
   ChooseLocation: "בחירת מקום",
   ChooseTask: "בחירת משימה",
-  CreateTask: "יצירת משימה",
   Save: "שמירה",
   Cancel: "ביטול",
 };
@@ -96,8 +94,8 @@ function EditAddUnit() {
     } else {
       if (selectedTask && selectedObject && selectedLocation) {
         const createdUnit: Unit = {
-          unitID: 0,
-          unitOrder: 0,
+          unitID: Math.floor(Math.random() * 10000),
+          unitOrder: 0, // Will be set based on the order in the units list
           name,
           description,
           hint,
@@ -108,6 +106,8 @@ function EditAddUnit() {
           objectDTO: selectedObject,
           locationDTO: selectedLocation,
         };
+
+        // Pass the new unit back to EditGameUnitsPage through state
         navigate("/EditGameUnitsPage", { state: { newUnit: createdUnit } });
         clearLocalStorage();
       } else {

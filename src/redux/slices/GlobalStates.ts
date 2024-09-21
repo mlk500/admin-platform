@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Admin, Location } from "../models/Interfaces";
-import { Task } from "../models/Types";
+import { Admin, Location, Task } from "../models/Interfaces"; // Make sure Task is correctly imported
 
 interface GlobalStates {
-  selectedCard: any;
+  selectedCard: any; // Update this type if there's a specific type for it
   page: string;
   sectorColor: string;
   location: Location | null;
   sector: Admin | null;
-  // location: Location | null;
   loggedInAdmin: Admin | null;
   taskAddGame: Task | null;
+  isEditing: boolean; // Add isEditing as a boolean variable
 }
 
 const initialState: GlobalStates = {
@@ -21,7 +20,7 @@ const initialState: GlobalStates = {
   sector: null,
   loggedInAdmin: null,
   taskAddGame: null,
-  // unit: null,
+  isEditing: false, // Initialize isEditing with false
 };
 
 const globalStatesSlice = createSlice({
@@ -31,7 +30,7 @@ const globalStatesSlice = createSlice({
     setCard(state, action: PayloadAction<any>) {
       state.selectedCard = action.payload;
     },
-    setPage(state, action: PayloadAction<any>) {
+    setPage(state, action: PayloadAction<string>) {
       state.page = action.payload;
     },
     setSectorColor(state, action: PayloadAction<string>) {
@@ -46,6 +45,9 @@ const globalStatesSlice = createSlice({
     setLoggedInAdmin(state, action: PayloadAction<Admin>) {
       state.loggedInAdmin = action.payload;
     },
+    setIsEditing(state, action: PayloadAction<boolean>) {
+      state.isEditing = action.payload;
+    },
   },
 });
 
@@ -56,6 +58,7 @@ export const {
   setSector,
   setLoggedInAdmin,
   setTaskAddGame,
+  setIsEditing,
 } = globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;

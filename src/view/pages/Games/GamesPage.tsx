@@ -11,7 +11,11 @@ import {
   setTasks,
 } from "../../../redux/slices/saveAllData";
 import { gameAPI } from "../../../redux/services/GameApi";
-import { setCard, setPage } from "../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsEditing,
+  setPage,
+} from "../../../redux/slices/GlobalStates";
 import { buttonsName } from "../../../redux/models/Types";
 import { Admin, Game, UserRole } from "../../../redux/models/Interfaces";
 import ConfirmationDialog from "../../components/Common/ConfirmationDialog/ConfirmationDialog";
@@ -42,6 +46,7 @@ const GamesPage: FC = () => {
 
   useEffect(() => {
     const fetchGames = async () => {
+      dispatch(setIsEditing(false));
       dispatch(setGames(await gameAPI.getAllGames()));
       dispatch(setLocations(await locationAPI.getAllLocations()));
       dispatch(setPage(buttonsName.Games));

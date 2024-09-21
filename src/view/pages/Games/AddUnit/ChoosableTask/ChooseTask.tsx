@@ -3,6 +3,8 @@ import { taskAPI } from "../../../../../redux/services/TaskApi";
 import ChoosableTaskCard from "./ChooseTaskCard";
 import HomePage from "../../../../components/Common/HomePage/HomePage";
 import { Task } from "../../../../../redux/models/Interfaces";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 
 interface ChoosableTasksPageProps {
   fromParent: string;
@@ -10,7 +12,9 @@ interface ChoosableTasksPageProps {
 
 const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  console.log("parent is " + fromParent);
+  const isEditing = useSelector(
+    (state: RootState) => state.globalStates.isEditing
+  ); // Access isEditing from global state
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -20,29 +24,12 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
     fetchTasks();
   }, []);
 
-  // const navigationPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
-  let navigationPath: string;
-  switch (fromParent) {
-    case "EditUnit":
-      navigationPath = "/EditUnit";
-      break;
-    case "Edit-EditUnit":
-      navigationPath = "/Edit-EditUnit";
-      break;
-    case "AddUnit":
-      navigationPath = "/TaskDetailsAddGame";
-      break;
-    case "Edit-AddUnit":
-      navigationPath = "/Edit-AddUnit";
-      break;
-  }
-
   return (
     <HomePage
       objects={tasks}
       page="ChooseTask"
       Component={(props) => (
-        <ChoosableTaskCard {...props} navigationPath={navigationPath} />
+        <ChoosableTaskCard {...props} navigationPath={"/TaskDetailsAddGame"} />
       )}
       addButton="הוספת משימה חדשה"
       addButtonPath="addTask"

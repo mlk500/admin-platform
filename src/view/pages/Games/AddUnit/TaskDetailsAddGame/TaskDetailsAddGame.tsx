@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
 import { useNavigate } from "react-router-dom";
 import "./TaskDetailsAddGame.scss";
+
 const TaskDetailsHebrew = {
   Description: "תיאור המשימה",
   FreeText: "טקסט חופשי",
@@ -19,6 +20,9 @@ const TaskDetailsAddGame: React.FC = () => {
   const task = useSelector(
     (state: RootState) => state.globalStates.taskAddGame
   );
+  const isEditingPage = useSelector(
+    (state: RootState) => state.globalStates.isEditing
+  );
   const navigate = useNavigate();
 
   if (!task) {
@@ -26,7 +30,12 @@ const TaskDetailsAddGame: React.FC = () => {
   }
 
   const handleAddTask = () => {
-    navigate("/AddUnit", { state: { selectedTask: task } });
+    // Redirecting to either AddUnit or EditUnit based on task context
+    if (isEditingPage) {
+      navigate("/Edit-AddUnit", { state: { selectedTask: task } });
+    } else {
+      navigate("/AddUnit", { state: { selectedTask: task } });
+    }
   };
 
   return (

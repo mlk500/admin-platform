@@ -9,6 +9,8 @@ import {
   Unit,
 } from "../../../../redux/models/Interfaces";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
+import { setIsEditing } from "../../../../redux/slices/GlobalStates";
+import { useDispatch } from "react-redux";
 
 const AddUnitHebrew = {
   CreateNewUnit: "הוספת חוליה",
@@ -39,6 +41,7 @@ function AddUnit() {
   const [description, setDescription] = useState(
     localStorage.getItem("addUnitDescription") || ""
   );
+  const dispatch = useDispatch();
   const [hint, setHint] = useState(localStorage.getItem("addUnitHint") || "");
   const location = useLocation();
   const navigate = useNavigate();
@@ -183,7 +186,10 @@ function AddUnit() {
               <button
                 type="button"
                 className="option-button"
-                onClick={() => navigate("/ChooseTask-add")}
+                onClick={() => {
+                  dispatch(setIsEditing(false));
+                  navigate("/ChooseTask-add");
+                }}
               >
                 {" "}
                 {AddUnitHebrew.ChooseTask}

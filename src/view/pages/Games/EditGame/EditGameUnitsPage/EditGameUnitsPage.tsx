@@ -19,6 +19,7 @@ function EditGameUnitsPage() {
   const location = useLocation();
   const [tempUnitId, setTempUnitId] = useState<number>(0);
 
+  // Fetch game and handle new unit
   useEffect(() => {
     if (location.state?.game) {
       setGame(location.state.game);
@@ -26,6 +27,11 @@ function EditGameUnitsPage() {
       setTempUnitId(
         Math.max(...location.state.game.units.map((u: Unit) => u.unitID), 0) + 1
       );
+    }
+
+    // If a new unit is passed via state, append it to the existing units
+    if (location.state?.newUnit) {
+      setUnits((prevUnits) => [...prevUnits, location.state.newUnit]);
     }
   }, [location.state]);
 

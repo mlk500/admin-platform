@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Task } from "../../../../../redux/models/Interfaces";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 import { setTaskAddGame } from "../../../../../redux/slices/GlobalStates";
 import "./ChooseTaskCard.scss";
 
@@ -18,11 +19,15 @@ const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isEditing = useSelector(
+    (state: RootState) => state.globalStates.isEditing
+  );
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     dispatch(setTaskAddGame(object));
-    navigate(navigationPath);
+
+    navigate(navigationPath, { state: { selectedTask: object } });
   };
 
   return (

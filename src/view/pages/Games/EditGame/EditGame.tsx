@@ -103,7 +103,7 @@ const EditGame: FC = () => {
   };
 
   const handleAddUnit = () => {
-    navigate("/AddUnit", { state: { gameID: game.gameID } });
+    navigate("/Edit-AddUnit", { state: { gameID: game.gameID } });
   };
 
   const handleSubmit = async () => {

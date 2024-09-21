@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Game,
   Location,
@@ -10,9 +9,10 @@ import {
   Unit,
 } from "../../../../redux/models/Interfaces";
 import { RootState } from "../../../../redux/store";
-import "./EditUnit.scss";
-import { setCard } from "../../../../redux/slices/GlobalStates";
+import { setCard, setIsEditing } from "../../../../redux/slices/GlobalStates";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
+import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
+import "./EditUnit.scss";
 
 const AddUnitHebrew = {
   CreateNewUnit: "עריכת חוליה",
@@ -48,23 +48,24 @@ function EditUnit() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
-  const game: Game = useSelector(
-    (state: RootState) => state.globalStates.selectedCard
-  );
   const [selectedObject, setSelectedObject] = useState<ObjectLocation | null>(
     null
   );
   const [showConfirm, setShowConfirm] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const game: Game = useSelector(
+    (state: RootState) => state.globalStates.selectedCard
+  );
   const locations = useSelector((state: RootState) => state.AllData.locations);
   const tasks = useSelector((state: RootState) => state.AllData.Tasks);
 
   useEffect(() => {
     const unit: Unit =
       location.state?.unit || safeParse(localStorage.getItem("editUnit"));
-
     if (unit) {
       setUnitID(unit.unitID);
       setUnitOrder(unit.unitOrder);
@@ -72,34 +73,22 @@ function EditUnit() {
       setDescription(unit.description || "");
       setHint(unit.hint);
 
-      if (unit.taskDTO) {
-        setSelectedTask(unit.taskDTO);
-      } else if (unit.taskID) {
-        const task = tasks.find((t: Task) => t.taskID === unit.taskID);
-        setSelectedTask(task || null);
-      }
-
-      if (unit.locationDTO) {
-        setSelectedLocation(unit.locationDTO);
-      } else if (unit.locationID) {
-        const loc = locations.find(
-          (l: Location) => l.locationID === unit.locationID
-        );
-        setSelectedLocation(loc || null);
-      }
-
-      if (unit.objectDTO) {
-        setSelectedObject(unit.objectDTO);
-      } else if (unit.objectID) {
-        const loc =
-          unit.locationDTO ||
-          locations.find((l: Location) => l.locationID === unit.locationID);
-        const object = loc?.objectsList?.find(
-          (o: ObjectLocation) => o.objectID === unit.objectID
-        );
-        setSelectedObject(object || null);
-      }
-
+      setSelectedTask(
+        unit.taskDTO || tasks.find((t) => t.taskID === unit.taskID) || null
+      );
+      setSelectedLocation(
+        unit.locationDTO ||
+          locations.find((l) => l.locationID === unit.locationID) ||
+          null
+      );
+      const loc =
+        unit.locationDTO ||
+        locations.find((l) => l.locationID === unit.locationID);
+      setSelectedObject(
+        unit.objectDTO ||
+          loc?.objectsList?.find((o) => o.objectID === unit.objectID) ||
+          null
+      );
       updateLocalStorage(unit);
     }
   }, [location.state?.unit, tasks, locations]);
@@ -113,13 +102,13 @@ function EditUnit() {
     }
   }, [location.state]);
 
-  function updateLocalStorage(data: Partial<Unit>) {
+  const updateLocalStorage = (data: Partial<Unit>) => {
     Object.entries(data).forEach(([key, value]) => {
       localStorage.setItem(key, JSON.stringify(value));
     });
-  }
+  };
 
-  function clearLocalStorage() {
+  const clearLocalStorage = () => {
     [
       "editUnit",
       "editUnitID",
@@ -133,7 +122,8 @@ function EditUnit() {
     ].forEach((key) => {
       localStorage.removeItem(key);
     });
-  }
+  };
+
   const handleSaveUnit = () => {
     if (!name.trim() || !hint.trim()) {
       setAlertMessage("אנא ספק שם ורמז עבור המשימה");
@@ -159,10 +149,12 @@ function EditUnit() {
     };
 
     const updatedGame = { ...game };
-    updatedGame.units = [...(updatedGame.units || [])];
+    updatedGame.units =
+      updatedGame.units?.map((u) =>
+        u.unitID === updated.unitID ? updated : u
+      ) || [];
 
-    updatedGame.units.push(updated);
-    setCard(updatedGame);
+    dispatch(setCard(updatedGame));
     navigate("/UnitsPage", { state: { updatedUnit: updated } });
     clearLocalStorage();
   };
@@ -194,9 +186,10 @@ function EditUnit() {
       locationID: selectedLocation?.locationID,
     };
     localStorage.setItem("editUnit", JSON.stringify(unitToSave));
+    dispatch(setIsEditing(true));
     navigate("/ChooseTask-edit");
   };
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
   return (
     <div className="main-container-edit-unit">
       {showConfirm && (

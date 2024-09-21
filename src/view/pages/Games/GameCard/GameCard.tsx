@@ -3,7 +3,7 @@ import "./GameCard.scss";
 import { Game } from "../../../../redux/models/Interfaces";
 import { EditIcon, DeleteIcon } from "../../../photos";
 import { useDispatch } from "react-redux";
-import { setCard } from "../../../../redux/slices/GlobalStates";
+import { setCard, setIsEditing } from "../../../../redux/slices/GlobalStates";
 import { Link } from "react-router-dom";
 
 interface GameCardProps {
@@ -23,7 +23,10 @@ const GameCard: FC<GameCardProps> = ({ object, onShowConfirm }) => {
           <Link to="/EditGame">
             <button
               className="edit-button"
-              onClick={() => dispatch(setCard(object))}
+              onClick={() => {
+                dispatch(setIsEditing(true));
+                dispatch(setCard(object));
+              }}
             >
               <img className="edit-icon" src={EditIcon} alt="Edit" />
             </button>
