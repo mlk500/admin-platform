@@ -43,7 +43,7 @@ const ChoosableObjectsPage: FC<ChoosableObjectsPageProps> = ({
   console.log("Selected Location: ", selectedLocation);
 
   return (
-    <div className="objects-container">
+    <div className="objects-container" dir="rtl">
       {selectedLocation.objectsList?.map((object: ObjectLocation) => (
         <div key={object.objectID} onClick={() => handleObjectSelect(object)}>
           <ChoosableObjectCard object={object} />

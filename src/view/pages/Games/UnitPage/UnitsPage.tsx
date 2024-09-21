@@ -146,7 +146,9 @@ function UnitsPage() {
         <div className="units-title">{UnitsPageHeb.Units}</div>
         <div className="units-list">
           {units.length === 0 ? (
-            <div className="empty-state">{UnitsPageHeb.NoUnits}</div>
+            <div className="unit-card">
+              <div className="empty-state">{UnitsPageHeb.NoUnits}</div>
+            </div>
           ) : (
             units.map((unit, index) => (
               <div

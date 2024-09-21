@@ -1,7 +1,7 @@
 @import "../../../themes/mixins";
 @import "../../../themes/variables";
 
-.setAlertMessage-message-overlay {
+.alert-message-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@
   z-index: 1050;
 }
 
-.setAlertMessage-message {
+.alert-message {
   padding: 20px;
   background-color: white;
   border: 2px solid $primary-green-logo-color;

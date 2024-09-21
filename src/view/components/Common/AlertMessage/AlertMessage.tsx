@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AlertMessage.scss";
 
 const AlertMessageHeb = {
@@ -10,7 +10,14 @@ interface AlertMessageProps {
 }
 
 const AlertMessage: React.FC<AlertMessageProps> = ({ message }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Whenever the message changes (even if it's the same), show the alert again
+  useEffect(() => {
+    if (message) {
+      setIsVisible(true);
+    }
+  }, [message]);
 
   if (!isVisible) return null;
 
@@ -19,8 +26,8 @@ const AlertMessage: React.FC<AlertMessageProps> = ({ message }) => {
   };
 
   return (
-    <div className="setAlertMessage-message-overlay">
-      <div className="setAlertMessage-message">
+    <div className="alert-message-overlay">
+      <div className="alert-message">
         <p>{message}</p>
         <button onClick={handleClose}>{AlertMessageHeb.close}</button>
       </div>

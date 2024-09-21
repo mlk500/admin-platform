@@ -15,6 +15,7 @@ const AddNewGameHeb = {
   AddUnits: "הוספת חוליות",
   Save: "שמירה",
   Cancel: "ביטול",
+  MandatoryUnits: "חובה להוסיף לפחות חוליה אחת לפני שמירת המשחק",
 };
 
 function AddGame() {
@@ -69,6 +70,8 @@ function AddGame() {
   const handleSave = async () => {
     if (!gameName || !gameName.trim()) {
       setAlertMessage("חייב להיות שם למשחק");
+    } else if (gameUnits.length === 0) {
+      setAlertMessage("יש להוסיף לפחות חוליה אחת לפני שמירת המשחק");
     } else {
       const game: GameTBC = { gameName: gameName, description: gameDesc };
       const updatedGameUnits = gameUnits.map((unit) => ({
@@ -161,6 +164,9 @@ function AddGame() {
           >
             {AddNewGameHeb.AddUnits}
           </button>
+          <div className="mandatory-units-message">
+            {AddNewGameHeb.MandatoryUnits}
+          </div>
         </div>
         <div className="buttons">
           <button className="save-button" onClick={handleSave}>

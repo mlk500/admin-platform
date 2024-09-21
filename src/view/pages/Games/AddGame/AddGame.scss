@@ -65,6 +65,12 @@
     .input-group {
       margin-bottom: 1.5vw;
       width: 100%;
+      .mandatory-units-message {
+        color: red;
+        font-size: 1.2vw;
+        margin-top: 0.5vw;
+        text-align: right;
+      }
 
       .input-label {
         @include font-style;
