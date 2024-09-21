@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./UnitsPage.scss";
 import { Unit, Game } from "../../../../redux/models/Interfaces";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 
 const UnitsPageHeb = {
   Units: "חוליות",
@@ -10,6 +11,7 @@ const UnitsPageHeb = {
   Delete: "מחיקה",
   Save: "שמירה",
   NoUnits: "אין חוליות נוספות להצגה",
+  MandatoryUnits: "חובה להוסיף לפחות חוליה אחת לפני המשך.",
 };
 
 function UnitsPage() {
@@ -18,6 +20,8 @@ function UnitsPage() {
   const [game, setGame] = useState<Game | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [alertMessage, setAlertMessage] = useState<string | null>(null); // State for alert message
+
   const [tempUnitId, setTempUnitId] = useState<number>(() => {
     const storedUnits = JSON.parse(localStorage.getItem("units") || "[]");
     return (
@@ -79,6 +83,10 @@ function UnitsPage() {
   }, [location.state?.updatedUnit, isEditMode, navigate]);
 
   const handleSave = () => {
+    if (units.length === 0) {
+      setAlertMessage("חובה להוסיף לפחות חוליה אחת לפני המשך.");
+      return;
+    }
     if (isEditMode && game) {
       const updatedGame = { ...game, units };
       navigate("/EditGame", { state: { updatedGame } });
@@ -141,6 +149,7 @@ function UnitsPage() {
 
   return (
     <div className="main-container">
+      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="overlay" />
       <div className="units-container" dir="rtl">
         <div className="units-title">{UnitsPageHeb.Units}</div>
@@ -200,6 +209,9 @@ function UnitsPage() {
                   {UnitsPageHeb.AddUnits}
                 </button>
               </Link>
+              <div className="mandatory-units-message">
+                {UnitsPageHeb.MandatoryUnits}
+              </div>
             </div>
           </div>
         </div>

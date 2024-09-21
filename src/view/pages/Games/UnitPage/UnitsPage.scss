@@ -112,8 +112,16 @@
 
       .add-buttons {
         display: flex;
+        flex-direction: column;
         justify-content: center;
-
+        align-items: center;
+        .mandatory-units-message {
+          color: red;
+          font-size: 1.2vw;
+          margin-top: 0.5vw;
+          text-align: center;
+          width: 100%;
+        }
         .option-button {
           padding: 0.5rem 2rem;
           background-color: $primary-pink-logo_color;

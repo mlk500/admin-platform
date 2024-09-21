@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Admin, Location } from "../models/Interfaces";
+import { Task } from "../models/Types";
 
 interface GlobalStates {
   selectedCard: any;
@@ -9,6 +10,7 @@ interface GlobalStates {
   sector: Admin | null;
   // location: Location | null;
   loggedInAdmin: Admin | null;
+  taskAddGame: Task | null;
 }
 
 const initialState: GlobalStates = {
@@ -18,6 +20,7 @@ const initialState: GlobalStates = {
   location: null,
   sector: null,
   loggedInAdmin: null,
+  taskAddGame: null,
   // unit: null,
 };
 
@@ -37,13 +40,22 @@ const globalStatesSlice = createSlice({
     setSector(state, action: PayloadAction<Admin>) {
       state.sector = action.payload;
     },
+    setTaskAddGame(state, action: PayloadAction<Task>) {
+      state.taskAddGame = action.payload;
+    },
     setLoggedInAdmin(state, action: PayloadAction<Admin>) {
       state.loggedInAdmin = action.payload;
     },
   },
 });
 
-export const { setCard, setPage, setSectorColor, setSector, setLoggedInAdmin } =
-  globalStatesSlice.actions;
+export const {
+  setCard,
+  setPage,
+  setSectorColor,
+  setSector,
+  setLoggedInAdmin,
+  setTaskAddGame,
+} = globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;

@@ -81,22 +81,25 @@
       }
     }
   }
-
   .task-card-content-file {
+    position: relative;
+    z-index: 2;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 12px;
 
     .sections-file {
       display: flex;
       flex-direction: column;
-      gap: 1vw;
 
       .section-title-file {
+        color: "white";
         @include font-style;
         font-size: 1.5vw;
-        color: $secondary-white-color;
         text-align: right;
+        color: $secondary-white-color;
+        flex: 1;
       }
     }
   }
