@@ -120,7 +120,7 @@ function AddTask() {
 
   const validateAndSave = async () => {
     if (!name.trim()) {
-      setAlertMessage("A task must have a name.");
+      setAlertMessage("למשימה חייב להיות שם.");
       return;
     }
     if (question) {
@@ -134,12 +134,12 @@ function AddTask() {
       !additionalNotes.trim()
     ) {
       setAlertMessage(
-        "A task must have at least one element (question, media, or notes)."
+        "למשימה חייב להיות לפחות אלמנט אחד (שאלה, מדיה או הערות)."
       );
       return;
     }
     if (selectedSector === null) {
-      setAlertMessage("A task must have a sector.");
+      setAlertMessage("למשימה חייב להיות תחום.");
       return;
     } else {
       const task: TaskTBC = {

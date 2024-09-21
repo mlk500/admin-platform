@@ -168,7 +168,7 @@ function EditTask() {
 
   const handleSubmit = async () => {
     if (!taskName.trim()) {
-      setAlertMessage("A task must have a name.");
+      setAlertMessage("למשימה חייב להיות שם.");
       return;
     }
     if (
@@ -178,8 +178,9 @@ function EditTask() {
       !additionalNotes.trim()
     ) {
       setAlertMessage(
-        "A task must have at least one element (question, media, or notes)."
+        "למשימה חייב להיות לפחות אלמנט אחד (שאלה, מדיה או הערות)."
       );
+
       return;
     }
     setIsLoading(true);
@@ -243,7 +244,7 @@ function EditTask() {
     try {
       const updatedTask = await taskAPI.updateTask(task.taskID, formData);
       dispatch({ type: "UPDATE_TASK_SUCCESS", payload: updatedTask });
-      setAlertMessage("Task updated successfully!");
+      setAlertMessage("המשימה עודכנה בהצלחה!");
       setLoadingMessage("המשימה נשמרה בהצלחה!");
       setTimeout(() => {
         setIsLoading(false);
@@ -252,7 +253,7 @@ function EditTask() {
       }, 1000);
     } catch (error) {
       console.error("Failed to update task:", error);
-      setAlertMessage("Failed to update the task.");
+      setAlertMessage("עדכון המשימה נכשל.");
       setLoadingMessage("שגיאה בשמירת המשימה");
       setTimeout(() => {
         setIsLoading(false);

@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const handleLogin = async () => {
     if (!username.trim() || !password.trim()) {
-      setAlertMessage("Provide username and password");
+      setAlertMessage("אנא ספק שם משתמש וסיסמה");
     } else {
       setIsLoading(true);
       try {
@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
         localStorage.setItem("page", buttonsName.Sectors);
         navigate("/Sectors");
       } catch (error: any) {
-        setAlertMessage("Login failed: " + error.message);
+        setAlertMessage("ההתחברות נכשלה. אנא נסה שוב.");
       } finally {
         setIsLoading(false);
       }

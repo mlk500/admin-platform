@@ -92,7 +92,7 @@ function EditAddUnit() {
 
   const handleSaveUnit = () => {
     if (!name.trim() || !hint.trim()) {
-      setAlertMessage("Please provide a name and a hint for the task");
+      setAlertMessage("אנא ספק שם ורמז עבור המשימה");
     } else {
       if (selectedTask && selectedObject && selectedLocation) {
         const createdUnit: Unit = {
@@ -111,9 +111,7 @@ function EditAddUnit() {
         navigate("/EditGameUnitsPage", { state: { newUnit: createdUnit } });
         clearLocalStorage();
       } else {
-        setAlertMessage(
-          "Please select a task, an object, and a location before saving."
-        );
+        setAlertMessage("אנא בחר משימה, אובייקט ומיקום לפני שמירת הנתונים");
       }
     }
   };

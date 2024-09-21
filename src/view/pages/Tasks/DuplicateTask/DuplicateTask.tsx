@@ -122,7 +122,7 @@ function DuplicateTask() {
 
   const handleSubmit = async () => {
     if (!taskName.trim()) {
-      setAlertMessage("A task must have a name.");
+      setAlertMessage("למשימה חייב להיות שם.");
       return;
     }
     if (
@@ -132,12 +132,12 @@ function DuplicateTask() {
       existingMediaTasks.length === 0
     ) {
       setAlertMessage(
-        "A task must have at least one element (question, media, or notes)."
+        "למשימה חייב להיות לפחות אלמנט אחד (שאלה, מדיה או הערות)."
       );
       return;
     }
     if (selectedSector === null) {
-      setAlertMessage("A task must have a sector.");
+      setAlertMessage("למשימה חייב להיות תחום.");
       return;
     }
 
@@ -177,7 +177,7 @@ function DuplicateTask() {
       );
 
       dispatch({ type: "ADD_TASK_SUCCESS", payload: duplicatedTask });
-      setAlertMessage("Task duplicated successfully!");
+      setAlertMessage("המשימה שוכפלה בהצלחה!");
       setLoadingMessage("המשימה נוצרה בהצלחה!");
       setTimeout(() => {
         setIsLoading(false);
@@ -186,7 +186,7 @@ function DuplicateTask() {
       }, 1000);
     } catch (error) {
       console.error("Failed to duplicate task:", error);
-      setAlertMessage("Failed to duplicate the task.");
+      setAlertMessage("שכפול המשימה נכשל.");
       setLoadingMessage("שגיאה ביצירת המשימה");
       setTimeout(() => {
         setIsLoading(false);

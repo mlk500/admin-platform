@@ -82,7 +82,7 @@ const AddObjectLocation: React.FC = () => {
 
   const handleSaveObject = async () => {
     if (!objectName.trim()) {
-      setAlertMessage("An object must have a name.");
+      setAlertMessage("לאובייקט חייב להיות שם.");
       return;
     }
     const newObject: ObjectLocation = {

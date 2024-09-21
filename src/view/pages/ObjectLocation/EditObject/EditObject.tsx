@@ -107,9 +107,7 @@ const EditObjectLocation: React.FC = () => {
       }, 1000);
     } catch (error: any) {
       console.error("Error updating object:", error);
-      setAlertMessage(
-        error.message || "An error occurred while updating the object"
-      );
+      setAlertMessage("אירעה שגיאה בעת עדכון האובייקט. אנא נסה שוב.");
       setLoadingMessage("שגיאה בעדכון אובייקט");
       setTimeout(() => {
         setIsLoading(false);
