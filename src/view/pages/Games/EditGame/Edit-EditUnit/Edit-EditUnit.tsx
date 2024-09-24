@@ -10,7 +10,10 @@ import {
   Unit,
 } from "../../../../../redux/models/Interfaces";
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
-import { setCard } from "../../../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  updateSpecificUnit,
+} from "../../../../../redux/slices/GlobalStates";
 
 const EditUnitHebrew = {
   EditUnit: "עריכת חוליה",
@@ -164,10 +167,13 @@ function EditEditUnit() {
         u.unitID === updatedUnit.unitID ? updatedUnit : u
       ) || [];
 
-    // Update the entire game with the updated unit and dispatch it to the global state
     dispatch(setCard(updatedGame));
-
-    // Navigate back to the EditGameUnitsPage with the updated game state
+    dispatch(
+      updateSpecificUnit({
+        id: updatedUnit.unitID,
+        updatedUnit: updatedUnit as Unit,
+      })
+    );
     navigate("/EditGameUnitsPage", { state: { game: updatedGame } });
     clearLocalStorage();
   };
@@ -184,6 +190,14 @@ function EditEditUnit() {
       locationID: selectedLocation?.locationID,
     };
     localStorage.setItem("edit-editUnit", JSON.stringify(unitToSave));
+
+    dispatch(
+      updateSpecificUnit({
+        id: unitToSave.unitID!,
+        updatedUnit: unitToSave as Unit,
+      })
+    );
+
     navigate("/edit-ChooseLocation-edit");
   };
 
@@ -198,7 +212,16 @@ function EditEditUnit() {
       objectID: selectedObject?.objectID,
       locationID: selectedLocation?.locationID,
     };
+
     localStorage.setItem("edit-editUnit", JSON.stringify(unitToSave));
+
+    dispatch(
+      updateSpecificUnit({
+        id: unitToSave.unitID!,
+        updatedUnit: unitToSave as Unit,
+      })
+    );
+
     navigate("/edit-ChooseTask-edit");
   };
 

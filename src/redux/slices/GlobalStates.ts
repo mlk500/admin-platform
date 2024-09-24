@@ -74,6 +74,24 @@ const globalStatesSlice = createSlice({
         unitOrder: index + 1,
       }));
     },
+    updateSpecificUnit(
+      state,
+      action: PayloadAction<{ id: number; updatedUnit: Unit }>
+    ) {
+      const { id, updatedUnit } = action.payload;
+      const index = state.unitsInEditGame.findIndex(
+        (unit) => unit.unitID === id
+      );
+
+      if (index !== -1) {
+        state.unitsInEditGame[index] = {
+          ...state.unitsInEditGame[index],
+          ...updatedUnit,
+        };
+      } else {
+        state.unitsInEditGame.push(updatedUnit);
+      }
+    },
   },
 });
 
@@ -88,6 +106,7 @@ export const {
   setUnitsInEditGame,
   deleteUnitInEditGame,
   setUnitsInEditGameOrder,
+  updateSpecificUnit,
 } = globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;
