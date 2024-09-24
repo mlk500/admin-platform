@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { RootState } from "../../../../redux/store";
 import { gameAPI } from "../../../../redux/services/GameApi";
-import { Game, Unit } from "../../../../redux/models/Interfaces";
+import { Game } from "../../../../redux/models/Interfaces";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import { setCard } from "../../../../redux/slices/GlobalStates";
 import "./EditGame.scss";
@@ -36,37 +36,15 @@ const EditGame: FC = () => {
   const [gameDescription, setGameDescription] = useState(
     game.description || ""
   );
-  const [units, setUnits] = useState<Unit[]>(game.units || []);
-  const [deletedUnits, setDeletedUnits] = useState<number[]>([]);
-  const [addedUnits, setAddedUnits] = useState<Unit[]>([]);
-  const [updatedUnits, setUpdatedUnits] = useState<Unit[]>([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
+  const units = useSelector(
+    (state: RootState) => state.globalStates.unitsInEditGame
+  );
   useEffect(() => {
     clearLocalStorage();
-    const updatedGame = locationState?.updatedGame;
-    if (updatedGame) {
-      setGameName(updatedGame.gameName);
-      setGameDescription(updatedGame.description || "");
-
-      const originalUnits = new Set(game.units?.map((u) => u.unitID) || []);
-      const newUnits = updatedGame.units || [];
-
-      const added = newUnits.filter((u) => !originalUnits.has(u.unitID));
-      const deleted = (game.units || [])
-        .filter((u) => !newUnits.some((nu) => nu.unitID === u.unitID))
-        .map((u) => u.unitID);
-      const updated = newUnits.filter((u) => originalUnits.has(u.unitID));
-
-      setUnits(newUnits);
-      setAddedUnits(added);
-      setDeletedUnits(deleted);
-      setUpdatedUnits(updated);
-
-      dispatch(setCard(updatedGame));
-    }
   }, [locationState, dispatch, game.units]);
 
   const clearLocalStorage = () => {
@@ -120,14 +98,7 @@ const EditGame: FC = () => {
         description: gameDescription,
         units,
       };
-
-      const response = await gameAPI.updateGame(
-        game.gameID as number,
-        updatedGameData as Game,
-        updatedUnits,
-        deletedUnits,
-        addedUnits
-      );
+      const response = await gameAPI.updateGame(updatedGameData);
 
       if (response.status === 200) {
         const updatedGame: Game = {

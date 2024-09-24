@@ -7,6 +7,8 @@ import {
   Unit,
 } from "../../../../../redux/models/Interfaces";
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
+import { useDispatch } from "react-redux";
+import { setUnitsInEditGame } from "../../../../../redux/slices/GlobalStates";
 
 const AddUnitHebrew = {
   CreateNewUnit: "הוספת חוליה",
@@ -53,7 +55,7 @@ function EditAddUnit() {
     safeParse(localStorage.getItem("edit-selectedObject") || "null")
   );
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     localStorage.setItem("edit-addUnitName", name);
     localStorage.setItem("edit-addUnitDescription", description);
@@ -106,8 +108,7 @@ function EditAddUnit() {
           objectDTO: selectedObject,
           locationDTO: selectedLocation,
         };
-
-        // Pass the new unit back to EditGameUnitsPage through state
+        dispatch(setUnitsInEditGame(createdUnit));
         navigate("/EditGameUnitsPage", { state: { newUnit: createdUnit } });
         clearLocalStorage();
       } else {

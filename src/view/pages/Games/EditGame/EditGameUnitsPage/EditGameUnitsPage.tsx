@@ -1,7 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./EditGameUnitsPage.scss";
-import { Unit, Game } from "../../../../../redux/models/Interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
+import {
+  deleteUnitInEditGame,
+  setUnitsInEditGame,
+  setUnitsInEditGameOrder,
+} from "../../../../../redux/slices/GlobalStates";
+import { Unit } from "../../../../../redux/models/Interfaces";
 
 const EditGameUnitsPageHeb = {
   Units: "חוליות",
@@ -13,40 +20,19 @@ const EditGameUnitsPageHeb = {
 };
 
 function EditGameUnitsPage() {
-  const [units, setUnits] = useState<Unit[]>([]);
-  const [game, setGame] = useState<Game | null>(null);
   const navigate = useNavigate();
-  const location = useLocation();
   const [tempUnitId, setTempUnitId] = useState<number>(0);
-
-  // Fetch game and handle new unit
-  useEffect(() => {
-    if (location.state?.game) {
-      setGame(location.state.game);
-      setUnits(location.state.game.units || []);
-      setTempUnitId(
-        Math.max(...location.state.game.units.map((u: Unit) => u.unitID), 0) + 1
-      );
-    }
-
-    // If a new unit is passed via state, append it to the existing units
-    if (location.state?.newUnit) {
-      setUnits((prevUnits) => [...prevUnits, location.state.newUnit]);
-    }
-  }, [location.state]);
+  const dispatch = useDispatch();
+  const units = useSelector(
+    (state: RootState) => state.globalStates.unitsInEditGame
+  );
 
   const handleSave = () => {
-    if (game) {
-      const updatedGame = { ...game, units };
-      navigate("/EditGame", { state: { updatedGame } });
-    }
+    navigate("/EditGame");
   };
 
   const handleDelete = (index: number) => {
-    const updatedUnits = units
-      .filter((_, idx) => idx !== index)
-      .map((unit, idx) => ({ ...unit, unitOrder: idx + 1 }));
-    setUnits(updatedUnits);
+    dispatch(deleteUnitInEditGame(index));
   };
 
   const handleDuplicate = (unit: Unit) => {
@@ -55,19 +41,12 @@ function EditGameUnitsPage() {
       unitID: tempUnitId,
       unitOrder: units.length + 1,
     };
-    setUnits((prevUnits) => [...prevUnits, newUnit]);
+    dispatch(setUnitsInEditGame(newUnit));
     setTempUnitId((prevId) => prevId + 1);
   };
 
   const handleDrag = (fromIndex: number, toIndex: number) => {
-    const newUnits = [...units];
-    const [reorderedItem] = newUnits.splice(fromIndex, 1);
-    newUnits.splice(toIndex, 0, reorderedItem);
-    const updatedUnits = newUnits.map((unit, index) => ({
-      ...unit,
-      unitOrder: index + 1,
-    }));
-    setUnits(updatedUnits);
+    dispatch(setUnitsInEditGameOrder({ fromIndex, toIndex }));
   };
 
   const handleEdit = (unit: Unit) => {

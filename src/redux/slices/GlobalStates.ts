@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Admin, Location, Task } from "../models/Interfaces"; // Make sure Task is correctly imported
+import { Admin, Location, Task, Unit } from "../models/Interfaces";
+import { indexOf } from "lodash";
 
 interface GlobalStates {
-  selectedCard: any; // Update this type if there's a specific type for it
+  selectedCard: any;
   page: string;
   sectorColor: string;
   location: Location | null;
   sector: Admin | null;
   loggedInAdmin: Admin | null;
   taskAddGame: Task | null;
-  isEditing: boolean; // Add isEditing as a boolean variable
+  isEditing: boolean;
+  unitsInEditGame: Unit[];
 }
 
 const initialState: GlobalStates = {
@@ -20,7 +22,8 @@ const initialState: GlobalStates = {
   sector: null,
   loggedInAdmin: null,
   taskAddGame: null,
-  isEditing: false, // Initialize isEditing with false
+  isEditing: false,
+  unitsInEditGame: [],
 };
 
 const globalStatesSlice = createSlice({
@@ -29,6 +32,7 @@ const globalStatesSlice = createSlice({
   reducers: {
     setCard(state, action: PayloadAction<any>) {
       state.selectedCard = action.payload;
+      state.unitsInEditGame = action.payload.units;
     },
     setPage(state, action: PayloadAction<string>) {
       state.page = action.payload;
@@ -48,6 +52,28 @@ const globalStatesSlice = createSlice({
     setIsEditing(state, action: PayloadAction<boolean>) {
       state.isEditing = action.payload;
     },
+    setUnitsInEditGame(state, action: PayloadAction<Unit>) {
+      state.unitsInEditGame.push(action.payload);
+    },
+    deleteUnitInEditGame(state, action: PayloadAction<number>) {
+      state.unitsInEditGame = state.unitsInEditGame.filter(
+        (_, index) => index !== action.payload
+      );
+    },
+    setUnitsInEditGameOrder(
+      state,
+      action: PayloadAction<{ fromIndex: number; toIndex: number }>
+    ) {
+      const { fromIndex, toIndex } = action.payload;
+      const reorderedUnits = [...state.unitsInEditGame];
+      const [movedUnit] = reorderedUnits.splice(fromIndex, 1);
+      reorderedUnits.splice(toIndex, 0, movedUnit);
+
+      state.unitsInEditGame = reorderedUnits.map((unit, index) => ({
+        ...unit,
+        unitOrder: index + 1,
+      }));
+    },
   },
 });
 
@@ -59,6 +85,9 @@ export const {
   setLoggedInAdmin,
   setTaskAddGame,
   setIsEditing,
+  setUnitsInEditGame,
+  deleteUnitInEditGame,
+  setUnitsInEditGameOrder,
 } = globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;

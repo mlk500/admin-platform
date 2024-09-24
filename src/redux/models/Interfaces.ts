@@ -101,7 +101,6 @@ export interface Game {
   gameName?: string;
   description?: string;
   qrcodeURL?: string;
-  // gameImage?: GameImage;
   units?: Unit[];
 }
 
