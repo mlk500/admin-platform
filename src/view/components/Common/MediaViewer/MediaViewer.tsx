@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MediaTaskTBC } from "../../../../redux/models/Interfaces";
+import { MediaTask, MediaTaskTBC } from "../../../../redux/models/Interfaces";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/src/styles.scss";
@@ -7,7 +7,7 @@ import ReactPlayer from "react-player";
 import "./MediaViewer.scss";
 
 interface MediaViewerProps {
-  mediaList: MediaTaskTBC[];
+  mediaList: MediaTaskTBC[] | MediaTask[];
   onDelete?: (index: number) => void;
   deletable?: boolean;
   maxMediaCount?: number;
@@ -21,7 +21,9 @@ const MediaViewer: React.FC<MediaViewerProps> = ({
   maxMediaCount = 100,
   onUploadRestricted,
 }) => {
-  const [allowedMediaList, setAllowedMediaList] = useState<MediaTaskTBC[]>([]);
+  const [allowedMediaList, setAllowedMediaList] = useState<
+    (MediaTaskTBC | MediaTask)[]
+  >([]);
 
   useEffect(() => {
     if (mediaList.length > 0) {
@@ -41,7 +43,6 @@ const MediaViewer: React.FC<MediaViewerProps> = ({
         }
       }
 
-      // Always show media, up to maxMediaCount
       setAllowedMediaList(mediaList.slice(0, maxMediaCount));
     }
   }, [mediaList, maxMediaCount, onUploadRestricted]);
