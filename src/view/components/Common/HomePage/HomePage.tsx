@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCard, setSector } from "../../../../redux/slices/GlobalStates";
 import "./HomePage.scss";
+import AlertMessage from "../AlertMessage/AlertMessage";
 
 interface HomePageProps {
   objects: any[];
@@ -13,6 +14,7 @@ interface HomePageProps {
   addButtonPath?: string;
   setCardOnClick?: boolean;
   onAddClick?: () => void;
+  alertMessage?: string;
 }
 
 const HomePage: FC<HomePageProps> = ({
@@ -23,6 +25,7 @@ const HomePage: FC<HomePageProps> = ({
   addButtonPath,
   setCardOnClick = true,
   onAddClick,
+  alertMessage,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +33,8 @@ const HomePage: FC<HomePageProps> = ({
   // console.log("home page obj " + objects)
   return (
     <div className="home-page" dir="rtl">
+      {alertMessage && <AlertMessage message={alertMessage} />}
+
       <div className="content">
         <div className="homePage-grid">
           {objects.map((ob, index) => {
@@ -37,8 +42,8 @@ const HomePage: FC<HomePageProps> = ({
               page === "Game"
                 ? ob.gameName
                 : page === "Sector"
-                  ? ob.username
-                  : ob.name;
+                ? ob.username
+                : ob.name;
             console.log("ob name  is ", ob);
 
             return (
@@ -76,7 +81,7 @@ const HomePage: FC<HomePageProps> = ({
               if (page === "Sector" && onAddClick) {
                 e.preventDefault();
                 const result = onAddClick();
-                if (typeof result === 'boolean' && result) {
+                if (typeof result === "boolean" && result) {
                   navigate(`/${addButtonPath}`);
                 }
               }

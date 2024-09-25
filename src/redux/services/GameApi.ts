@@ -91,7 +91,7 @@ class GameApi {
         "units",
         new Blob([JSON.stringify(units)], { type: "application/json" })
       );
-      console.log("units sent are ", units)
+      console.log("units sent are ", units);
       const response = await genericAPI.putFormData(
         `${GameApi.endpoint}/update/${game.gameID}`,
         formData
@@ -109,8 +109,6 @@ class GameApi {
       throw error;
     }
   }
-
-  
 }
 
 export const gameAPI = new GameApi();

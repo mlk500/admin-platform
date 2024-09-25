@@ -1,25 +1,20 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Location } from "../../../../../redux/models/Interfaces";
 import "./ChooseCard.scss";
-import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
 
 interface ChoosableLocationCardProps {
   object: Location;
   navigationPath: string;
-}
-
-interface ChoosableLocationCardProps {
-  object: Location;
-  navigationPath: string;
+  setAlertMessage: (message: string) => void;
 }
 
 const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
   object,
   navigationPath,
+  setAlertMessage,
 }) => {
   const navigate = useNavigate();
-  const [alertMessage, setAlertMessage] = useState<string | null>(null);
   // const handleClick = () => {
   //   if (object.objectsList?.length === 0) {
   //   } else {
@@ -60,7 +55,6 @@ const ChoosableLocationCard: FC<ChoosableLocationCardProps> = ({
 
   return (
     <div className="Location-card" onClick={handleClick} dir="rtl">
-      {alertMessage && <AlertMessage message={alertMessage} />}
       <div className="card-header">
         <div className="title">{object.name}</div>
         <div className="buttons">
