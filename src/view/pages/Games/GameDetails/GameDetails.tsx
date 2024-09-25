@@ -27,7 +27,6 @@ const GameDetails: React.FC = () => {
   console.log("game in drt ", game);
 
   useEffect(() => {
-    console.log(game.gameName);
     const fetchSectorName = async () => {
       try {
         const admins = await adminAPI.getAllAdmins(); // Fetch all admins

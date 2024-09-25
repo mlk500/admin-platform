@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Admin, Location, Task, Unit } from "../models/Interfaces";
-import { indexOf } from "lodash";
-
 interface GlobalStates {
   selectedCard: any;
   page: string;

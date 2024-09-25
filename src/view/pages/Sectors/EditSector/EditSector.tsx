@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { DoctorUserIcon, PasswordIcon } from "../../../photos";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { adminAPI } from "../../../../redux/services/AdminApi";
 import "./EditSector.scss";
 import { Admin } from "../../../../redux/models/Interfaces";

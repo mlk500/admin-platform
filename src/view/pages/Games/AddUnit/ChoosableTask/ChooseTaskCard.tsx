@@ -22,6 +22,7 @@ const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
   const isEditing = useSelector(
     (state: RootState) => state.globalStates.isEditing
   );
+  console.log(isEditing)
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();

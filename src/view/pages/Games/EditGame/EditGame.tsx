@@ -84,11 +84,25 @@ const EditGame: FC = () => {
     navigate("/Edit-AddUnit", { state: { gameID: game.gameID } });
   };
 
+  const normalizeUnits = (units: any[]): any[] => {
+    return units.map(unit => ({
+      unitID: unit.unitID,
+      name: unit.name,
+      description: unit.description || '',
+      hint: unit.hint,
+      unitOrder: unit.unitOrder,
+      objectID: unit.objectDTO ? unit.objectDTO.objectID : unit.objectID,
+      taskID: unit.taskDTO ? unit.taskDTO.taskID : unit.taskID,
+      locationID: unit.locationDTO ? unit.locationDTO.locationID : unit.locationID
+    }));
+  };
+
   const handleSubmit = async () => {
     if (gameName && !gameName.trim()) {
       setAlertMessage("שם המשחק לא יכול להיות ריק");
       return;
     }
+    const normalizedUnits = normalizeUnits(units);
     setIsLoading(true);
     setLoadingMessage("מעדכן משחק...");
     try {
@@ -96,10 +110,8 @@ const EditGame: FC = () => {
         ...game,
         gameName,
         description: gameDescription,
-        units,
       };
-      const response = await gameAPI.updateGame(updatedGameData);
-
+      const response = await gameAPI.updateGame(updatedGameData, normalizedUnits);
       if (response.status === 200) {
         const updatedGame: Game = {
           ...game,

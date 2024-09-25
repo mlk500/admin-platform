@@ -10,12 +10,12 @@ interface ChoosableTasksPageProps {
   fromParent: string;
 }
 
-const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
+const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const isEditing = useSelector(
     (state: RootState) => state.globalStates.isEditing
   ); // Access isEditing from global state
-
+  console.log(isEditing)
   useEffect(() => {
     const fetchTasks = async () => {
       const fetchedTasks = await taskAPI.getAllTasks();

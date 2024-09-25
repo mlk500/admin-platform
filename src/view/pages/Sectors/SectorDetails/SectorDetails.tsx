@@ -2,7 +2,6 @@ import { FC } from "react";
 import { DoctorUserIcon, HospitalIcon } from "../../../photos";
 import { RootState } from "../../../../redux/store";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import "./SectorDetails.scss";
 
 const SectorDetails: FC = () => {

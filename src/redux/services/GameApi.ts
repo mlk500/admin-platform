@@ -7,7 +7,7 @@ class GameApi {
 
   async getAllGames(): Promise<Game[]> {
     const response = await genericAPI.get<Game[]>(`${GameApi.endpoint}/getAll`);
-    // console.log("games from api ", response.data);
+    console.log("games from api ", response.data);
     return response.data;
   }
 
@@ -56,13 +56,42 @@ class GameApi {
     }
   }
 
-  async updateGame(game: Game): Promise<AxiosResponse> {
+  // async updateGame(game: Game): Promise<AxiosResponse> {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append(
+  //       "game",
+  //       new Blob([JSON.stringify(game)], { type: "application/json" })
+  //     );
+  //     const response = await genericAPI.putFormData(
+  //       `${GameApi.endpoint}/update/${game.gameID}`,
+  //       formData
+  //     );
+  //     return response;
+  //   } catch (error: any) {
+  //     console.error("Error updating game:", error);
+  //     if (error.response && error.response.data) {
+  //       console.error(
+  //         "Error updating game (response data):",
+  //         error.response.data
+  //       );
+  //       throw error.response.data;
+  //     }
+  //     throw error;
+  //   }
+  // }
+  async updateGame(game: Partial<Game>, units: Unit[]): Promise<AxiosResponse> {
     try {
       const formData = new FormData();
       formData.append(
         "game",
         new Blob([JSON.stringify(game)], { type: "application/json" })
       );
+      formData.append(
+        "units",
+        new Blob([JSON.stringify(units)], { type: "application/json" })
+      );
+      console.log("units sent are ", units)
       const response = await genericAPI.putFormData(
         `${GameApi.endpoint}/update/${game.gameID}`,
         formData
@@ -80,6 +109,8 @@ class GameApi {
       throw error;
     }
   }
+
+  
 }
 
 export const gameAPI = new GameApi();
