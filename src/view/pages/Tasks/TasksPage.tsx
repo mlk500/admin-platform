@@ -22,9 +22,9 @@ const TasksPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -122,7 +122,7 @@ const TasksPage: FC = () => {
         <ConfirmationDialog
           onConfirm={handleDeleteConfirm}
           onCancel={() => setShowConfirm(false)}
-          message={`Are you sure you want to delete the task "${taskToDelete?.name}"?`}
+          message={`את/ה בטוח/ה שאת/ה רוצה למחוק המשימה "${taskToDelete?.name}"?`}
         />
       )}
     </div>
