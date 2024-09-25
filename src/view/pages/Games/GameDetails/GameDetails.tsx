@@ -63,7 +63,7 @@ const GameDetails: React.FC = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className="game-container" dir="rtl">
       <div className="game-overlay"></div>
       <div className="game-details-content">
         {/* Main Title as Sector Name */}
