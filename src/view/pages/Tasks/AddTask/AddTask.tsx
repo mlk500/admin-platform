@@ -94,15 +94,32 @@ function AddTask() {
           file: file,
         })
       );
+
+      const hasImage = newMediaTasks.some((file) =>
+        file.mediaType.includes("image")
+      );
+      const hasVideo = newMediaTasks.some((file) =>
+        file.mediaType.includes("video")
+      );
+
+      if (hasImage && hasVideo) {
+        setAlertMessage("You cannot upload both images and videos together.");
+        return;
+      }
+
       setMediaFiles((prevFiles) => [...prevFiles, ...newMediaTasks]);
+      event.target.value = "";
     }
   };
-
   const handleDeleteMedia = (index: number) => {
     setMediaFiles((files) => {
       const newFiles = [...files];
-      URL.revokeObjectURL(newFiles[index].mediaPath);
-      newFiles.splice(index, 1);
+      const deletedFile = newFiles.splice(index, 1)[0];
+
+      if (deletedFile && deletedFile.mediaPath) {
+        URL.revokeObjectURL(deletedFile.mediaPath);
+      }
+
       return newFiles;
     });
   };
@@ -138,8 +155,19 @@ function AddTask() {
       );
       return;
     }
+
     if (selectedSector === null) {
       setAlertMessage("למשימה חייב להיות תחום.");
+      return;
+    }
+    if (
+      !validateQuestion() &&
+      mediaFiles.length === 0 &&
+      !additionalNotes.trim()
+    ) {
+      setAlertMessage(
+        "למשימה חייב להיות לפחות אלמנט אחד (שאלה, מדיה או הערות)."
+      );
       return;
     } else {
       const task: TaskTBC = {
@@ -286,19 +314,24 @@ function AddTask() {
                       <div className="info-box">Info about media</div>
                     )}
                   </div>
-                  <MediaViewer
-                    mediaList={mediaFiles.map((file) => ({
-                      mediaTaskID: Math.random(),
-                      fileName: file.fileName,
-                      mediaPath: file.mediaPath,
-                      mediaType: file.mediaType,
-                      mediaUrl: file.mediaPath,
-                    }))}
-                    onDelete={handleDeleteMedia}
-                    deletable={true}
-                    maxMediaCount={6}
-                    onUploadRestricted={(message) => setAlertMessage(message)}
-                  />
+                  {mediaFiles.length > 0 && (
+                    <MediaViewer
+                      mediaList={mediaFiles.map((file, index) => ({
+                        key: index,
+                        mediaTaskID: Math.random(),
+                        fileName: file.fileName,
+                        mediaPath: file.mediaPath,
+                        mediaType: file.mediaType,
+                        mediaUrl: file.mediaPath,
+                        file: file.file,
+                      }))}
+                      onDelete={handleDeleteMedia}
+                      deletable={true}
+                      maxMediaCount={6}
+                      onUploadRestricted={(message) => setAlertMessage(message)}
+                    />
+                  )}
+
                   <button
                     type="button"
                     className="delete-option-button"
