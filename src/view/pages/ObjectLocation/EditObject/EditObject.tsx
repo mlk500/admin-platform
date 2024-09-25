@@ -12,7 +12,7 @@ import {
 import { objectAPI } from "../../../../redux/services/ObjectLocationApi";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
-
+import "./EditObject.scss";
 const EditObjectHebrew = {
   EditObject: "עריכת אובייקט",
   Name: "שם : ",
