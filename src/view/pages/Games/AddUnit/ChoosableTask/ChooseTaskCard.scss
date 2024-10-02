@@ -1,7 +1,7 @@
 @import "../../../../themes/mixins";
 @import "../../../../themes/variables";
 
-.task-card-file {
+.choosable-task-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -33,7 +33,7 @@
     z-index: 0;
   }
 
-  .card-header-file {
+  .card-header-choosable-task {
     position: relative;
     z-index: 2;
     display: flex;
@@ -42,7 +42,7 @@
     justify-content: space-between;
     border-radius: 12px;
 
-    .title-file {
+    .title-choosable-task {
       @include font-style;
       font-weight: 600;
       font-size: 1.5vw;
@@ -53,35 +53,9 @@
       flex: 1;
       margin-right: 1vw;
     }
-
-    .buttons-file {
-      display: flex;
-
-      .edit-button-file,
-      .delete-button-file {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-
-        &:hover {
-          transform: scale(1.1);
-        }
-      }
-
-      .delete-icon-file {
-        width: 2.8vw;
-        height: 2.5vw;
-      }
-
-      .edit-icon-file {
-        margin-left: -1vw;
-        width: 2vw;
-        height: 2.3vw;
-      }
-    }
   }
-  .task-card-content-file {
+
+  .choosable-task-card-content {
     position: relative;
     z-index: 2;
     display: flex;
@@ -89,17 +63,24 @@
     justify-content: space-between;
     border-radius: 12px;
 
-    .sections-file {
+    .sections-choosable-task {
       display: flex;
       flex-direction: column;
+      gap: 1vw;
+      padding-left: 1vw;
+      padding-right: 1vw;
 
-      .section-title-file {
-        color: "white";
+      .section-title-choosable-task {
         @include font-style;
         font-size: 1.5vw;
-        text-align: right;
         color: $secondary-white-color;
-        flex: 1;
+        text-align: right;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
       }
     }
   }

@@ -115,7 +115,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 1; // Limits text to 2 lines
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
       }
     }

@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Task } from "../../../../../redux/models/Interfaces";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../redux/store";
 import { setTaskAddGame } from "../../../../../redux/slices/GlobalStates";
 import "./ChooseTaskCard.scss";
 
@@ -18,6 +19,10 @@ const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isEditing = useSelector(
+    (state: RootState) => state.globalStates.isEditing
+  );
+  console.log(isEditing);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
@@ -27,14 +32,16 @@ const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
   };
 
   return (
-    <div className="task-card-file" onClick={handleClick}>
-      <div className="card-header-file">
-        <div className="title-file">{object.name}</div>
+    <div className="choosable-task-card" onClick={handleClick}>
+      <div className="card-header-choosable-task">
+        <div className="title-choosable-task">{object.name}</div>
       </div>
-      <div className="task-card-content-file">
-        <div className="sections-file">
+      <div className="choosable-task-card-content">
+        <div className="sections-choosable-task">
           {object.description && (
-            <div className="section-title-file">{object.description}</div>
+            <div className="section-title-choosable-task">
+              {object.description}
+            </div>
           )}
         </div>
       </div>
