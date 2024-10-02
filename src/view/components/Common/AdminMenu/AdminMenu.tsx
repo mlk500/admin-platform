@@ -12,7 +12,10 @@ import {
 import "./AdminMenu.scss";
 import { buttonsName } from "../../../../redux/models/Types";
 import { Link } from "react-router-dom";
-import { setPage } from "../../../../redux/slices/GlobalStates";
+import {
+  setIsObjectsPage,
+  setPage,
+} from "../../../../redux/slices/GlobalStates";
 import { useDispatch } from "react-redux";
 import { Admin, UserRole } from "../../../../redux/models/Interfaces";
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog";
@@ -41,6 +44,7 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
     debounce((page: string) => {
       dispatch(setPage(page));
       setActiveButton(page);
+      dispatch(setIsObjectsPage(false));
       localStorage.setItem("page", page);
     }, 200),
     [dispatch, setActiveButton]

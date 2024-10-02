@@ -37,6 +37,7 @@ import EditEditUnit from "../pages/Games/EditGame/Edit-EditUnit/Edit-EditUnit";
 import EditAddUnit from "../pages/Games/EditGame/Edit-Addunit/Edit-AddUnit";
 import DuplicateTask from "../pages/Tasks/DuplicateTask/DuplicateTask";
 import TaskDetailsAddGame from "../pages/Games/AddUnit/TaskDetailsAddGame/TaskDetailsAddGame";
+import ObjectGames from "../pages/ObjectLocation/ObjectDetails/ObjectGames";
 
 function Layout() {
   return (
@@ -228,6 +229,10 @@ const router = createBrowserRouter([
       {
         path: "/TaskDetailsAddGame",
         element: <TaskDetailsAddGame />,
+      },
+      {
+        path: "/ObjectGames",
+        element: <ObjectGames />,
       },
     ],
   },

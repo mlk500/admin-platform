@@ -1,7 +1,10 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { setPage } from "../../../../redux/slices/GlobalStates";
+import {
+  setIsObjectsPage,
+  setPage,
+} from "../../../../redux/slices/GlobalStates";
 import { MainNavbar, AdminMenu } from "../..";
 import "./Base.scss";
 import { buttonsName } from "../../../../redux/models/Types";
@@ -18,16 +21,18 @@ function Base({ children }: BaseProps) {
   useEffect(() => {
     const savedPage = localStorage.getItem("page");
     if (savedPage) {
+      dispatch(setIsObjectsPage(false));
       dispatch(setPage(savedPage));
     } else {
-      dispatch(setPage(buttonsName.Games)); // Default page
+      dispatch(setIsObjectsPage(false));
+      dispatch(setPage(buttonsName.Sectors));
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (page) {
       localStorage.setItem("page", page);
-      setMenuActiveButton(page); // Update navbar state
+      setMenuActiveButton(page);
     }
   }, [page]);
 

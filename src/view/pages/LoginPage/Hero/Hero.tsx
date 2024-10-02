@@ -5,6 +5,7 @@ import { DoctorUserIcon, HeroPhoto, PasswordIcon } from "../../../photos";
 import { loginAPI } from "../../../../redux/services/LoginApi";
 import { Admin } from "../../../../redux/models/Interfaces";
 import {
+  setIsObjectsPage,
   setLoggedInAdmin,
   setPage,
 } from "../../../../redux/slices/GlobalStates";
@@ -29,6 +30,7 @@ const Hero: React.FC = () => {
         const admin: Admin = await loginAPI.login(username, password);
         dispatch(setLoggedInAdmin(admin));
         //in here call al apis
+        dispatch(setIsObjectsPage(false));
         dispatch(setPage(buttonsName.Sectors));
         localStorage.setItem("page", buttonsName.Sectors);
         navigate("/Sectors");

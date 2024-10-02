@@ -9,7 +9,11 @@ import { setLocations } from "../../../redux/slices/saveAllData";
 import ConfirmationDialog from "../../components/Common/ConfirmationDialog/ConfirmationDialog";
 import { Location } from "../../../redux/models/Interfaces";
 import { buttonsName } from "../../../redux/models/Types";
-import { setCard, setPage } from "../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsObjectsPage,
+  setPage,
+} from "../../../redux/slices/GlobalStates";
 import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
@@ -42,6 +46,7 @@ const LocationsPage: FC = () => {
       } finally {
         setIsLoading(false);
       }
+      dispatch(setIsObjectsPage(false));
       dispatch(setPage(buttonsName.Locations));
     };
     fetchLocations();

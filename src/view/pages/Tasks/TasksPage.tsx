@@ -8,7 +8,12 @@ import { setTasks } from "../../../redux/slices/saveAllData";
 import { RootState } from "../../../redux/store";
 import ConfirmationDialog from "../../components/Common/ConfirmationDialog/ConfirmationDialog";
 import { Admin, Task, UserRole } from "../../../redux/models/Interfaces";
-import { setCard, setPage } from "../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsCreateGame,
+  setIsObjectsPage,
+  setPage,
+} from "../../../redux/slices/GlobalStates";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Common/LoadingSpinner/Loader";
 import { buttonsName } from "../../../redux/models/Types";
@@ -22,9 +27,9 @@ const TasksPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,6 +37,7 @@ const TasksPage: FC = () => {
   const [refetchTrigger, setRefetchTrigger] = useState(0);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   useEffect(() => {
+    dispatch(setIsCreateGame(false));
     const fetchTasks = async () => {
       setIsLoading(true);
       setLoadingMessage("טוען משימות...");
@@ -45,6 +51,7 @@ const TasksPage: FC = () => {
       } finally {
         setIsLoading(false);
       }
+      dispatch(setIsObjectsPage(false));
       dispatch(setPage(buttonsName.Tasks));
     };
     fetchTasks();

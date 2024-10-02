@@ -6,6 +6,8 @@ import {
 } from "../../../../../redux/models/Interfaces";
 import ChoosableObjectCard from "./ChooseObjectCard";
 import "./ChooseObjectPage.scss";
+import { setIsObjectsPage } from "../../../../../redux/slices/GlobalStates";
+import { useDispatch } from "react-redux";
 
 interface ChoosableObjectsPageProps {
   fromParent: string;
@@ -17,8 +19,11 @@ const ChoosableObjectsPage: FC<ChoosableObjectsPageProps> = ({
   const navigate = useNavigate();
   const { state } = useLocation();
   const { selectedLocation } = state as { selectedLocation: Location };
+  const dispatch = useDispatch();
   // const selectedLocation = useSelector((state: RootState) => state.globalStates.selectedCard);
   // const returnPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
+
+  dispatch(setIsObjectsPage(true));
   let navigationPath: string;
   switch (fromParent) {
     case "EditUnit":

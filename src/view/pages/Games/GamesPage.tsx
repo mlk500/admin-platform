@@ -14,6 +14,7 @@ import { gameAPI } from "../../../redux/services/GameApi";
 import {
   setCard,
   setIsEditing,
+  setIsObjectsPage,
   setPage,
 } from "../../../redux/slices/GlobalStates";
 import { buttonsName } from "../../../redux/models/Types";
@@ -44,13 +45,29 @@ const GamesPage: FC = () => {
   const navigate = useNavigate();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
+  // Automatically refetch when the page is loaded
   useEffect(() => {
     const fetchGames = async () => {
+      setIsLoading(true);
+      setLoadingMessage("טוען משחקים...");
       dispatch(setIsEditing(false));
-      dispatch(setGames(await gameAPI.getAllGames()));
-      dispatch(setLocations(await locationAPI.getAllLocations()));
+      dispatch(setIsObjectsPage(false));
       dispatch(setPage(buttonsName.Games));
-      dispatch(setTasks(await taskAPI.getAllTasks()));
+      try {
+        const gamesData = await gameAPI.getAllGames();
+        const locationsData = await locationAPI.getAllLocations();
+        const tasksData = await taskAPI.getAllTasks();
+        console.log("gamesData :", gamesData);
+        dispatch(setGames(gamesData));
+        dispatch(setLocations(locationsData));
+        dispatch(setTasks(tasksData));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setAlertMessage("שגיאה בטעינת משחקים");
+      } finally {
+        setIsLoading(false);
+        setLoadingMessage("");
+      }
     };
     fetchGames();
   }, [dispatch, refetchTrigger]);
@@ -83,7 +100,7 @@ const GamesPage: FC = () => {
           );
           setLoadingMessage("משחק נמחק בהצלחה!");
           setTimeout(() => {
-            setRefetchTrigger((prev) => prev + 1);
+            setRefetchTrigger((prev) => prev + 1); // Trigger refetch after delete
             setIsLoading(false);
             setLoadingMessage("");
           }, 500);
@@ -101,6 +118,7 @@ const GamesPage: FC = () => {
       setAlertMessage("שגיאה במחיקת המשחק");
     }
   };
+
   const handleEdit = (game: Game) => {
     dispatch(setCard(game));
     navigate("/EditGame");

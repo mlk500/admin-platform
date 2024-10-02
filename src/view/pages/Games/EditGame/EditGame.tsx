@@ -42,6 +42,7 @@ const EditGame: FC = () => {
   const units = useSelector(
     (state: RootState) => state.globalStates.unitsInEditGame
   );
+  console.log(units);
   useEffect(() => {
     clearLocalStorage();
   }, [locationState, dispatch, game.units]);
@@ -79,10 +80,6 @@ const EditGame: FC = () => {
     });
   };
 
-  const handleAddUnit = () => {
-    navigate("/Edit-AddUnit", { state: { gameID: game.gameID } });
-  };
-
   const normalizeUnits = (units: any[]): any[] => {
     return units.map((unit) => ({
       unitID: unit.unitID,
@@ -103,7 +100,6 @@ const EditGame: FC = () => {
       setAlertMessage("שם המשחק לא יכול להיות ריק");
       return;
     }
-    const normalizedUnits = normalizeUnits(units);
     setIsLoading(true);
     setLoadingMessage("מעדכן משחק...");
     try {
@@ -112,10 +108,9 @@ const EditGame: FC = () => {
         gameName,
         description: gameDescription,
       };
-      const response = await gameAPI.updateGame(
-        updatedGameData,
-        normalizedUnits
-      );
+      console.log("updateGame units:", units);
+
+      const response = await gameAPI.updateGame(updatedGameData, units);
       if (response.status === 200) {
         const updatedGame: Game = {
           ...game,

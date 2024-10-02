@@ -9,6 +9,7 @@ import { RootState } from "../../../redux/store";
 import { setSectors } from "../../../redux/slices/saveAllData";
 import {
   setCard,
+  setIsObjectsPage,
   setPage,
   setSector,
 } from "../../../redux/slices/GlobalStates";
@@ -47,6 +48,7 @@ const SectorsPage: FC = () => {
       } finally {
         setIsLoading(false);
       }
+      dispatch(setIsObjectsPage(false));
       dispatch(setPage(buttonsName.Sectors));
     };
     fetchSectors();

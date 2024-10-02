@@ -46,7 +46,7 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 100% * 4;
+      height: 100% * 6;
       background-color: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       z-index: -1;
@@ -84,6 +84,26 @@
     .task-content {
       width: 100%;
       color: $secondary-white-color;
+
+      .view-games-button {
+        padding: 0.5rem 1rem;
+        background-color: $secondary-white-color;
+        border-color: $secondary-darkgreen-color;
+        @include font_style;
+        color: $secondary-darkgreen-color;
+        margin-top: 2vw;
+        font-size: 2vw;
+        width: 20vw;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 3vw;
+        &:hover {
+          color: white;
+          background-color: $primary-green-logo-color;
+          border-color: $primary-pink-logo-color;
+        }
+      }
 
       .object-imgs-list {
         .section-title {

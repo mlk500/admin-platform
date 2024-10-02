@@ -41,7 +41,8 @@ const AddNewTaskHebrew = {
   Delete_Media: "מחיקה",
   WithMsg: "הצגת הודעת הצלחה ",
   Sectors: "בחירת מחלקה",
-  infoAboutSectors: "הוספת טקסט קצר",
+  infoMessage: "הוספת טקסט קצר",
+  infoAboutChoosingSector: "יש לבחור תחום למשימה",
 };
 
 function AddTask() {
@@ -57,6 +58,9 @@ function AddTask() {
   const [showNotes, setShowNotes] = useState<boolean>(false);
   const [mediaFiles, setMediaFiles] = useState<MediaTaskTBC[]>([]);
   const sectors = useSelector((state: RootState) => state.AllData.Sectors);
+  const CreateGame = useSelector(
+    (state: RootState) => state.globalStates.isCreateGame
+  );
   const [withMsg, setWithMsg] = useState<boolean>(true);
   const adminStr = localStorage.getItem("admin");
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -139,6 +143,9 @@ function AddTask() {
     if (!name.trim()) {
       setAlertMessage("למשימה חייב להיות שם.");
       return;
+    } else if (selectedSector === null) {
+      setAlertMessage("למשימה חייב להיות תחום.");
+      return;
     }
     if (question) {
       if (!validateQuestion()) {
@@ -153,11 +160,6 @@ function AddTask() {
       setAlertMessage(
         "למשימה חייב להיות לפחות אלמנט אחד (שאלה, מדיה או הערות)."
       );
-      return;
-    }
-
-    if (selectedSector === null) {
-      setAlertMessage("למשימה חייב להיות תחום.");
       return;
     }
     if (
@@ -214,7 +216,11 @@ function AddTask() {
         setTimeout(() => {
           setIsLoading(false);
           setLoadingMessage("");
-          navigate("/Tasks");
+          if (CreateGame) {
+            navigate("/ChooseTask-add");
+          } else {
+            navigate("/Tasks");
+          }
         }, 1000);
       } catch (error) {
         console.error("Failed to create task", error);
@@ -251,9 +257,7 @@ function AddTask() {
               />
 
               {visibleInfo === "name" && (
-                <div className="info-box">
-                  {AddNewTaskHebrew.infoAboutSectors}
-                </div>
+                <div className="info-box">{AddNewTaskHebrew.infoMessage}</div>
               )}
             </div>
           </div>
@@ -273,9 +277,7 @@ function AddTask() {
               />
 
               {visibleInfo === "description" && (
-                <div className="info-box">
-                  {AddNewTaskHebrew.infoAboutSectors}
-                </div>
+                <div className="info-box">{AddNewTaskHebrew.infoMessage}</div>
               )}
             </div>
           </div>
@@ -477,7 +479,7 @@ function AddTask() {
 
                   {visibleInfo === "sectors" && (
                     <div className="info-box">
-                      {AddNewTaskHebrew.infoAboutSectors}
+                      {AddNewTaskHebrew.infoAboutChoosingSector}
                     </div>
                   )}
                 </div>

@@ -46,6 +46,7 @@ function EditGameUnitsPage() {
   };
 
   const handleDrag = (fromIndex: number, toIndex: number) => {
+    console.log(`Drag from ${fromIndex} to ${toIndex}`);
     dispatch(setUnitsInEditGameOrder({ fromIndex, toIndex }));
   };
 
@@ -75,14 +76,21 @@ function EditGameUnitsPage() {
                 onClick={() => handleEdit(unit)}
                 draggable
                 onDragStart={(e) => {
-                  e.dataTransfer.setData("index", index.toString());
+                  e.dataTransfer.setData("fromIndex", index.toString());
                 }}
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                }}
                 onDrop={(e) => {
                   e.preventDefault();
-                  const fromIndex = parseInt(e.dataTransfer.getData("index"));
+                  const fromIndex = parseInt(
+                    e.dataTransfer.getData("fromIndex"),
+                    10
+                  );
                   const toIndex = index;
-                  handleDrag(fromIndex, toIndex);
+                  if (!isNaN(fromIndex) && !isNaN(toIndex)) {
+                    handleDrag(fromIndex, toIndex);
+                  }
                 }}
                 title={unit.hint}
               >

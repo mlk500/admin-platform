@@ -3,7 +3,7 @@ export interface Task {
   name: string;
   description?: string;
   taskFreeTexts?: string[];
-  questionTask?: QuestionTask; 
+  questionTask?: QuestionTask;
   mediaList?: MediaTask[];
   adminIDAPI: number;
   withMsg: boolean;
@@ -13,7 +13,7 @@ export interface TaskTBC {
   name: string;
   description?: string;
   taskFreeTexts?: string[];
-  questionTask?: QuestionTask; 
+  questionTask?: QuestionTask;
   mediaList?: MediaTask[];
   withMsg: boolean;
 }
@@ -46,14 +46,13 @@ export interface MediaTaskTBC {
   file: File;
 }
 
-
 export interface LocationTBC {
   locationID: number;
   name: string;
   description?: string;
   floor: number;
   qrcode: string;
-  locationImage?: LocationImage; 
+  locationImage?: LocationImage;
   objectsList?: ObjectLocation[];
 }
 
@@ -65,7 +64,7 @@ export interface Location {
   QRCode: string;
   qrcodePublicUrl: string;
   locationImagePublicUrl: string;
-  locationImage?: LocationImage; 
+  locationImage?: LocationImage;
   objectsList?: ObjectLocation[];
 }
 
@@ -77,11 +76,11 @@ export interface LocationImage {
   publicUrl: string;
 }
 
-
 export interface ObjectLocation {
   objectID: number;
   name: string;
   description?: string;
+  games?: Game[];
   // location: Location;
   // objectImages: ObjectImage[];
 }
@@ -93,7 +92,6 @@ export interface ObjectImage {
   object: ObjectLocation;
   imageUrl: string;
 }
-
 
 export interface Game {
   gameID?: number;
@@ -148,6 +146,6 @@ export interface AdminTBC {
 }
 
 export enum UserRole {
-  MainAdmin, SectorAdmin
+  MainAdmin,
+  SectorAdmin,
 }
-

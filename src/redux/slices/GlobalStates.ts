@@ -10,6 +10,8 @@ interface GlobalStates {
   taskAddGame: Task | null;
   isEditing: boolean;
   unitsInEditGame: Unit[];
+  isObjectsPage: boolean;
+  isCreateGame: boolean;
 }
 
 const initialState: GlobalStates = {
@@ -22,6 +24,8 @@ const initialState: GlobalStates = {
   taskAddGame: null,
   isEditing: false,
   unitsInEditGame: [],
+  isObjectsPage: false,
+  isCreateGame: false,
 };
 
 const globalStatesSlice = createSlice({
@@ -58,6 +62,10 @@ const globalStatesSlice = createSlice({
         (_, index) => index !== action.payload
       );
     },
+    setIsCreateGame(state, action: PayloadAction<boolean>) {
+      state.isCreateGame = action.payload;
+    },
+
     setUnitsInEditGameOrder(
       state,
       action: PayloadAction<{ fromIndex: number; toIndex: number }>
@@ -66,11 +74,14 @@ const globalStatesSlice = createSlice({
       const reorderedUnits = [...state.unitsInEditGame];
       const [movedUnit] = reorderedUnits.splice(fromIndex, 1);
       reorderedUnits.splice(toIndex, 0, movedUnit);
-
       state.unitsInEditGame = reorderedUnits.map((unit, index) => ({
         ...unit,
         unitOrder: index + 1,
       }));
+    },
+
+    setIsObjectsPage(state, action: PayloadAction<boolean>) {
+      state.isObjectsPage = action.payload;
     },
     updateSpecificUnit(
       state,
@@ -94,6 +105,8 @@ const globalStatesSlice = createSlice({
 });
 
 export const {
+  setIsCreateGame,
+  setIsObjectsPage,
   setCard,
   setPage,
   setSectorColor,

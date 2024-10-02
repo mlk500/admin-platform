@@ -10,7 +10,11 @@ import { ObjectLocation } from "../../../redux/models/Interfaces";
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmationDialog from "../../components/Common/ConfirmationDialog/ConfirmationDialog";
 import { buttonsName } from "../../../redux/models/Types";
-import { setCard, setPage } from "../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsObjectsPage,
+  setPage,
+} from "../../../redux/slices/GlobalStates";
 import Loader from "../../components/Common/LoadingSpinner/Loader";
 import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 
@@ -29,6 +33,7 @@ const ObjectsPage: FC = () => {
   const navigate = useNavigate();
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   useEffect(() => {
+    dispatch(setIsObjectsPage(true));
     const fetchObjects = async () => {
       if (locationID) {
         const objectsData = await objectAPI.getAllObjetsOfLocation(
@@ -36,6 +41,7 @@ const ObjectsPage: FC = () => {
         );
         dispatch(setObjects(objectsData));
         dispatch(setPage(buttonsName.Locations));
+        dispatch(setIsObjectsPage(true));
       }
     };
     fetchObjects();
