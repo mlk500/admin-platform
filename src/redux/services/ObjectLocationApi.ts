@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { ObjectLocation } from "../models/Interfaces";
+import { Game, ObjectLocation } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
 class ObjectLocationAPI {
@@ -55,6 +55,21 @@ class ObjectLocationAPI {
       return response.data;
     } catch (error: any) {
       console.error("Error updating object:", error);
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw error;
+    }
+  }
+
+  async getGamesForObject(objectID: number): Promise<Game[]> {
+    try {
+      const response = await genericAPI.get<Game[]>(
+        `${ObjectLocationAPI.endpoint}/get-games-for-object/${objectID}`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching games for object:", error);
       if (error.response && error.response.data) {
         throw error.response.data;
       }

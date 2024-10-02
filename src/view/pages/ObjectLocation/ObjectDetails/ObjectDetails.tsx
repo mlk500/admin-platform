@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import "./ObjectDetails.scss";
-import { ObjectImage } from "../../../../redux/models/Interfaces";
+import { ObjectImage, Game } from "../../../../redux/models/Interfaces";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../../components/Common/LoadingSpinner/Loader";
+import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
+import { objectAPI } from "../../../../redux/services/ObjectLocationApi";
 
 const ObjectDetailsHebrew = {
   Name: "שם",
@@ -16,14 +19,39 @@ const ObjectDetailsHebrew = {
 
 const ObjectDetails: React.FC = () => {
   const navigate = useNavigate();
-
   const object = useSelector(
     (state: RootState) => state.globalStates.selectedCard
   );
   const objectImages = object?.objectImages ?? [];
+
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Fetch the games for the object when the component mounts
+  useEffect(() => {
+    const fetchGamesForObject = async () => {
+      if (object?.objectID) {
+        setIsLoading(true);
+        try {
+          const fetchedGames = await objectAPI.getGamesForObject(
+            object.objectID
+          );
+          setGames(fetchedGames);
+        } catch (error) {
+          setErrorMessage("Failed to load games.");
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchGamesForObject();
+  }, [object?.objectID]);
+
   const handleViewGames = () => {
-    if (object?.games) {
-      navigate("/ObjectGames", { state: { games: object?.games } });
+    if (games.length > 0) {
+      navigate("/ObjectGames", { state: { games } });
     }
   };
 
@@ -41,7 +69,9 @@ const ObjectDetails: React.FC = () => {
           </div>
         )}
         <div className="task-content">
-          {object?.games.length > 0 && (
+          {isLoading && <Loader isLoading={true} message="Loading games..." />}
+          {errorMessage && <AlertMessage message={errorMessage} />}
+          {games.length > 0 && (
             <button className="view-games-button" onClick={handleViewGames}>
               {ObjectDetailsHebrew.ViewGames}
             </button>
