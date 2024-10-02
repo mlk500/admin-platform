@@ -106,6 +106,21 @@ class GameApi {
       throw error;
     }
   }
+
+  async getGamesForObject(objectID: number): Promise<Game[]> {
+    try {
+      const response = await genericAPI.get<Game[]>(
+        `${GameApi.endpoint}/get-games-for-object/${objectID}`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error("Error fetching games for object:", error);
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw error;
+    }
+  }
 }
 
 export const gameAPI = new GameApi();

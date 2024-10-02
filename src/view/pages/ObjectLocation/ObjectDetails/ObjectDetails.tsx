@@ -6,7 +6,7 @@ import { ObjectImage, Game } from "../../../../redux/models/Interfaces";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../../components/Common/LoadingSpinner/Loader";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
-import { objectAPI } from "../../../../redux/services/ObjectLocationApi";
+import { gameAPI } from "../../../../redux/services/GameApi";
 
 const ObjectDetailsHebrew = {
   Name: "שם",
@@ -34,9 +34,7 @@ const ObjectDetails: React.FC = () => {
       if (object?.objectID) {
         setIsLoading(true);
         try {
-          const fetchedGames = await objectAPI.getGamesForObject(
-            object.objectID
-          );
+          const fetchedGames = await gameAPI.getGamesForObject(object.objectID);
           setGames(fetchedGames);
         } catch (error) {
           setErrorMessage("Failed to load games.");
