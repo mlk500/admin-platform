@@ -33,9 +33,9 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const currAdmin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -59,7 +59,7 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
     setShowConfirm(false);
     try {
       setAlertMessage("התחיל אימון מודל");
-      const response = await trainModelApi.retrainModel();
+      await trainModelApi.retrainModel();
       setAlertMessage("אימון מודל הסתיים בהצלחה");
     } catch (error) {
       console.error("Failed to retrain model:", error);
@@ -86,9 +86,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
       <div className="buttons">
         <Link className="menu-button" to="/Sectors">
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.Sectors ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.Sectors ? "active" : ""
+              }`}
             onClick={() => handlePageChange(buttonsName.Sectors)}
           >
             <div className="button-txt">{buttonsName.Sectors}</div>
@@ -101,9 +100,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
         </Link>
         <Link className="menu-button" to="/Games">
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.Games ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.Games ? "active" : ""
+              }`}
             onClick={() => handlePageChange(buttonsName.Games)}
           >
             <div className="button-txt">{buttonsName.Games}</div>
@@ -116,9 +114,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
         </Link>
         <Link className="menu-button" to="/Locations">
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.Locations ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.Locations ? "active" : ""
+              }`}
             onClick={() => handlePageChange(buttonsName.Locations)}
           >
             <div className="button-txt">{buttonsName.Locations}</div>
@@ -127,9 +124,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
         </Link>
         <Link className="menu-button" to="/Tasks">
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.Tasks ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.Tasks ? "active" : ""
+              }`}
             onClick={() => handlePageChange(buttonsName.Tasks)}
           >
             <div className="button-txt">{buttonsName.Tasks}</div>
@@ -138,9 +134,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
         </Link>
         <div>
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.TrainModel ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.TrainModel ? "active" : ""
+              }`}
             onClick={() => {
               if (currAdmin?.role !== UserRole.MainAdmin) {
                 setAlertMessage("אין לך הרשאות להשתמש במודל");
@@ -156,9 +151,8 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
         </div>
         <Link className="menu-button" to="/">
           <button
-            className={`menu-button ${
-              activeButton === buttonsName.Logout ? "active" : ""
-            }`}
+            className={`menu-button ${activeButton === buttonsName.Logout ? "active" : ""
+              }`}
             onClick={() => {
               localStorage.clear();
               handlePageChange(buttonsName.Logout);

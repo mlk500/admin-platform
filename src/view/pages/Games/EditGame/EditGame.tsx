@@ -80,20 +80,20 @@ const EditGame: FC = () => {
     });
   };
 
-  const normalizeUnits = (units: any[]): any[] => {
-    return units.map((unit) => ({
-      unitID: unit.unitID,
-      name: unit.name,
-      description: unit.description || "",
-      hint: unit.hint,
-      unitOrder: unit.unitOrder,
-      objectID: unit.objectDTO ? unit.objectDTO.objectID : unit.objectID,
-      taskID: unit.taskDTO ? unit.taskDTO.taskID : unit.taskID,
-      locationID: unit.locationDTO
-        ? unit.locationDTO.locationID
-        : unit.locationID,
-    }));
-  };
+  // const normalizeUnits = (units: any[]): any[] => {
+  //   return units.map((unit) => ({
+  //     unitID: unit.unitID,
+  //     name: unit.name,
+  //     description: unit.description || "",
+  //     hint: unit.hint,
+  //     unitOrder: unit.unitOrder,
+  //     objectID: unit.objectDTO ? unit.objectDTO.objectID : unit.objectID,
+  //     taskID: unit.taskDTO ? unit.taskDTO.taskID : unit.taskID,
+  //     locationID: unit.locationDTO
+  //       ? unit.locationDTO.locationID
+  //       : unit.locationID,
+  //   }));
+  // };
 
   const handleSubmit = async () => {
     if (gameName && !gameName.trim()) {

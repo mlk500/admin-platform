@@ -66,9 +66,9 @@ function AddTask() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const admin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const [selectedSector, setSelectedSector] = useState<number | null>(
     admin.role === UserRole.SectorAdmin ? admin.adminID : null
@@ -181,12 +181,12 @@ function AddTask() {
 
       const questionTask: QuestionTask | undefined = showQuestion
         ? {
-            questionTaskID: 0,
-            question,
-            answers,
-            correctAnswer: correctAnswer ?? 0,
-            taskID: 0,
-          }
+          questionTaskID: 0,
+          question,
+          answers,
+          correctAnswer: correctAnswer ?? 0,
+          taskID: 0,
+        }
         : undefined;
       setIsLoading(true);
       setLoadingMessage("שומר משימה ...");
@@ -211,7 +211,7 @@ function AddTask() {
       });
 
       try {
-        const response = await taskAPI.createTask(formData);
+        await taskAPI.createTask(formData);
         setLoadingMessage("המשימה נשמרה בהצלחה!");
         setTimeout(() => {
           setIsLoading(false);

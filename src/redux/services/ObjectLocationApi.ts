@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { Game, ObjectLocation } from "../models/Interfaces";
+import { ObjectLocation } from "../models/Interfaces";
 import { genericAPI } from "./GenericAPI";
 
 class ObjectLocationAPI {

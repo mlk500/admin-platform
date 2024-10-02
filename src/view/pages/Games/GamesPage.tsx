@@ -29,15 +29,15 @@ import AlertMessage from "../../components/Common/AlertMessage/AlertMessage";
 const GamesPage: FC = () => {
   const dispatch = useDispatch();
   const games = useSelector((state: RootState) => state.AllData.Games);
-  const page = useSelector((state: RootState) => state.globalStates.page);
+  // const page = useSelector((state: RootState) => state.globalStates.page);
   const [showConfirm, setShowConfirm] = useState(false);
   const [gameToDelete, setGameToDelete] = useState<Game | null>(null);
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-        ...JSON.parse(adminStr),
-        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-      }
+      ...JSON.parse(adminStr),
+      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+    }
     : null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
