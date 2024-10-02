@@ -23,7 +23,7 @@ const EditUnitHebrew = {
   SelectedTask: "משימה לחוליה: ",
   SelectedLocation: "מקום לחוליה: ",
   SelectedObject: "אובייקט לחוליה: ",
-  ChooseLocation: "בחירת מקום",
+  ChooseLocation: "בחירת אובייקט",
   ChooseTask: "בחירת משימה",
   Save: "שמירה",
   Cancel: "ביטול",

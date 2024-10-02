@@ -5,7 +5,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 12vw;
+  width: 100%;
+  max-width: 300px;
+  height: 500vw; // Fixed height for all cards to maintain uniform size
+  padding: 16px;
   cursor: pointer;
   background-image: url("../../../photos/CardBG.jpg");
   background-size: cover;
@@ -26,20 +29,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); // Semi-transparent overlay
+    background-color: rgba(0, 0, 0, 0.8);
     border-radius: 12px;
     pointer-events: none;
     z-index: 0;
   }
 
-  .card-header,
-  .Location-card-content {
+  .card-header-location-card,
+  .Location-card-content-location-card {
     position: relative;
-    z-index: 2; // Ensure content is above the overlay
+    z-index: 2;
     display: flex;
   }
 
-  .card-header {
+  .card-header-location-card {
     display: flex;
     width: 100%;
     align-items: flex-start;
@@ -47,26 +50,25 @@
     justify-content: space-between;
     border-radius: 12px;
 
-    .title {
+    .title-location-card {
       @include font-style;
       font-weight: 600;
       font-size: 1.5vw;
       color: $secondary-white-color;
-      white-space: normal;
-      overflow: visible;
-      text-overflow: unset;
-      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin-right: 1vw;
-      word-wrap: break-word;
+      flex: 1;
     }
 
-    .buttons {
+    .buttons-location-card {
       display: flex;
       align-items: center;
       gap: 0.5vw;
 
-      .edit-button,
-      .delete-button {
+      .edit-button-location-card,
+      .delete-button-location-card {
         background: transparent;
         border: none;
         cursor: pointer;
@@ -77,12 +79,12 @@
         }
       }
 
-      .delete-icon {
+      .delete-icon-location-card {
         width: 2.8vw;
         height: 2.5vw;
       }
 
-      .edit-icon {
+      .edit-icon-location-card {
         margin-left: -1vw;
         margin-right: 4vw;
         width: 2vw;
@@ -91,24 +93,30 @@
     }
   }
 
-  .Location-card-content {
+  .Location-card-content-location-card {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     width: 100%;
 
-    .sections {
+    .sections-location-card {
       display: flex;
       flex-direction: column;
       gap: 1vw;
       padding-left: 1vw;
       padding-right: 1vw;
 
-      .section-title {
+      .section-title-location-card {
         @include font-style;
         font-size: 1.5vw;
         color: $secondary-white-color;
         text-align: right;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1; // Limits text to 2 lines
+        -webkit-box-orient: vertical;
       }
     }
   }

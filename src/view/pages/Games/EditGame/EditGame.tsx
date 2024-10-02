@@ -16,7 +16,6 @@ const EditGameHebrew = {
   Save: "שמירה",
   ViewUnits: "עריכת חוליות",
   NoUnits: "עדיין אין חוליות",
-  AddUnit: "הוספת חוליה",
 };
 
 interface LocationState {
@@ -85,15 +84,17 @@ const EditGame: FC = () => {
   };
 
   const normalizeUnits = (units: any[]): any[] => {
-    return units.map(unit => ({
+    return units.map((unit) => ({
       unitID: unit.unitID,
       name: unit.name,
-      description: unit.description || '',
+      description: unit.description || "",
       hint: unit.hint,
       unitOrder: unit.unitOrder,
       objectID: unit.objectDTO ? unit.objectDTO.objectID : unit.objectID,
       taskID: unit.taskDTO ? unit.taskDTO.taskID : unit.taskID,
-      locationID: unit.locationDTO ? unit.locationDTO.locationID : unit.locationID
+      locationID: unit.locationDTO
+        ? unit.locationDTO.locationID
+        : unit.locationID,
     }));
   };
 
@@ -111,7 +112,10 @@ const EditGame: FC = () => {
         gameName,
         description: gameDescription,
       };
-      const response = await gameAPI.updateGame(updatedGameData, normalizedUnits);
+      const response = await gameAPI.updateGame(
+        updatedGameData,
+        normalizedUnits
+      );
       if (response.status === 200) {
         const updatedGame: Game = {
           ...game,
@@ -163,29 +167,9 @@ const EditGame: FC = () => {
             />
           </div>
         </div>
-        {units.length === 0 ? (
-          <>
-            <div className="no-units-EditGame">{EditGameHebrew.NoUnits}</div>
-            <button
-              className="add-unit-button-EditGame"
-              onClick={handleAddUnit}
-            >
-              {EditGameHebrew.AddUnit}
-            </button>
-          </>
-        ) : (
-          <>
-            <button className="edit-units-EditGame" onClick={handleEditUnits}>
-              {EditGameHebrew.ViewUnits}
-            </button>
-            <button
-              className="add-unit-button-EditGame"
-              onClick={handleAddUnit}
-            >
-              {EditGameHebrew.AddUnit}
-            </button>
-          </>
-        )}
+        <button className="edit-units-EditGame" onClick={handleEditUnits}>
+          {EditGameHebrew.ViewUnits}
+        </button>
         <div className="form-buttons-EditGame">
           <button onClick={handleSubmit} className="update-button-EditGame">
             {EditGameHebrew.Save}

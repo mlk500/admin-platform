@@ -15,46 +15,50 @@ const sectionTitles = {
   description: "תיאור : ",
 };
 
-const TaskCard: FC<TaskCardProps> = ({ object, onShowConfirm, onEditTask, onDuplicateTask }) => {
+const TaskCard: FC<TaskCardProps> = ({
+  object,
+  onShowConfirm,
+  onEditTask,
+  onDuplicateTask,
+}) => {
   return (
-    <div className="task-card-file">
-      <div className="card-header-file">
-        <div className="title-file">{object.name}</div>
-        <div className="buttons-file">
+    <div className="task-card">
+      <div className="card-header-task">
+        <div className="title-task">{object.name}</div>
+        <div className="buttons-task">
           <button
-            className="edit-button-file"
+            className="edit-button-task"
             onClick={(e) => {
               e.preventDefault();
               onEditTask(object);
             }}
           >
-            <img className="edit-icon-file" src={EditIcon} alt="Edit" />
+            <img className="edit-icon-task" src={EditIcon} alt="Edit" />
           </button>
           <button
-            className="delete-button-file"
+            className="delete-button-task"
             onClick={(e) => {
               e.preventDefault();
               onShowConfirm(object);
             }}
           >
-            <img className="delete-icon-file" src={DeleteIcon} alt="Delete" />
+            <img className="delete-icon-task" src={DeleteIcon} alt="Delete" />
           </button>
           <button
-            className="duplicate-icon-file"
+            className="duplicate-button-task"
             onClick={(e) => {
               e.preventDefault();
               onDuplicateTask(object);
             }}
           >
-            <IoDuplicate className="duplicate-icon-file" color="white" />
+            <IoDuplicate className="duplicate-icon-task" color="white" />
           </button>
-
         </div>
       </div>
-      <div className="task-card-content-file">
-        <div className="sections-file">
+      <div className="task-card-content-task">
+        <div className="sections-task">
           {object.description && (
-            <div className="section-title-file">
+            <div className="section-title-task">
               {sectionTitles.description + object.description}
             </div>
           )}

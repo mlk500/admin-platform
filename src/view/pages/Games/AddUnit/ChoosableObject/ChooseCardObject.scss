@@ -1,12 +1,12 @@
 @import "../../../../themes/mixins";
 @import "../../../../themes/variables";
 
-.Location-card {
+.choose-object-card {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 20vw;
-  height: auto;
+  height: 200px;
   padding: 1vw;
   cursor: pointer;
   border-radius: 12px;
@@ -31,39 +31,49 @@
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 12px;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1; // Ensure this is lower than the text content
   }
 
-  .card-header {
+  .card-header-choose-object,
+  .choose-object-card-content {
+    position: relative;
+    z-index: 2; // Ensure the text content is above the overlay
+  }
+
+  .card-header-choose-object {
     width: 100%;
     text-align: center;
     margin-bottom: 1vw;
-    position: relative;
-    z-index: 2; // Ensure the content is above the overlay
 
-    .title {
+    .title-choose-object {
       @include font_style;
       font-weight: bold;
       font-size: 1.6vw;
       color: $secondary-white-color;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
-  .Location-card-content {
+  .choose-object-card-content {
     width: 100%;
-    position: relative;
-    z-index: 2;
 
-    .sections {
+    .sections-choose-object {
       display: flex;
       flex-direction: column;
 
-      .section-title {
+      .section-title-choose-object {
         @include font_style;
         font-size: 1.4vw;
         color: $secondary-white-color;
         text-align: center;
         padding: 0.5vw 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
