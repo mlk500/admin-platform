@@ -35,7 +35,10 @@ const HomePage: FC<HomePageProps> = ({
       {alertMessage && <AlertMessage message={alertMessage} />}
 
       <div className="content">
-        <div className="homePage-grid">
+        <div
+          className="homePage-grid"
+          style={{ height: addButton ? "40vw" : "60vw" }}
+        >
           {objects.map((ob, index) => {
             const name =
               page === "Game"
@@ -69,26 +72,26 @@ const HomePage: FC<HomePageProps> = ({
             );
           })}
         </div>
-      </div>
-      {addButton && (
-        <div className="add-new">
-          <Link
-            to={`/${addButtonPath}`}
-            className="link"
-            onClick={(e) => {
-              if (page === "Sector" && onAddClick) {
-                e.preventDefault();
-                const result = onAddClick();
-                if (typeof result === "boolean" && result) {
-                  navigate(`/${addButtonPath}`);
+        {addButton && (
+          <div className="add-new">
+            <Link
+              to={`/${addButtonPath}`}
+              className="link"
+              onClick={(e) => {
+                if (page === "Sector" && onAddClick) {
+                  e.preventDefault();
+                  const result = onAddClick();
+                  if (typeof result === "boolean" && result) {
+                    navigate(`/${addButtonPath}`);
+                  }
                 }
-              }
-            }}
-          >
-            <button className="add-button">{addButton}</button>
-          </Link>
-        </div>
-      )}
+              }}
+            >
+              <button className="add-button">{addButton}</button>
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

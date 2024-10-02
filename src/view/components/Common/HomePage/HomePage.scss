@@ -38,7 +38,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(255, 255, 255, 0.5); // White overlay
+      background-color: rgba(255, 255, 255, 0.5);
       z-index: -1; // Place it behind the content
       pointer-events: none; // Allow interactions to pass through
     }
@@ -53,7 +53,7 @@
     column-gap: 1vw; // Adjust gap between columns
     row-gap: 1vw; // Adjust gap between rows
     overflow-y: auto;
-    height: 38vw;
+    height: 40vw;
     width: 100%;
     padding: 2vw;
   }
@@ -76,17 +76,6 @@
     }
 
     .add-button {
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.5); // White overlay
-        z-index: -1; // Place it behind the content
-        pointer-events: none; // Allow interactions to pass through
-      }
       display: flex;
       background-color: $secondary-white-color;
       @include font_style;
