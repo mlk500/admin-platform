@@ -3,19 +3,13 @@ import { taskAPI } from "../../../../../redux/services/TaskApi";
 import ChoosableTaskCard from "./ChooseTaskCard";
 import HomePage from "../../../../components/Common/HomePage/HomePage";
 import { Task } from "../../../../../redux/models/Interfaces";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../redux/store";
 
 interface ChoosableTasksPageProps {
   fromParent: string;
 }
 
-const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ }) => {
+const ChoosableTasksPage: FC<ChoosableTasksPageProps> = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const isEditing = useSelector(
-    (state: RootState) => state.globalStates.isEditing
-  ); // Access isEditing from global state
-  console.log(isEditing)
   useEffect(() => {
     const fetchTasks = async () => {
       const fetchedTasks = await taskAPI.getAllTasks();

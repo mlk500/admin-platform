@@ -24,7 +24,6 @@ const GameDetails: React.FC = () => {
   const navigate = useNavigate();
 
   const [sectorName, setSectorName] = useState<string>("כללי");
-  console.log("game in drt ", game);
 
   useEffect(() => {
     const fetchSectorName = async () => {

@@ -27,7 +27,6 @@ const Hero: React.FC = () => {
       setIsLoading(true);
       try {
         const admin: Admin = await loginAPI.login(username, password);
-        console.log("admin is " + admin);
         dispatch(setLoggedInAdmin(admin));
         //in here call al apis
         dispatch(setPage(buttonsName.Sectors));

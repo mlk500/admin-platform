@@ -18,7 +18,6 @@ const SectorCard: FC<SectorCardProps> = ({
   onShowConfirm,
   onEditAdmin,
 }) => {
-  console.log("curr objects  " + object);
   return (
     <div className="sector-card">
       <div className="card-header">

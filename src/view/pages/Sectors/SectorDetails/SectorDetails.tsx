@@ -8,7 +8,6 @@ const SectorDetails: FC = () => {
   const sector = useSelector(
     (state: RootState) => state.globalStates.selectedCard
   );
-  console.log(sector);
 
   return (
     <div className="sector-details" dir="rtl">

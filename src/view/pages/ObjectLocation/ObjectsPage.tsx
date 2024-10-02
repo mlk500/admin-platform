@@ -53,8 +53,6 @@ const ObjectsPage: FC = () => {
       setLoadingMessage("מוחק אובייקט ...");
       try {
         const response = await objectAPI.deleteObject(objectToDelete.objectID);
-        console.log("response object ", response.data);
-        console.log("sttus is " + response.status);
         if (response.status === 200) {
           const message = objectToDelete.name + " אובייקט נמחק בהצלחה ";
           setAlertMessage(message);
@@ -73,7 +71,6 @@ const ObjectsPage: FC = () => {
       } catch (error) {
         dispatch(setObjects(objects));
         setAlertMessage("שגיאה במחיקת האובייקט:\n" + error);
-        console.log(error);
         setLoadingMessage("שגיאה במחיקת האובייקט");
         setTimeout(() => {
           setIsLoading(false);
@@ -84,10 +81,8 @@ const ObjectsPage: FC = () => {
   };
 
   const handleEdit = (object: ObjectLocation) => {
-    console.log("handleEdit called in ObjectsPage", object);
     dispatch(setCard(object));
     if (locationID) {
-      console.log("Navigating to:", `/EditObject/${locationID}`);
       navigate(`/EditObject/${locationID}`);
     } else {
       console.error("LocationID is undefined");

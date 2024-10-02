@@ -56,7 +56,6 @@ const AdminMenu: FC<AdminMenuProps> = ({ setActiveButton, activeButton }) => {
     try {
       setAlertMessage("התחיל אימון מודל");
       const response = await trainModelApi.retrainModel();
-      console.log("Model retrained successfully:", response.data);
       setAlertMessage("אימון מודל הסתיים בהצלחה");
     } catch (error) {
       console.error("Failed to retrain model:", error);

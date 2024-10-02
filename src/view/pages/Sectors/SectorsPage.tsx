@@ -65,7 +65,6 @@ const SectorsPage: FC = () => {
     admin: Admin,
     action: "delete" | "edit" | "add"
   ): boolean => {
-    console.log("action: " + action);
     if (action === "add" && !isMainAdmin(currAdmin.role)) {
       setAlertMessage("אין הרשאה להוסיף משתמש חדש");
       return false;

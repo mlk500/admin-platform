@@ -210,7 +210,6 @@ function AddTask() {
 
       try {
         const response = await taskAPI.createTask(formData);
-        console.log("Task created successfully", response);
         setLoadingMessage("המשימה נשמרה בהצלחה!");
         setTimeout(() => {
           setIsLoading(false);

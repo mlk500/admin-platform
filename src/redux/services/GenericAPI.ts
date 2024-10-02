@@ -21,7 +21,6 @@ const createAxiosInstance = (): AxiosInstance => {
           alert("תוקף ההתחברות פג. מעביר לדף התחברות...");
           localStorage.clear();
           router.navigate("/");
-          console.log("תוקף האסימון פג. מעביר לדף התחברות...");
         }
       }
       return Promise.reject(error);

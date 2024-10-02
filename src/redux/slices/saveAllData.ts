@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Admin, Game, Location, ObjectLocation, Task } from "../models/Interfaces";
+import {
+  Admin,
+  Game,
+  Location,
+  ObjectLocation,
+  Task,
+} from "../models/Interfaces";
 
 interface GlobalStates {
   locations: Location[];
@@ -28,20 +34,18 @@ const saveAllData = createSlice({
       state.Tasks = action.payload;
     },
     setGames(state, action: PayloadAction<Game[]>) {
-      // console.log("games in save data " + JSON.stringify(state.Games))
       state.Games = action.payload;
     },
-    setSectors(state, action: PayloadAction<Admin[]>){
-      // console.log("sectors in save data " + JSON.stringify(state.Sectors))
+    setSectors(state, action: PayloadAction<Admin[]>) {
       state.Sectors = action.payload;
     },
-    setObjects(state, action: PayloadAction<ObjectLocation[]>){
+    setObjects(state, action: PayloadAction<ObjectLocation[]>) {
       state.Objects = action.payload;
-
-    }
+    },
   },
 });
 
-export const { setLocations, setTasks, setGames, setSectors, setObjects } = saveAllData.actions;
+export const { setLocations, setTasks, setGames, setSectors, setObjects } =
+  saveAllData.actions;
 
 export default saveAllData.reducer;

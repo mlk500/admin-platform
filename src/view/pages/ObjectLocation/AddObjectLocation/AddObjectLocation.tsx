@@ -97,7 +97,6 @@ const AddObjectLocation: React.FC = () => {
       "locationObject",
       new Blob([JSON.stringify(newObject)], { type: "application/json" })
     );
-    console.log("pics", pics);
     if (pics.length > 0) {
       pics.forEach((pic) => {
         formData.append("images", pic);

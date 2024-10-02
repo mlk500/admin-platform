@@ -51,7 +51,6 @@ const GamesPage: FC = () => {
       dispatch(setLocations(await locationAPI.getAllLocations()));
       dispatch(setPage(buttonsName.Games));
       dispatch(setTasks(await taskAPI.getAllTasks()));
-      console.log("page in gms " + page);
     };
     fetchGames();
   }, [dispatch, refetchTrigger]);
@@ -75,8 +74,7 @@ const GamesPage: FC = () => {
       setLoadingMessage("מוחק משחק ...");
       try {
         const response = await gameAPI.deleteGame(gameToDelete.gameID);
-        console.log("response game ", response.data);
-        console.log("sttus is " + response.status);
+
         if (response.status === 200) {
           const message = gameToDelete.gameName + " משחק נמחק בהצלחה ";
           setAlertMessage(message);

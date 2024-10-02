@@ -18,7 +18,6 @@ const ChoosableObjectsPage: FC<ChoosableObjectsPageProps> = ({
   const { state } = useLocation();
   const { selectedLocation } = state as { selectedLocation: Location };
   // const selectedLocation = useSelector((state: RootState) => state.globalStates.selectedCard);
-  console.log("from parent " + fromParent);
   // const returnPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
   let navigationPath: string;
   switch (fromParent) {
@@ -40,7 +39,6 @@ const ChoosableObjectsPage: FC<ChoosableObjectsPageProps> = ({
       state: { selectedLocation, selectedObject: object },
     });
   };
-  console.log("Selected Location: ", selectedLocation);
 
   return (
     <div className="objects-container" dir="rtl">

@@ -50,7 +50,6 @@ const DuplicateTaskHebrew = {
 function DuplicateTask() {
   const location = useLocation();
   const taskToDuplicate = location.state?.taskToDuplicate as Task;
-  console.log("Duplicate Task", taskToDuplicate);
   const [taskName, setTaskName] = useState<string>(taskToDuplicate.name);
   const [description, setDescription] = useState<string>(
     taskToDuplicate.description || ""

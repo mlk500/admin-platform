@@ -7,7 +7,6 @@ class GameApi {
 
   async getAllGames(): Promise<Game[]> {
     const response = await genericAPI.get<Game[]>(`${GameApi.endpoint}/getAll`);
-    console.log("games from api ", response.data);
     return response.data;
   }
 
@@ -34,7 +33,6 @@ class GameApi {
       `${GameApi.endpoint}/create`,
       formData
     );
-    console.log("response from game" + response.data);
     return response;
   }
 
@@ -91,7 +89,6 @@ class GameApi {
         "units",
         new Blob([JSON.stringify(units)], { type: "application/json" })
       );
-      console.log("units sent are ", units);
       const response = await genericAPI.putFormData(
         `${GameApi.endpoint}/update/${game.gameID}`,
         formData

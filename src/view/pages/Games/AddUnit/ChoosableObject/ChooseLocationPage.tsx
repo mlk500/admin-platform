@@ -29,7 +29,6 @@ const ChoosableLocationPage: FC<ChoosableLocationPageProps> = ({
   }, []);
   // const navigationPath = fromParent === "EditUnit" ? "/EditUnit" : "/AddUnit";
   // const navigationPath = fromParent?.startsWith("Edit-") ? "/EditUnit" : "/AddUnit";
-  console.log("from parent " + fromParent);
   let navigationPath: string;
   switch (fromParent) {
     case "EditUnit":

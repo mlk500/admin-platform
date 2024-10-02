@@ -7,7 +7,6 @@ class TaskAPI {
 
   // async getAllTasks(): Promise<any[]> {
   //   const response = await genericAPI.get<Task[]>(`${TaskAPI.endpoint}`);
-  //   // console.log("response.data: ",typeof(response.data[0]));
   //   return response.data;
   // }
   async getAllTasks(): Promise<Task[]> {
@@ -20,7 +19,6 @@ class TaskAPI {
       const response = await genericAPI.delete<void>(
         `${TaskAPI.endpoint}/delete/${taskID}`
       );
-      console.log("delete response ", response.data);
       return response;
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
@@ -55,7 +53,6 @@ class TaskAPI {
         `${TaskAPI.endpoint}/update/${taskId}`,
         formData
       );
-      console.log(response.statusText);
       return response.data;
     } catch (error) {
       console.error("Error updating task:", error);
@@ -100,7 +97,6 @@ class TaskAPI {
         })
       );
     }
-    console.log(sectorAdmin);
     try {
       const response = await genericAPI.postFormData<Task>(
         `${TaskAPI.endpoint}/duplicate?originalTask=${originalTaskID}`,

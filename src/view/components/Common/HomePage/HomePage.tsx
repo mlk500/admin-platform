@@ -30,7 +30,6 @@ const HomePage: FC<HomePageProps> = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // console.log("home page obj " + objects)
   return (
     <div className="home-page" dir="rtl">
       {alertMessage && <AlertMessage message={alertMessage} />}
@@ -44,7 +43,6 @@ const HomePage: FC<HomePageProps> = ({
                 : page === "Sector"
                 ? ob.username
                 : ob.name;
-            console.log("ob name  is ", ob);
 
             return (
               <Fade key={index}>

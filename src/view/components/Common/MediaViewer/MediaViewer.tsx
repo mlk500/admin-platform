@@ -80,11 +80,7 @@ const MediaViewer: React.FC<MediaViewerProps> = ({
                 )
               ) : media.mediaType.includes("audio") ? (
                 <div dir="ltr">
-                  <AudioPlayer
-                    autoPlay={false}
-                    src={media.mediaPath || ""}
-                    onPlay={(e) => console.log("Playing audio", e)}
-                  />
+                  <AudioPlayer autoPlay={false} src={media.mediaPath || ""} />
                 </div>
               ) : media.mediaType.includes("video") ? (
                 <ReactPlayer

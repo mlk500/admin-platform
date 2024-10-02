@@ -14,7 +14,6 @@ interface GameCardProps {
 
 const GameCard: FC<GameCardProps> = ({ object, onShowConfirm }) => {
   const dispatch = useDispatch();
-  console.log("object.gameName :", object.gameName);
   return (
     <div className="game-card">
       <div className="card-header">
