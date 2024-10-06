@@ -63,6 +63,9 @@
 
     .buttons {
       display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5vw;
       .edit-button,
       .delete-button {
         background: transparent;
@@ -81,7 +84,7 @@
       }
       .edit-icon {
         margin-left: -1vw;
-        margin-right: 4vw;
+        margin-right: 2vw;
         width: 2vw;
         height: 2.3vw;
       }

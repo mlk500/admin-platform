@@ -57,6 +57,7 @@
     .buttons-task {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 0.5vw;
 
       .edit-button-task,
@@ -66,22 +67,20 @@
         border: none;
         cursor: pointer;
         transition: transform 0.2s ease;
-
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
         &:hover {
           transform: scale(1.1);
         }
       }
 
-      .edit-icon-task {
-        margin-left: -1vw;
-        width: 2vw;
-        height: 2.3vw;
-      }
-
+      .edit-icon-task,
       .delete-icon-task,
       .duplicate-icon-task {
-        width: 2.8vw;
-        height: 2.5vw;
+        width: 2vw;
+        height: 2vw;
       }
     }
   }
