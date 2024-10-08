@@ -81,12 +81,12 @@ const EditGame: FC = () => {
   };
 
   const normalizeUnits = (units: any[]): any[] => {
-    return units.map((unit) => ({
+    return units.map((unit, index) => ({
       unitID: unit.unitID,
       name: unit.name,
       description: unit.description || "",
       hint: unit.hint,
-      unitOrder: unit.unitOrder,
+      unitOrder: index,
       objectID: unit.objectDTO ? unit.objectDTO.objectID : unit.objectID,
       taskID: unit.taskDTO ? unit.taskDTO.taskID : unit.taskID,
       locationID: unit.locationDTO
@@ -108,8 +108,9 @@ const EditGame: FC = () => {
         gameName,
         description: gameDescription,
       };
-      console.log("updateGame units:", units);
+      // console.log("updateGame units:", units);
       const normalizedUnits = normalizeUnits(units);
+      // console.log("normalizedUnits:", normalizedUnits);
       const response = await gameAPI.updateGame(updatedGameData, normalizedUnits);
       if (response.status === 200) {
         const updatedGame: Game = {
