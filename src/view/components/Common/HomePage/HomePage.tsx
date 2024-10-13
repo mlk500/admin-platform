@@ -33,7 +33,6 @@ const HomePage: FC<HomePageProps> = ({
   return (
     <div className="home-page" dir="rtl">
       {alertMessage && <AlertMessage message={alertMessage} />}
-
       <div className="content">
         <div
           className="homePage-grid"
