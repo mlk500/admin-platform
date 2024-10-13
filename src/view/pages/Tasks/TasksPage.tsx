@@ -36,6 +36,7 @@ const TasksPage: FC = () => {
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [refetchTrigger, setRefetchTrigger] = useState(0);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
   useEffect(() => {
     dispatch(setIsCreateGame(false));
     const fetchTasks = async () => {
