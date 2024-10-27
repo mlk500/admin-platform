@@ -2,8 +2,11 @@ import axios, { AxiosResponse } from "axios";
 
 class TrainModelApi {
   private readonly baseUrl: string =
-    "https://custom-fastapi-service-tm3zus3bzq-uc.a.run.app";
+  //original
+    // "https://custom-fastapi-service-tm3zus3bzq-uc.a.run.app";
 
+    //clone
+    "https://custom-fastapi-service-791214719127.us-central1.run.app";
   async retrainModel(): Promise<AxiosResponse> {
     try {
       const config = {

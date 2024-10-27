@@ -113,8 +113,18 @@ const AddObjectLocation: React.FC = () => {
         navigate(`/ObjectsPage/${location.locationID}`);
       }, 1000);
     } catch (error: any) {
-      setAlertMessage("שגיאה בשמירת אובייקט");
-      setLoadingMessage("שגיאה בשמירת אובייקט");
+      const errorMessage = error;
+      console.log("errors msg is ", error)
+      setAlertMessage(errorMessage.includes('Name Must Be Unique')
+        ? "שגיאה בשמירת אובייקט, לאובייקט צריך להיות שם ייחודי"
+        : "שגיאה בשמירת אובייקט"
+      );
+
+      setLoadingMessage(errorMessage.includes('Name Must Be Unique')
+        ? "שגיאה בשמירת אובייקט, לאובייקט צריך להיות שם ייחודי"
+        : "שגיאה בשמירת אובייקט"
+      );
+
       setTimeout(() => {
         setIsLoading(false);
         setLoadingMessage("");

@@ -22,6 +22,7 @@ class ObjectLocationAPI {
     } catch (error: any) {
       console.error("Error creating object:", error);
       if (error.response && error.response.data) {
+        console.log("error in add is ", error.response.data)
         throw error.response.data;
       }
       throw error;

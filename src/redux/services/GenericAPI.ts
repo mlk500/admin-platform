@@ -2,7 +2,12 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import router from "../../view/router/Route";
 
 // const URL = "http://localhost:8080";
-const URL = "https://sheba-service-gcp-tm3zus3bzq-uc.a.run.app";
+
+// original
+// const URL = "https://sheba-service-gcp-tm3zus3bzq-uc.a.run.app";
+
+//clone
+const URL = "https://backend-gcp-clone-791214719127.us-central1.run.app";
 
 const createAxiosInstance = (): AxiosInstance => {
   const instance = axios.create({
