@@ -3,7 +3,11 @@ import "./GameCard.scss";
 import { Game } from "../../../../redux/models/Interfaces";
 import { EditIcon, DeleteIcon } from "../../../photos";
 import { useDispatch } from "react-redux";
-import { setCard, setIsEditing } from "../../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsEditing,
+  setIsEditUnitPage,
+} from "../../../../redux/slices/GlobalStates";
 import { Link } from "react-router-dom";
 
 interface GameCardProps {
@@ -23,6 +27,7 @@ const GameCard: FC<GameCardProps> = ({ object, onShowConfirm }) => {
             <button
               className="edit-button"
               onClick={() => {
+                dispatch(setIsEditUnitPage(false));
                 dispatch(setIsEditing(true));
                 dispatch(setCard(object));
               }}

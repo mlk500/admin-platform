@@ -9,7 +9,11 @@ import {
   Unit,
 } from "../../../../redux/models/Interfaces";
 import { RootState } from "../../../../redux/store";
-import { setCard, setIsEditing } from "../../../../redux/slices/GlobalStates";
+import {
+  setCard,
+  setIsEditing,
+  setIsEditUnitPage,
+} from "../../../../redux/slices/GlobalStates";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
 import ConfirmationDialog from "../../../components/Common/ConfirmationDialog/ConfirmationDialog";
 import "./EditUnit.scss";
@@ -186,6 +190,7 @@ function EditUnit() {
       locationID: selectedLocation?.locationID,
     };
     localStorage.setItem("editUnit", JSON.stringify(unitToSave));
+    dispatch(setIsEditUnitPage(false));
     dispatch(setIsEditing(true));
     navigate("/ChooseTask-edit");
   };

@@ -12,6 +12,8 @@ import {
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
 import {
   setCard,
+  setIsEditing,
+  setIsEditUnitPage,
   updateSpecificUnit,
 } from "../../../../../redux/slices/GlobalStates";
 
@@ -64,6 +66,8 @@ function EditEditUnit() {
   );
 
   useEffect(() => {
+    dispatch(setIsEditUnitPage(true));
+    dispatch(setIsEditing(false));
     const unit: Unit =
       location.state?.unit || safeParse(localStorage.getItem("edit-editUnit"));
 
