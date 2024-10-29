@@ -5,6 +5,7 @@ import { EditIcon, DeleteIcon } from "../../../photos";
 import { useDispatch } from "react-redux";
 import {
   setCard,
+  setIsAddUnitPageFlag,
   setIsEditing,
   setIsEditUnitPage,
 } from "../../../../redux/slices/GlobalStates";
@@ -29,6 +30,7 @@ const GameCard: FC<GameCardProps> = ({ object, onShowConfirm }) => {
               onClick={() => {
                 dispatch(setIsEditUnitPage(false));
                 dispatch(setIsEditing(true));
+                dispatch(setIsAddUnitPageFlag(false));
                 dispatch(setCard(object));
               }}
             >

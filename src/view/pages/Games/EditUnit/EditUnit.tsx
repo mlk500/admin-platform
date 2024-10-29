@@ -11,6 +11,7 @@ import {
 import { RootState } from "../../../../redux/store";
 import {
   setCard,
+  setIsAddUnitPageFlag,
   setIsEditing,
   setIsEditUnitPage,
 } from "../../../../redux/slices/GlobalStates";
@@ -192,6 +193,7 @@ function EditUnit() {
     localStorage.setItem("editUnit", JSON.stringify(unitToSave));
     dispatch(setIsEditUnitPage(false));
     dispatch(setIsEditing(true));
+    dispatch(setIsAddUnitPageFlag(false));
     navigate("/ChooseTask-edit");
   };
 

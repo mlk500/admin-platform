@@ -9,7 +9,11 @@ import {
   Unit,
 } from "../../../../redux/models/Interfaces";
 import AlertMessage from "../../../components/Common/AlertMessage/AlertMessage";
-import { setIsEditing } from "../../../../redux/slices/GlobalStates";
+import {
+  setIsAddUnitPageFlag,
+  setIsEditing,
+  setIsEditUnitPage,
+} from "../../../../redux/slices/GlobalStates";
 import { useDispatch } from "react-redux";
 
 const AddUnitHebrew = {
@@ -65,8 +69,10 @@ function AddUnit() {
     localStorage.setItem("selectedLocation", JSON.stringify(selectedLocation));
     localStorage.setItem("selectedObject", JSON.stringify(selectedObject));
   }, [name, description, hint, selectedTask, selectedLocation, selectedObject]);
+  dispatch(setIsAddUnitPageFlag(true));
 
   useEffect(() => {
+    dispatch(setIsAddUnitPageFlag(true));
     if (location.state) {
       const state = location.state;
       if (state.selectedTask) {
@@ -188,6 +194,9 @@ function AddUnit() {
                 className="option-button"
                 onClick={() => {
                   dispatch(setIsEditing(false));
+                  dispatch(setIsEditUnitPage(false));
+                  dispatch(setIsAddUnitPageFlag(true));
+
                   navigate("/ChooseTask-add");
                 }}
               >

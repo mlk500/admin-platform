@@ -26,6 +26,9 @@ const TaskDetailsAddGame: React.FC = () => {
   const isEditEditUnitPage = useSelector(
     (state: RootState) => state.globalStates.isEditUnitPage
   );
+  const isAddUnitPage = useSelector(
+    (state: RootState) => state.globalStates.isAddUnitPageFlag
+  );
   const navigate = useNavigate();
 
   if (!task) {
@@ -35,10 +38,10 @@ const TaskDetailsAddGame: React.FC = () => {
   const handleAddTask = () => {
     // Redirecting to either AddUnit or EditUnit based on task context
     if (isEditingPage) {
-      navigate("/Edit-AddUnit", { state: { selectedTask: task } });
+      navigate("/EditUnit", { state: { selectedTask: task } });
     } else if (isEditEditUnitPage) {
       navigate("/Edit-EditUnit", { state: { selectedTask: task } });
-    } else {
+    } else if (isAddUnitPage) {
       navigate("/AddUnit", { state: { selectedTask: task } });
     }
   };

@@ -13,7 +13,9 @@ import {
 import { gameAPI } from "../../../redux/services/GameApi";
 import {
   setCard,
+  setIsAddUnitPageFlag,
   setIsEditing,
+  setIsEditUnitPage,
   setIsObjectsPage,
   setPage,
 } from "../../../redux/slices/GlobalStates";
@@ -35,9 +37,9 @@ const GamesPage: FC = () => {
   const adminStr = localStorage.getItem("admin");
   const currAdmin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
@@ -51,6 +53,8 @@ const GamesPage: FC = () => {
       setIsLoading(true);
       setLoadingMessage("טוען משחקים...");
       dispatch(setIsEditing(false));
+      dispatch(setIsEditUnitPage(false));
+      dispatch(setIsAddUnitPageFlag(false));
       dispatch(setIsObjectsPage(false));
       dispatch(setPage(buttonsName.Games));
       try {

@@ -12,6 +12,7 @@ import {
 import AlertMessage from "../../../../components/Common/AlertMessage/AlertMessage";
 import {
   setCard,
+  setIsAddUnitPageFlag,
   setIsEditing,
   setIsEditUnitPage,
   updateSpecificUnit,
@@ -68,6 +69,7 @@ function EditEditUnit() {
   useEffect(() => {
     dispatch(setIsEditUnitPage(true));
     dispatch(setIsEditing(false));
+    dispatch(setIsAddUnitPageFlag(false));
     const unit: Unit =
       location.state?.unit || safeParse(localStorage.getItem("edit-editUnit"));
 
