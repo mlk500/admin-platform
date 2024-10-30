@@ -40,6 +40,7 @@ const AddNewTaskHebrew = {
   Sectors: "בחירת מחלקה",
   WithMsg: "הצגת הודעת הצלחה ",
   Cancel: "ביטול",
+  MaxCharactersAlert: "אפשר להקליד עד 40 תווים בלבד.",
 };
 
 function EditTask() {
@@ -262,6 +263,27 @@ function EditTask() {
     }
   };
 
+  const handleAnswerChange = (index: number, value: string) => {
+    if (value.length > 40) {
+      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
+    } else {
+      setAlertMessage(null);
+      const newAnswers = [...answers];
+      newAnswers[index] = value;
+      setAnswers(newAnswers);
+    }
+  };
+
+  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length > 40) {
+      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
+    } else {
+      setAlertMessage(null);
+      setQuestion(value);
+    }
+  };
+
   return (
     <div className="main-container-edit-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
@@ -346,7 +368,10 @@ function EditTask() {
                     className="task-input"
                     placeholder="הוספת שאלה"
                     value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
+                    onChange={(e) => {
+                      setQuestion(e.target.value);
+                      handleQuestionChange(e);
+                    }}
                   />
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index} className="answer-container">
@@ -358,6 +383,7 @@ function EditTask() {
                           const newAnswers = [...answers];
                           newAnswers[index] = e.target.value;
                           setAnswers(newAnswers);
+                          handleAnswerChange(index, e.target.value);
                         }}
                         placeholder={`${AddNewTaskHebrew.Answer} ${index + 1}`}
                       />

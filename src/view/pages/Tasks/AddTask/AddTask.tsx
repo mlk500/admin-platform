@@ -43,6 +43,7 @@ const AddNewTaskHebrew = {
   Sectors: "בחירת מחלקה",
   infoMessage: "הוספת טקסט קצר",
   infoAboutChoosingSector: "יש לבחור תחום למשימה",
+  MaxCharactersAlert: "אפשר להקליד עד 40 תווים בלבד.",
 };
 
 function AddTask() {
@@ -66,9 +67,9 @@ function AddTask() {
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
   const admin: Admin = adminStr
     ? {
-      ...JSON.parse(adminStr),
-      role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
-    }
+        ...JSON.parse(adminStr),
+        role: UserRole[JSON.parse(adminStr).role as keyof typeof UserRole],
+      }
     : null;
   const [selectedSector, setSelectedSector] = useState<number | null>(
     admin.role === UserRole.SectorAdmin ? admin.adminID : null
@@ -181,12 +182,12 @@ function AddTask() {
 
       const questionTask: QuestionTask | undefined = showQuestion
         ? {
-          questionTaskID: 0,
-          question,
-          answers,
-          correctAnswer: correctAnswer ?? 0,
-          taskID: 0,
-        }
+            questionTaskID: 0,
+            question,
+            answers,
+            correctAnswer: correctAnswer ?? 0,
+            taskID: 0,
+          }
         : undefined;
       setIsLoading(true);
       setLoadingMessage("שומר משימה ...");
@@ -230,6 +231,27 @@ function AddTask() {
           setLoadingMessage("");
         }, 2000);
       }
+    }
+  };
+
+  const handleAnswerChange = (index: number, value: string) => {
+    if (value.length > 40) {
+      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
+    } else {
+      setAlertMessage(null);
+      const newAnswers = [...answers];
+      newAnswers[index] = value;
+      setAnswers(newAnswers);
+    }
+  };
+
+  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length > 40) {
+      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
+    } else {
+      setAlertMessage(null);
+      setQuestion(value);
     }
   };
 
@@ -351,7 +373,10 @@ function AddTask() {
                       className="task-input"
                       placeholder="הוספת שאלה"
                       value={question}
-                      onChange={(e) => setQuestion(e.target.value)}
+                      onChange={(e) => {
+                        handleQuestionChange(e);
+                        setQuestion(e.target.value);
+                      }}
                     />
                     <CiCircleInfo
                       className="info-icon"
@@ -372,6 +397,7 @@ function AddTask() {
                           const newAnswers = [...answers];
                           newAnswers[index] = e.target.value;
                           setAnswers(newAnswers);
+                          handleAnswerChange(index, e.target.value);
                         }}
                         placeholder={`${AddNewTaskHebrew.Answer} ${index + 1}`}
                       />
