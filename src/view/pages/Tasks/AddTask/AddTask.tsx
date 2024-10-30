@@ -236,6 +236,10 @@ function AddTask() {
 
   const handleAnswerChange = (index: number, value: string) => {
     if (value.length > 40) {
+      const truncatedValue = value.slice(0, 40);
+      const newAnswers = [...answers];
+      newAnswers[index] = truncatedValue;
+      setAnswers(newAnswers);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
       setAlertMessage(null);
@@ -245,9 +249,10 @@ function AddTask() {
     }
   };
 
-  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+  const handleQuestionChange = (value: string) => {
     if (value.length > 40) {
+      value = value.slice(0, 40);
+      setQuestion(value);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
       setAlertMessage(null);
@@ -374,8 +379,8 @@ function AddTask() {
                       placeholder="הוספת שאלה"
                       value={question}
                       onChange={(e) => {
-                        handleQuestionChange(e);
                         setQuestion(e.target.value);
+                        handleQuestionChange(e.target.value);
                       }}
                     />
                     <CiCircleInfo

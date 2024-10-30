@@ -265,6 +265,10 @@ function EditTask() {
 
   const handleAnswerChange = (index: number, value: string) => {
     if (value.length > 40) {
+      const truncatedValue = value.slice(0, 40);
+      const newAnswers = [...answers];
+      newAnswers[index] = truncatedValue;
+      setAnswers(newAnswers);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
       setAlertMessage(null);
@@ -275,8 +279,10 @@ function EditTask() {
   };
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value = e.target.value;
     if (value.length > 40) {
+      value = e.target.value.slice(0, 40);
+      setQuestion(value);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
       setAlertMessage(null);
