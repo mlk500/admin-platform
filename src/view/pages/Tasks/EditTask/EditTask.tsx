@@ -278,18 +278,6 @@ function EditTask() {
     }
   };
 
-  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    if (value.length > 45) {
-      value = e.target.value.slice(0, 45);
-      setQuestion(value);
-      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
-    } else {
-      setAlertMessage(null);
-      setQuestion(value);
-    }
-  };
-
   return (
     <div className="main-container-edit-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
@@ -376,12 +364,8 @@ function EditTask() {
                     value={question}
                     onChange={(e) => {
                       setQuestion(e.target.value);
-                      handleQuestionChange(e);
                     }}
                   />
-                  <div className="note-text">
-                    {question.length}/45 תווים (מקסימום)
-                  </div>
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index} className="answer-container">
                       <input

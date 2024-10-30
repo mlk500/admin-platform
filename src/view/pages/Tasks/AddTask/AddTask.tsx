@@ -250,17 +250,6 @@ function AddTask() {
     }
   };
 
-  const handleQuestionChange = (value: string) => {
-    if (value.length > 45) {
-      value = value.slice(0, 45);
-      setQuestion(value);
-      setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
-    } else {
-      setAlertMessage(null);
-      setQuestion(value);
-    }
-  };
-
   return (
     <div className="main-container-add-task">
       <Loader isLoading={isLoading} message={loadingMessage} />
@@ -383,7 +372,6 @@ function AddTask() {
                       value={question}
                       onChange={(e) => {
                         setQuestion(e.target.value);
-                        handleQuestionChange(e.target.value);
                       }}
                     />
                     <CiCircleInfo
@@ -396,9 +384,6 @@ function AddTask() {
                         {AddNewTaskHebrew.infoMessage}
                       </div>
                     )}
-                  </div>
-                  <div className="note-text">
-                    {question.length}/45 תווים (מקסימום)
                   </div>
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index} className="answer-container">
