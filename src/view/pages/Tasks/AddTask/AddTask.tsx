@@ -42,8 +42,9 @@ const AddNewTaskHebrew = {
   WithMsg: "הצגת הודעת הצלחה ",
   Sectors: "בחירת מחלקה",
   infoMessage: "הוספת טקסט קצר",
+  infoMediaMessage: "הוספת וידאו, אודיו או תמונה",
   infoAboutChoosingSector: "יש לבחור תחום למשימה",
-  MaxCharactersAlert: "אפשר להקליד עד 40 תווים בלבד.",
+  MaxCharactersAlert: "אפשר להקליד עד 45 תווים בלבד.",
 };
 
 function AddTask() {
@@ -235,8 +236,8 @@ function AddTask() {
   };
 
   const handleAnswerChange = (index: number, value: string) => {
-    if (value.length > 40) {
-      const truncatedValue = value.slice(0, 40);
+    if (value.length > 45) {
+      const truncatedValue = value.slice(0, 45);
       const newAnswers = [...answers];
       newAnswers[index] = truncatedValue;
       setAnswers(newAnswers);
@@ -250,8 +251,8 @@ function AddTask() {
   };
 
   const handleQuestionChange = (value: string) => {
-    if (value.length > 40) {
-      value = value.slice(0, 40);
+    if (value.length > 45) {
+      value = value.slice(0, 45);
       setQuestion(value);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
@@ -339,7 +340,9 @@ function AddTask() {
                     />
 
                     {visibleInfo === "media" && (
-                      <div className="info-box">Info about media</div>
+                      <div className="info-box">
+                        {AddNewTaskHebrew.infoMediaMessage}
+                      </div>
                     )}
                   </div>
                   {mediaFiles.length > 0 && (
@@ -389,8 +392,13 @@ function AddTask() {
                     />
 
                     {visibleInfo === "question" && (
-                      <div className="info-box">Info about question</div>
+                      <div className="info-box">
+                        {AddNewTaskHebrew.infoMessage}
+                      </div>
                     )}
+                  </div>
+                  <div className="note-text">
+                    {question.length}/45 תווים (מקסימום)
                   </div>
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index} className="answer-container">
@@ -412,6 +420,9 @@ function AddTask() {
                         checked={correctAnswer === index}
                         onChange={() => setCorrectAnswer(index)}
                       />
+                      <div className="note-text">
+                        {answers[index]?.length || 0}/45 תווים (מקסימום)
+                      </div>
                     </div>
                   ))}
                   <button
@@ -441,7 +452,9 @@ function AddTask() {
                     />
 
                     {visibleInfo === "notes" && (
-                      <div className="info-box">Info about notes</div>
+                      <div className="info-box">
+                        {AddNewTaskHebrew.infoMessage}
+                      </div>
                     )}
                   </div>
                   <button

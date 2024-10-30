@@ -40,7 +40,7 @@ const AddNewTaskHebrew = {
   Sectors: "בחירת מחלקה",
   WithMsg: "הצגת הודעת הצלחה ",
   Cancel: "ביטול",
-  MaxCharactersAlert: "אפשר להקליד עד 40 תווים בלבד.",
+  MaxCharactersAlert: "אפשר להקליד עד 45 תווים בלבד.",
 };
 
 function EditTask() {
@@ -264,8 +264,8 @@ function EditTask() {
   };
 
   const handleAnswerChange = (index: number, value: string) => {
-    if (value.length > 40) {
-      const truncatedValue = value.slice(0, 40);
+    if (value.length > 45) {
+      const truncatedValue = value.slice(0, 45);
       const newAnswers = [...answers];
       newAnswers[index] = truncatedValue;
       setAnswers(newAnswers);
@@ -280,8 +280,8 @@ function EditTask() {
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
-    if (value.length > 40) {
-      value = e.target.value.slice(0, 40);
+    if (value.length > 45) {
+      value = e.target.value.slice(0, 45);
       setQuestion(value);
       setAlertMessage(AddNewTaskHebrew.MaxCharactersAlert);
     } else {
@@ -379,6 +379,9 @@ function EditTask() {
                       handleQuestionChange(e);
                     }}
                   />
+                  <div className="note-text">
+                    {question.length}/45 תווים (מקסימום)
+                  </div>
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index} className="answer-container">
                       <input
@@ -399,6 +402,9 @@ function EditTask() {
                         checked={correctAnswer === index}
                         onChange={() => setCorrectAnswer(index)}
                       />
+                      <div className="note-text">
+                        {answers[index]?.length || 0}/45 תווים (מקסימום)
+                      </div>
                     </div>
                   ))}
                   <button

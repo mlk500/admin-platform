@@ -259,4 +259,13 @@
       transform: translateY(0);
     }
   }
+  .note-text {
+    @include font-style;
+    font-weight: 100;
+    font-size: 18;
+    margin-top: 2vw;
+    margin-bottom: 1vw;
+    color: $secondary-white-color;
+    width: 100%;
+  }
 }
