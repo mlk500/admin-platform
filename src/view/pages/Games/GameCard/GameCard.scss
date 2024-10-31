@@ -1,5 +1,6 @@
 @import "../../../themes/mixins";
 @import "../../../themes/variables";
+
 .game-card {
   position: relative;
   display: flex;
@@ -30,47 +31,43 @@
     background-color: rgba(0, 0, 0, 0.7);
     border-radius: 12px;
     pointer-events: none;
-    z-index: 0;
-  }
-
-  .card-header,
-  .game-card-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
+    z-index: 1;
   }
 
   .card-header {
+    position: relative;
+    z-index: 2;
     display: flex;
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
     padding: 1vw;
-    justify-content: space-between;
-    border-radius: 12px;
+    direction: rtl;
 
     .title {
-      font-weight: 600;
-      font-size: 1.5vw;
+      flex: 1;
       color: $secondary-white-color;
-      white-space: normal;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      margin-right: 1vw;
+      font-size: 1.5vw;
+      font-weight: 600;
+      text-align: right;
+      margin-left: 1vw;
     }
 
     .buttons {
       display: flex;
       align-items: center;
       gap: 0.5vw;
+      margin-right: auto;
+      direction: rtl; // Changed to RTL to flip button order
 
       .edit-button,
       .delete-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: transparent;
         border: none;
         cursor: pointer;
+        padding: 0.5vw;
         transition: transform 0.2s ease;
 
         &:hover {
@@ -84,8 +81,6 @@
       }
 
       .edit-icon {
-        margin-left: -1vw;
-        margin-right: 4vw;
         width: 2vw;
         height: 2.3vw;
       }
@@ -93,28 +88,25 @@
   }
 
   .game-card-content {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    flex: 1;
     width: 100%;
 
     .sections {
       display: flex;
       flex-direction: column;
       gap: 1vw;
-      padding-left: 1vw;
-      padding-right: 1vw;
+      padding: 0 1vw;
 
       .section-title {
         font-size: 1.5vw;
         color: $secondary-white-color;
         text-align: right;
-        white-space: normal;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
+        direction: rtl;
       }
     }
   }
