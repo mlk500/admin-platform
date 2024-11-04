@@ -11,11 +11,26 @@ interface ChoosableTasksPageProps {
   fromParent: string;
 }
 
-const ChoosableTasksPage: FC<ChoosableTasksPageProps> = () => {
+const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const dispatch = useDispatch();
+  let navigationPath: string;
+  switch (fromParent) {
+    case "EditUnit":
+      navigationPath = "/EditUnit";
+      break;
+    case "Edit-EditUnit":
+      navigationPath = "/Edit-EditUnit";
+      break;
+    case "AddUnit":
+      navigationPath = "/AddUnit";
+      break;
+    case "Edit-AddUnit":
+      navigationPath = "/Edit-AddUnit";
+      break;
+  }
 
   useEffect(() => {
     dispatch(setIsCreateGame(true));
@@ -46,7 +61,7 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = () => {
         Component={(props) => (
           <ChoosableTaskCard
             {...props}
-            navigationPath={"/TaskDetailsAddGame"}
+            navigationPath={navigationPath}
           />
         )}
         addButton="הוספת משימה חדשה"
