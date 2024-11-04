@@ -2,7 +2,7 @@ import React from "react";
 import MediaViewer from "../../../../components/Common/MediaViewer/MediaViewer";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./TaskDetailsAddGame.scss";
 
 const TaskDetailsHebrew = {
@@ -20,30 +20,33 @@ const TaskDetailsAddGame: React.FC = () => {
   const task = useSelector(
     (state: RootState) => state.globalStates.taskAddGame
   );
-  const isEditingPage = useSelector(
-    (state: RootState) => state.globalStates.isEditing
-  );
-  const isEditEditUnitPage = useSelector(
-    (state: RootState) => state.globalStates.isEditUnitPage
-  );
-  const isAddUnitPage = useSelector(
-    (state: RootState) => state.globalStates.isAddUnitPageFlag
-  );
+  // const isEditingPage = useSelector(
+  //   (state: RootState) => state.globalStates.isEditing
+  // );
+  // const isEditEditUnitPage = useSelector(
+  //   (state: RootState) => state.globalStates.isEditUnitPage
+  // );
+  // const isAddUnitPage = useSelector(
+  //   (state: RootState) => state.globalStates.isAddUnitPageFlag
+  // );
   const navigate = useNavigate();
+  const location = useLocation();
+  const navigationPath = location.state?.fromParent;
 
   if (!task) {
     return null;
   }
 
   const handleAddTask = () => {
-    // Redirecting to either AddUnit or EditUnit based on task context
-    if (isEditingPage) {
-      navigate("/EditUnit", { state: { selectedTask: task } });
-    } else if (isEditEditUnitPage) {
-      navigate("/Edit-EditUnit", { state: { selectedTask: task } });
-    } else if (isAddUnitPage) {
-      navigate("/AddUnit", { state: { selectedTask: task } });
-    }
+    console.log("nav is ", navigationPath, " from");
+    navigate(navigationPath, { state: { selectedTask: task } });
+    // if (isEditingPage) {
+    //   navigate(navigationPath, { state: { selectedTask: task } });
+    // } else if (isEditEditUnitPage) {
+    //   navigate("/Edit-EditUnit", { state: { selectedTask: task } });
+    // } else if (isAddUnitPage) {
+    //   navigate("/AddUnit", { state: { selectedTask: task } });
+    // }
   };
 
   return (
