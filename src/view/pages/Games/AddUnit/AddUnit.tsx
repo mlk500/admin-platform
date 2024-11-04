@@ -13,8 +13,10 @@ import {
   setIsAddUnitPageFlag,
   setIsEditing,
   setIsEditUnitPage,
+  setUnitId,
 } from "../../../../redux/slices/GlobalStates";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 const AddUnitHebrew = {
   CreateNewUnit: "הוספת חוליה",
@@ -60,7 +62,9 @@ function AddUnit() {
   const [selectedObject, setSelectedObject] = useState<ObjectLocation | null>(
     safeParse(localStorage.getItem("selectedObject") || "null")
   );
-
+  const unitIdTest = useSelector(
+    (state: RootState) => state.globalStates.unitId
+  );
   useEffect(() => {
     localStorage.setItem("addUnitName", name);
     localStorage.setItem("addUnitDescription", description);
@@ -100,7 +104,7 @@ function AddUnit() {
     } else {
       if (selectedTask && selectedObject && selectedLocation) {
         const createdUnit: Unit = {
-          unitID: 0,
+          unitID: unitIdTest,
           unitOrder: 0,
           name,
           description,
@@ -109,6 +113,7 @@ function AddUnit() {
           objectID: selectedObject.objectID,
           locationID: selectedLocation.locationID,
         };
+        dispatch(setUnitId(unitIdTest + 1));
         navigate("/UnitsPage", { state: { newUnit: createdUnit } });
         clearLocalStorage();
       } else {

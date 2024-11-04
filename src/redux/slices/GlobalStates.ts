@@ -14,6 +14,7 @@ interface GlobalStates {
   unitsInEditGame: Unit[];
   isObjectsPage: boolean;
   isCreateGame: boolean;
+  unitId: number;
 }
 
 const initialState: GlobalStates = {
@@ -30,6 +31,7 @@ const initialState: GlobalStates = {
   unitsInEditGame: [],
   isObjectsPage: false,
   isCreateGame: false,
+  unitId: 0,
 };
 
 const globalStatesSlice = createSlice({
@@ -75,7 +77,9 @@ const globalStatesSlice = createSlice({
     setIsCreateGame(state, action: PayloadAction<boolean>) {
       state.isCreateGame = action.payload;
     },
-
+    setUnitId(state, action: PayloadAction<number>) {
+      state.unitId = action.payload;
+    },
     setUnitsInEditGameOrder(
       state,
       action: PayloadAction<{ fromIndex: number; toIndex: number }>
@@ -130,6 +134,7 @@ export const {
   updateSpecificUnit,
   setIsEditUnitPage,
   setIsAddUnitPageFlag,
+  setUnitId,
 } = globalStatesSlice.actions;
 
 export default globalStatesSlice.reducer;
