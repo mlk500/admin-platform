@@ -1,34 +1,34 @@
 import { FC } from "react";
 import { Task } from "../../../../../redux/models/Interfaces";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../../redux/store";
+import { useDispatch } from "react-redux";
 import { setTaskAddGame } from "../../../../../redux/slices/GlobalStates";
 import "./ChooseTaskCard.scss";
 
 interface ChoosableTaskCardProps {
   object: Task;
-  navigationPath: string;
+  onClick?: () => void;
   onShowConfirm: (task: Task) => void;
   onEditTask: (task: Task) => void;
 }
 
 const ChoosableTaskCard: FC<ChoosableTaskCardProps> = ({
   object,
-  navigationPath,
+  onClick,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isEditing = useSelector(
-    (state: RootState) => state.globalStates.isEditing
-  );
-  console.log(isEditing, " nav path ", navigationPath);
+  // const isEditing = useSelector(
+  //   (state: RootState) => state.globalStates.isEditing
+  // );
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     dispatch(setTaskAddGame(object));
+    if (onClick) {
+      onClick();
+    }
 
-    navigate(navigationPath, { state: { selectedTask: object } });
+    // navigate(navigationPath, { state: { selectedTask: object } });
   };
 
   return (

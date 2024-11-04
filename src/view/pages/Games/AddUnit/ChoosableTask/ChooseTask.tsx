@@ -6,6 +6,7 @@ import { Task } from "../../../../../redux/models/Interfaces";
 import { useDispatch } from "react-redux";
 import { setIsCreateGame } from "../../../../../redux/slices/GlobalStates";
 import Loader from "../../../../components/Common/LoadingSpinner/Loader";
+import { useNavigate } from "react-router-dom";
 
 interface ChoosableTasksPageProps {
   fromParent: string;
@@ -16,6 +17,7 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   let navigationPath: string;
   switch (fromParent) {
     case "EditUnit":
@@ -61,7 +63,9 @@ const ChoosableTasksPage: FC<ChoosableTasksPageProps> = ({ fromParent }) => {
         Component={(props) => (
           <ChoosableTaskCard
             {...props}
-            navigationPath={navigationPath}
+            onClick={() => navigate("/TaskDetailsAddGame", {
+              state: { fromParent: navigationPath }
+            })}
           />
         )}
         addButton="הוספת משימה חדשה"
